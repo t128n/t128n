@@ -1,0 +1,28 @@
+---
+import "@fontsource-variable/baskervville";
+import "@fontsource-variable/inter";
+
+import "~/styles/global.css";
+
+import AppHeader from "~/components/app-header.astro";
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>t128n</title>
+    </head>
+    <body
+        class="bg-paper text-ink dark:bg-ink dark:text-paper w-full h-dvh flex flex-col font-sans"
+    >
+        <AppHeader />
+        <main class="flex flex-col flex-grow">
+            <div class="container">
+                <slot />
+            </div>
+        </main>
+    </body>
+</html>
