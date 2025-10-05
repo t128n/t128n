@@ -3,7 +3,7 @@
     <style>
         circle { fill: #100f0f; }
         @media (prefers-color-scheme: dark) {
-            path { fill: #f6eee3; }
+            circle { fill: #f6eee3; }
         }
     </style>
 </svg>
