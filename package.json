@@ -13,15 +13,23 @@
 		"check": "astro check && biome check ."
 	},
 	"dependencies": {
+		"@astrojs/mdx": "^4.3.6",
 		"@fontsource-variable/baskervville": "^5.2.3",
 		"@fontsource-variable/inter": "^5.2.8",
 		"@fontsource-variable/playfair-display": "^5.2.8",
+		"@iconify-json/simple-icons": "^1.2.54",
 		"@tailwindcss/vite": "^4.1.14",
 		"astro": "^5.14.1",
+		"astro-icon": "^1.1.5",
+		"clsx": "^2.1.1",
+		"remark-gfm": "^4.0.1",
+		"tailwind-merge": "^3.3.1",
 		"tailwindcss": "^4.1.14"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.4",
-		"@biomejs/biome": "2.2.5"
+		"@biomejs/biome": "2.2.5",
+		"@tailwindcss/typography": "^0.5.19",
+		"typescript": "^5.9.3"
 	}
 }

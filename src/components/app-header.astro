@@ -1,5 +1,79 @@
-<header class="py-16">
-    <div class="container">
-        <h1 class="font-display font-bold text-4xl">torben haack</h1>
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+    minimal?: boolean;
+}
+
+const { minimal = false } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+
+const socialLinks = [
+    {
+        name: "GitHub",
+        url: "https://github.com/t128n",
+        icon: "simple-icons:github",
+    },
+    {
+        name: "LinkedIn",
+        url: "https://www.linkedin.com/in/torben-haack/",
+        icon: "simple-icons:linkedin",
+    },
+];
+---
+
+<header class={minimal ? "py-6 border-b border-ink/10" : "py-16"}>
+    <div class="container flex flex-row items-baseline justify-between">
+        <a href="/" class="group">
+            {
+                minimal ? (
+                    <div class="flex items-baseline gap-3">
+                        <span class="text-2xl font-display font-bold group-hover:opacity-70 transition-opacity">
+                            ←
+                        </span>
+                        <div>
+                            <h1 class="font-display font-bold text-xl group-hover:opacity-70 transition-opacity">
+                                torben haack
+                            </h1>
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        <h1 class="font-display font-bold text-4xl">
+                            torben haack
+                        </h1>
+                        <p class="font-serif">[ˈtɔʁbn̩ haːk]</p>
+                    </>
+                )
+            }
+        </a>
+        <nav>
+            <ul class="flex flex-row gap-4 list-none m-0 p-0">
+                {
+                    socialLinks.map((link) => (
+                        <li>
+                            <a
+                                href={link.url}
+                                aria-label={link.name}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="opacity-60 hover:opacity-100 transition-opacity"
+                            >
+                                <Icon
+                                    name={link.icon}
+                                    class={
+                                        minimal
+                                            ? "inline-block w-5 h-5"
+                                            : "inline-block w-6 h-6"
+                                    }
+                                />
+                                <span class="sr-only">{link.name}</span>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </nav>
     </div>
 </header>

@@ -1,0 +1,14 @@
+---
+import { cn } from "~/lib/utils";
+---
+
+<div
+    class={cn(
+        "prose prose-stone max-w-none",
+        "dark:prose-invert",
+        "prose-headings:text-base prose-headings:font-serif prose-headings:italic prose-headings:font-medium",
+        "prose-a:font-medium prose-a:decoration-dotted prose-a:font-serif prose-a:italic",
+    )}
+>
+    <slot />
+</div>

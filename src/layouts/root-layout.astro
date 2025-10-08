@@ -5,6 +5,13 @@ import "@fontsource-variable/inter";
 import "~/styles/global.css";
 
 import AppHeader from "~/components/app-header.astro";
+import Prose from "~/components/prose.astro";
+
+interface Props {
+    minimal?: boolean;
+}
+
+const { minimal = false } = Astro.props;
 ---
 
 <html lang="en">
@@ -18,11 +25,11 @@ import AppHeader from "~/components/app-header.astro";
     <body
         class="bg-paper text-ink dark:bg-ink dark:text-paper w-full h-dvh flex flex-col font-sans"
     >
-        <AppHeader />
-        <main class="flex flex-col flex-grow">
-            <div class="container">
+        <AppHeader minimal={minimal} />
+        <main class="flex flex-col flex-grow container">
+            <Prose>
                 <slot />
-            </div>
+            </Prose>
         </main>
     </body>
 </html>

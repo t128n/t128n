@@ -3,13 +3,13 @@ import { getCollection } from "astro:content";
 
 import WritingsPostItem from "~/components/writings/writings-item.astro";
 
-const posts = (await getCollection("writings")).sort(
-  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
-);
+const posts = (await getCollection("writings"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 
-<section aria-label="Writing log" class="py-4">
-  <ul role="list" class="list-none m-0 p-0 space-y-2">
+<section aria-label="Writing log" class="not-prose">
+  <ul role="list" class="list-none m-0 p-0 space-y-4">
     {posts.map((post) => <WritingsPostItem post={post} />)}
   </ul>
 </section>

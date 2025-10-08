@@ -7,12 +7,14 @@ const writings = defineCollection({
 	schema: z
 		.object({
 			title: z.string(),
+			description: z.string(),
 			pubDate: z
 				.string()
 				.or(z.date())
 				.transform((val) => new Date(val)),
 			slug: z.string().optional(),
 			tags: z.array(z.string()).optional(),
+			draft: z.boolean().optional().default(false),
 		})
 		.transform((data) => ({
 			...data,
