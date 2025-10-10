@@ -8,8 +8,9 @@ const posts = (await getCollection("writings"))
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 
-<section aria-label="Writing log" class="not-prose">
-  <ul role="list" class="list-none m-0 p-0 space-y-4">
+<section aria-label="Writing log" hidden={posts.length === 0}>
+  <h2>Writing Log</h2>
+  <ul role="list" class="list-none m-0 p-0 space-y-4 not-prose">
     {posts.map((post) => <WritingsPostItem post={post} />)}
   </ul>
 </section>
