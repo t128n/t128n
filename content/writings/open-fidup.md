@@ -2,6 +2,7 @@
 title: "Open-Fidup"
 description: "A fresh start for my personal website and blog."
 pubDate: 2025-07-25
+draft: true
 ---
 
 Aliqua nisi dolore occaecat. Lorem ad amet aliqua aute velit eu duis commodo eiusmod consequat fugiat sit deserunt quis. Tempor amet qui occaecat occaecat commodo cupidatat ullamco aute ad enim veniam minim consequat ipsum nulla. Fugiat voluptate est excepteur mollit aliquip esse et ut esse anim ea. Fugiat aliquip minim occaecat in commodo nisi nisi.
