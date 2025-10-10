@@ -6,6 +6,7 @@ import { defineConfig } from "astro/config";
 
 // Astro integrations
 import icon from "astro-icon";
+import sitemap from "@astrojs/sitemap";
 
 // Markdown plugins
 import remarkGfm from "remark-gfm";
@@ -15,7 +16,7 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwindcss()],
 	},
-	integrations: [icon(), mdx()],
+	integrations: [icon(), mdx(), sitemap()],
 	markdown: {
 		remarkPlugins: [remarkGfm],
 	},

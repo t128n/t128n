@@ -14,6 +14,7 @@
 	},
 	"dependencies": {
 		"@astrojs/mdx": "^4.3.6",
+		"@astrojs/sitemap": "^3.6.0",
 		"@fontsource-variable/baskervville": "^5.2.3",
 		"@fontsource-variable/inter": "^5.2.8",
 		"@fontsource-variable/playfair-display": "^5.2.8",
