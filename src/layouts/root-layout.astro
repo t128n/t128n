@@ -4,6 +4,8 @@ import "@fontsource-variable/inter";
 
 import "~/styles/global.css";
 
+import { SEO } from "astro-seo";
+
 import AppHeader from "~/components/app-header.astro";
 import Prose from "~/components/prose.astro";
 
@@ -16,11 +18,24 @@ const { minimal = false } = Astro.props;
 
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <title>t128n</title>
+        <SEO
+            title="t128n"
+            canonical={Astro.site}
+            charset="utf-8"
+            extend={{
+                link: [
+                    {
+                        rel: "icon",
+                        type: "image/svg+xml",
+                        href: "/favicon.svg",
+                    },
+                ],
+                meta: [
+                    { name: "viewport", content: "width=device-width" },
+                    { name: "generator", content: Astro.generator },
+                ],
+            }}
+        />
     </head>
     <body
         class="bg-paper text-ink dark:bg-ink dark:text-paper w-full h-dvh flex flex-col font-sans"
