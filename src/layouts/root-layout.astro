@@ -11,16 +11,26 @@ import Prose from "~/components/prose.astro";
 
 interface Props {
     minimal?: boolean;
+    frontmatter: Record<string, unknown>;
 }
 
-const { minimal = false } = Astro.props;
+const defaultFrontmatter = {
+    title: "Torben Haack",
+    description:
+        "Software Engineer at a large automotive company. I build data and software systems. Part-time studying Information Systems at the Berliner Hochschule für Technik.",
+} as const;
+
+const { minimal = false, frontmatter = {} } = Astro.props;
+
+const mergedFrontmatter = { ...defaultFrontmatter, ...frontmatter };
 ---
 
 <html lang="en">
     <head>
         <SEO
-            title="t128n"
-            canonical={Astro.site}
+            title={`${mergedFrontmatter.title} / t128n.dev`}
+            description={mergedFrontmatter.description}
+            canonical={`${Astro.site}${Astro.url.pathname.length > 1 ? Astro.url.pathname : ""}`}
             charset="utf-8"
             extend={{
                 link: [
@@ -31,6 +41,7 @@ const { minimal = false } = Astro.props;
                     },
                 ],
                 meta: [
+                    { name: "author", content: "Torben Haack" },
                     { name: "viewport", content: "width=device-width" },
                     { name: "generator", content: Astro.generator },
                 ],
