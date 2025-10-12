@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import { cn } from "~/lib/utils";
 
 interface Props {
     minimal?: boolean;
@@ -23,15 +24,17 @@ const socialLinks = [
 ];
 ---
 
-<header class={minimal ? "py-6 border-b border-ink/10" : "py-16"}>
+<header
+    class={cn({
+        "py-6 border-b border-ink/10": minimal,
+        "py-16": !minimal,
+    })}
+>
     <div class="container flex flex-row items-baseline justify-between">
         <a href="/" class="group">
             {
                 minimal ? (
                     <div class="flex items-baseline gap-3">
-                        <span class="text-2xl font-display font-bold group-hover:opacity-70 transition-opacity">
-                            ←
-                        </span>
                         <div>
                             <h1 class="font-display font-bold text-xl group-hover:opacity-70 transition-opacity">
                                 torben haack
