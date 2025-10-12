@@ -9,9 +9,9 @@ import { SEO } from "astro-seo";
 import AppHeader from "~/components/app-header.astro";
 import Prose from "~/components/prose.astro";
 
-interface Props {
+interface RootLayoutProps {
     minimal?: boolean;
-    frontmatter: Record<string, unknown>;
+    frontmatter?: Record<string, unknown>;
 }
 
 const defaultFrontmatter = {
@@ -20,7 +20,7 @@ const defaultFrontmatter = {
         "Software Engineer at a large automotive company. I build data and software systems. Part-time studying Information Systems at the Berliner Hochschule für Technik.",
 } as const;
 
-const { minimal = false, frontmatter = {} } = Astro.props;
+const { minimal = false, frontmatter = {} } = Astro.props as RootLayoutProps;
 
 const mergedFrontmatter = { ...defaultFrontmatter, ...frontmatter };
 ---
