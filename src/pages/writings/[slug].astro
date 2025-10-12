@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import Prose from "~/components/prose.astro";
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
     const writings = await getCollection("writings");
@@ -24,308 +25,36 @@ const formattedDate = writing.data.pubDate
 ---
 
 <RootLayout minimal={true}>
-    <article class="writing-article mx-auto">
-        <!-- Article Header with classic newspaper styling -->
-        <header class="not-prose mb-16 md:mb-20 border-b-2 border-ink/10 pb-8">
-            <!-- Decorative ornament -->
-            <div class="flex justify-center mb-6">
-                <svg
-                    class="w-12 h-6 text-ink/30"
-                    viewBox="0 0 48 24"
-                    fill="currentColor"
-                >
-                    <path d="M24 12 L16 8 L16 16 Z M24 12 L32 8 L32 16 Z"
-                    ></path>
-                </svg>
-            </div>
-
-            <h1
-                class="text-5xl md:text-6xl lg:text-7xl text-ink font-display font-bold leading-[1.1] mb-6 text-balance tracking-tight"
+    <header class="not-prose py-12 flex flex-col gap-2">
+        <hgroup class="flex flex-col gap-2">
+            <h2
+                class="text-3xl md:text-4xl text-ink font-display font-semibold leading-tight"
             >
                 {writing.data.title}
-            </h1>
+            </h2>
 
-            {
-                writing.data.description && (
-                    <p class="text-xl md:text-2xl text-ink/75 font-serif italic leading-relaxed border-l-4 border-ink/20 pl-6 my-8 text-pretty">
-                        {writing.data.description}
-                    </p>
-                )
-            }
+            <p
+                class="text-base md:text-lg text-ink/70 font-serif italic mb-3"
+                hidden={!writing.data.description}
+            >
+                {writing.data.description}
+            </p>
+        </hgroup>
 
-            {
-                formattedDate && (
-                    <div class="flex items-center gap-3 mt-6">
-                        <div class="h-px flex-grow bg-ink/20" />
-                        <time
-                            datetime={writing.data.pubDate?.toISOString()}
-                            class="text-sm text-ink/60 font-sans uppercase tracking-[0.2em] font-medium"
-                        >
-                            {formattedDate}
-                        </time>
-                        <div class="h-px flex-grow bg-ink/20" />
-                    </div>
-                )
-            }
-        </header>
+        <time
+            datetime={writing.data.pubDate?.toISOString()}
+            class="text-sm text-ink/50 font-sans"
+            hidden={!formattedDate}
+        >
+            {formattedDate}
+        </time>
+    </header>
 
-        <!-- Main content with Gutenberg-inspired typography -->
-        <div class="prose-gutenberg">
-            <Content />
-        </div>
+    <Prose>
+        <Content />
+    </Prose>
 
-        <!-- Article footer ornament -->
-        <footer class="not-prose mt-16 md:mt-20 pt-8 border-t border-ink/10">
-            <div class="flex justify-center">
-                <svg
-                    class="w-8 h-8 text-ink/20"
-                    viewBox="0 0 32 32"
-                    fill="currentColor"
-                >
-                    <circle cx="16" cy="16" r="2"></circle>
-                    <circle cx="8" cy="16" r="1.5"></circle>
-                    <circle cx="24" cy="16" r="1.5"></circle>
-                </svg>
-            </div>
-        </footer>
-    </article>
+    <footer class="not-prose py-8 flex justify-center text-ink/50">
+        <span class="text-3xl">&lowast;</span>
+    </footer>
 </RootLayout>
-
-<style>
-    /* Gutenberg-inspired typography styles */
-    :global(.prose-gutenberg) {
-        /* Drop cap for first paragraph */
-        & > p:first-of-type::first-letter {
-            font-family: var(--font-display);
-            float: left;
-            font-size: 4.5em;
-            line-height: 0.85;
-            margin: 0.05em 0.15em 0 0;
-            font-weight: 700;
-            color: color-mix(in srgb, var(--color-ink) 85%, var(--color-paper));
-        }
-
-        /* Paragraph styles - classic book typography */
-        & p {
-            font-family: var(--font-display);
-            font-size: 1.125rem;
-            line-height: 1.75;
-            margin-bottom: 1.5em;
-            text-align: justify;
-            hyphens: auto;
-            color: var(--color-ink);
-            text-indent: 1.5em;
-        }
-
-        /* First paragraph no indent */
-        & > p:first-of-type {
-            text-indent: 0;
-        }
-
-        /* Headings with old-style numerals feel */
-        & h2 {
-            font-family: var(--font-display);
-            font-size: 1.75rem;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-top: 2.5em;
-            margin-bottom: 1em;
-            text-align: left;
-            text-indent: 0;
-            color: var(--color-ink);
-            letter-spacing: -0.02em;
-        }
-
-        & h3 {
-            font-family: var(--font-display);
-            font-size: 1.375rem;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-top: 2em;
-            margin-bottom: 0.75em;
-            text-align: left;
-            text-indent: 0;
-            font-style: italic;
-            color: var(--color-ink);
-        }
-
-        /* Block quotes as pull quotes */
-        & blockquote {
-            font-family: var(--font-display);
-            font-size: 1.375rem;
-            line-height: 1.6;
-            font-style: italic;
-            margin: 2.5em 0;
-            padding: 0;
-            text-align: center;
-            border: none;
-            position: relative;
-            color: color-mix(in srgb, var(--color-ink) 85%, var(--color-paper));
-        }
-
-        & blockquote::before {
-            content: '"';
-            font-family: var(--font-display);
-            font-size: 3em;
-            line-height: 0;
-            position: absolute;
-            left: 50%;
-            top: -0.3em;
-            transform: translateX(-50%);
-            opacity: 0.2;
-        }
-
-        & blockquote p {
-            text-indent: 0;
-            text-align: center;
-        }
-
-        /* Lists with classic styling */
-        & ul,
-        & ol {
-            font-family: var(--font-display);
-            font-size: 1.125rem;
-            line-height: 1.75;
-            margin: 1.5em 0;
-            padding-left: 2em;
-        }
-
-        & li {
-            margin-bottom: 0.5em;
-            text-indent: 0;
-        }
-
-        /* Code blocks - typewriter aesthetic */
-        & pre {
-            font-family: "Courier New", Courier, monospace;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            background: color-mix(
-                in srgb,
-                var(--color-ink) 5%,
-                var(--color-paper)
-            );
-            border: 1px solid
-                color-mix(in srgb, var(--color-ink) 15%, var(--color-paper));
-            padding: 1.5em;
-            margin: 2em 0;
-            overflow-x: auto;
-            border-radius: 2px;
-        }
-
-        /* Inline code */
-        & code {
-            font-family: "Courier New", Courier, monospace;
-            font-size: 0.95em;
-            background: color-mix(
-                in srgb,
-                var(--color-ink) 8%,
-                var(--color-paper)
-            );
-            padding: 0.2em 0.4em;
-            border-radius: 2px;
-        }
-
-        & pre code {
-            background: none;
-            padding: 0;
-        }
-
-        /* Links - understated elegance */
-        & a {
-            color: var(--color-ink);
-            text-decoration: underline;
-            text-decoration-color: color-mix(
-                in srgb,
-                var(--color-ink) 40%,
-                var(--color-paper)
-            );
-            text-decoration-thickness: 1px;
-            text-underline-offset: 0.2em;
-            transition: text-decoration-color 0.2s ease;
-        }
-
-        & a:hover {
-            text-decoration-color: var(--color-ink);
-        }
-
-        /* Strong and emphasis */
-        & strong {
-            font-weight: 700;
-            color: var(--color-ink);
-        }
-
-        & em {
-            font-style: italic;
-        }
-
-        /* Horizontal rules as ornamental breaks */
-        & hr {
-            border: none;
-            margin: 3em auto;
-            text-align: center;
-            height: 1.5em;
-            position: relative;
-        }
-
-        & hr::before {
-            content: "* * *";
-            font-family: var(--font-display);
-            font-size: 1.5em;
-            letter-spacing: 1em;
-            color: color-mix(in srgb, var(--color-ink) 40%, var(--color-paper));
-        }
-
-        /* Images - classic figure treatment */
-        & img {
-            display: block;
-            margin: 2.5em auto;
-            max-width: 100%;
-            height: auto;
-            border: 1px solid
-                color-mix(in srgb, var(--color-ink) 20%, var(--color-paper));
-            padding: 0.5em;
-            background: var(--color-paper);
-        }
-
-        /* Tables - ledger style */
-        & table {
-            font-family: var(--font-display);
-            font-size: 1rem;
-            line-height: 1.5;
-            width: 100%;
-            margin: 2em 0;
-            border-collapse: collapse;
-        }
-
-        & th {
-            font-weight: 700;
-            text-align: left;
-            padding: 0.75em 1em;
-            border-bottom: 2px solid var(--color-ink);
-            background: color-mix(
-                in srgb,
-                var(--color-ink) 5%,
-                var(--color-paper)
-            );
-        }
-
-        & td {
-            padding: 0.75em 1em;
-            border-bottom: 1px solid
-                color-mix(in srgb, var(--color-ink) 15%, var(--color-paper));
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 640px) {
-            & p {
-                text-align: left;
-                hyphens: none;
-            }
-
-            & > p:first-of-type::first-letter {
-                font-size: 3.5em;
-            }
-        }
-    }
-</style>
