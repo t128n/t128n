@@ -18,6 +18,7 @@ const defaultFrontmatter = {
     title: "Torben Haack",
     description:
         "Software Engineer at a large automotive company. I build data and software systems. Part-time studying Information Systems at the Berliner Hochschule für Technik.",
+    language: "en",
 } as const;
 
 const { minimal = false, frontmatter = {} } = Astro.props as RootLayoutProps;
@@ -25,7 +26,7 @@ const { minimal = false, frontmatter = {} } = Astro.props as RootLayoutProps;
 const mergedFrontmatter = { ...defaultFrontmatter, ...frontmatter };
 ---
 
-<html lang="en">
+<html lang={mergedFrontmatter.language}>
     <head>
         <SEO
             title={`${mergedFrontmatter.title} / t128n.dev`}
@@ -57,5 +58,13 @@ const mergedFrontmatter = { ...defaultFrontmatter, ...frontmatter };
                 <slot />
             </Prose>
         </main>
+        <footer class="container mx-auto py-4 text-ink/50 dark:text-paper/50 flex gap-2 flex-col justify-center items-center">
+            <span>&midast;</span>
+            <ul class="text-sm font-serif">
+                <li>
+                    <a href="/legal-notice">Legal Notice</a>
+                </li>
+            </ul>
+        </footer>
     </body>
 </html>
