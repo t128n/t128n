@@ -16,7 +16,7 @@ import RootLayout from "~/layouts/root-layout.astro";
 
 // Format date for display
 const formattedDate = writing.data.pubDate
-    ? new Date(writing.data.pubDate).toLocaleDateString("en-US", {
+    ? new Date(writing.data.pubDate).toLocaleDateString(writing.data.language, {
           year: "numeric",
           month: "long",
           day: "numeric",
@@ -24,7 +24,7 @@ const formattedDate = writing.data.pubDate
     : null;
 ---
 
-<RootLayout minimal={true}>
+<RootLayout minimal={true} frontmatter={writing.data}>
     <header class="not-prose py-12 flex flex-col gap-2">
         <hgroup class="flex flex-col gap-2">
             <h2
@@ -54,7 +54,7 @@ const formattedDate = writing.data.pubDate
         <Content />
     </Prose>
 
-    <footer class="not-prose py-8 flex justify-center text-ink/50 dark:text-paper/50">
+    {/*<footer class="not-prose py-8 flex justify-center text-ink/50 dark:text-paper/50">
         <span class="text-3xl">&lowast;</span>
-    </footer>
+    </footer> */}
 </RootLayout>
