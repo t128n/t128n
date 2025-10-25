@@ -10,15 +10,15 @@ import AppHeader from "~/components/app-header.astro";
 import Prose from "~/components/prose.astro";
 
 interface RootLayoutProps {
-    minimal?: boolean;
-    frontmatter?: Record<string, unknown>;
+	minimal?: boolean;
+	frontmatter?: Record<string, unknown>;
 }
 
 const defaultFrontmatter = {
-    title: "Torben Haack",
-    description:
-        "Software Engineer at a large automotive company. I build data and software systems. Part-time studying Information Systems at the Berliner Hochschule für Technik.",
-    language: "en",
+	title: "Torben Haack",
+	description:
+		"Software Engineer at a large automotive company. I build data and software systems. Part-time studying Information Systems at the Berliner Hochschule für Technik.",
+	language: "en",
 } as const;
 
 const { minimal = false, frontmatter = {} } = Astro.props as RootLayoutProps;
@@ -58,13 +58,13 @@ const mergedFrontmatter = { ...defaultFrontmatter, ...frontmatter };
                 <slot />
             </Prose>
         </main>
-        <footer class="container mx-auto py-4 text-ink/50 dark:text-paper/50 flex gap-2 flex-col justify-center items-center">
-            <span>&midast;</span>
-            <ul class="text-sm font-serif">
-                <li>
-                    <a href="/legal-notice">Legal Notice</a>
-                </li>
-            </ul>
+        <footer class="container mx-auto mt-12 border-t border-ink/10 dark:border-paper/10 pt-6 pb-4 text-sm text-ink/60 dark:text-paper/60 flex flex-col items-center gap-2">
+          <ul class="font-serif flex flex-wrap justify-center gap-6">
+            <li>
+              <a href="/legal-notice" class="hover:text-ink dark:hover:text-paper transition-colors">Legal Notice // Impressum</a>
+            </li>
+          </ul>
         </footer>
+
     </body>
 </html>
