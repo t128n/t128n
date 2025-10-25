@@ -1,0 +1,30 @@
+{
+  "format_on_save": "on",
+  "formatter": {
+    "language_server": {
+      "name": "biome"
+    }
+  },
+  "code_actions_on_format": {
+    "source.fixAll.biome": true,
+    "source.organizeImports.biome": true
+  },
+  "languages": {
+    "Astro": {
+      "language_servers": ["astro-language-server", "biome"],
+      "formatter": [
+        // You might run Prettier first and then Biome, if you rely on Prettier for template/HTML
+        {
+          "language_server": {
+            "name": "prettier"
+          }
+        },
+        {
+          "language_server": {
+            "name": "biome"
+          }
+        }
+      ]
+    }
+  }
+}
