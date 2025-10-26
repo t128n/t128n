@@ -4,6 +4,12 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@layer base {
+  .prose .katex-display {
+    @apply text-ink dark:text-paper;
+  }
+}
+
 /* =========================
    Theme tokens
    ========================= */

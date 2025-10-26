@@ -24,7 +24,10 @@
 		"astro-icon": "^1.1.5",
 		"astro-seo": "^0.8.4",
 		"clsx": "^2.1.1",
+		"katex": "^0.16.25",
+		"rehype-katex": "^7.0.1",
 		"remark-gfm": "^4.0.1",
+		"remark-math": "^6.0.0",
 		"tailwind-merge": "^3.3.1",
 		"tailwindcss": "^4.1.14"
 	},
