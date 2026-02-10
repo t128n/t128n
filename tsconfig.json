@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		"target": "ES2020",
+		"module": "ESNext",
+		"lib": ["ES2020", "DOM"],
+		"moduleResolution": "Bundler",
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"isolatedModules": true,
+		"types": ["vitepress/client", "node"],
+		"paths": {
+			"#root/*": ["./*"],
+			"#config/*": ["./.vitepress/*"],
+			"#plugins/*": ["./.vitepress/plugins/*"],
+			"#theme/*": ["./.vitepress/theme/*"],
+			"#docs/*": ["./docs/*"]
+		}
+	},
+	"include": [".vitepress/**/*", "docs/**/*"],
+	"exclude": ["node_modules", "dist", ".vitepress/cache", ".vitepress/dist"]
+}

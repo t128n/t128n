@@ -1,0 +1,14 @@
+{
+	"$schema": "./node_modules/oxfmt/configuration_schema.json",
+	"ignorePatterns": [],
+	"vueIndentScriptAndStyle": true,
+	"tabWidth": 4,
+	"useTabs": true,
+	"semi": true,
+	"singleQuote": true,
+	"experimentalSortImports": {
+		"partitionByComment": true
+	},
+	"experimentalSortPackageJson": {},
+	"experimentalTailwindcss": {}
+}

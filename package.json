@@ -1,0 +1,48 @@
+{
+	"type": "module",
+	"imports": {
+		"#root/*": "./*",
+		"#config/*": "./.vitepress/",
+		"#plugins/*": "./.vitepress/plugins/*",
+		"#theme/*": "./.vitepress/theme/*",
+		"#docs/*": "./docs/*"
+	},
+	"scripts": {
+		"dev": "vitepress dev",
+		"build": "vitepress build",
+		"preview": "vitepress preview",
+		"format": "oxfmt .",
+		"lint": "oxlint .",
+		"knip": "knip",
+		"test": "vitest",
+		"test:watch": "vitest --watch",
+		"test:coverage": "vitest --coverage"
+	},
+	"dependencies": {
+		"handlebars": "^4.7.8",
+		"vite": "^7.3.1"
+	},
+	"devDependencies": {
+		"@iconify-json/lucide": "^1.2.89",
+		"@iconify-json/lucide-lab": "^1.2.3",
+		"@iconify-json/simple-icons": "^1.2.70",
+		"@types/markdown-it": "^14.1.2",
+		"@types/node": "^25.2.1",
+		"arkregex": "^0.0.5",
+		"consola": "^3.4.2",
+		"defu": "^6.1.4",
+		"destr": "^2.0.5",
+		"knip": "^5.83.1",
+		"markdown-it": "^14.1.0",
+		"oxfmt": "^0.28.0",
+		"oxlint": "^1.43.0",
+		"pathe": "^2.0.3",
+		"tinyglobby": "^0.2.15",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3",
+		"unocss": "^66.6.0",
+		"vitepress": "2.0.0-alpha.16",
+		"vitest": "^4.0.18",
+		"vue": "^3.5.27"
+	}
+}
