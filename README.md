@@ -1,4 +1,3 @@
 # Torben Haack / t128n.dev
 
-Technical Product Owner at a large automotive company. I build and manage data and software systems.
-Part-time studying Information Systems at the Berliner Hochschule für Technik.
+TPO and SE working in the automotive industry. Developing and managing data and software systems. Part-time studying Business Informatics at Berliner Hochschule für Technik.
