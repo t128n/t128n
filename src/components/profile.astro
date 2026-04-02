@@ -1,0 +1,25 @@
+---
+import { mergeClasses } from '~/lib/styles';
+
+interface Props {
+  name: string;
+  handle: string;
+  avatar: string;
+  alt?: string;
+  class?: string;
+}
+
+const { name, handle, avatar, alt = name, class: profileClass } = Astro.props;
+---
+
+<div class={mergeClasses('flex items-center gap-4', profileClass)}>
+  <img
+    src={avatar}
+    alt={alt}
+    class="w-13 h-13 rounded-full object-cover"
+  />
+  <div class="flex flex-col">
+    <span class="text-lg font-semibold">{name}</span>
+    <span class="text-muted text-sm">[{handle}]</span>
+  </div>
+</div>

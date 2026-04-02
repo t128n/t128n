@@ -1,0 +1,45 @@
+---
+import Page from '~/layouts/page.astro';
+import { getBlogrollEntries } from '~/lib/rolls';
+
+const blogsWithMeta = await getBlogrollEntries();
+
+export const meta = {
+    title: 'Blogroll',
+    description: 'Collection of blogs that I read regularly.',
+    icon: 'i-hugeicons:books-01'
+};
+---
+<Page title={meta.title} description={meta.description}>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {blogsWithMeta.map((blog) => (
+            <a
+                href={blog.htmlUrl}
+                class="block rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow"
+            >
+                {blog.image ? (
+                    <img
+                        src={blog.image}
+                        alt=""
+                        class="w-full h-40 object-cover bg-gray-100 dark:bg-gray-800"
+                        loading="lazy"
+                    />
+                ) : (
+                    <div class="w-full h-40 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                        <span class="i-hugeicons:link-01 text-4xl text-gray-400"></span>
+                    </div>
+                )}
+                <div class="p-4">
+                    <h2 class="font-semibold text-lg mb-2">{blog.title}</h2>
+                    {blog.description ? (
+                        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+                            {blog.description}
+                        </p>
+                    ) : (
+                        <p class="text-sm text-gray-400 italic">No description available</p>
+                    )}
+                </div>
+            </a>
+        ))}
+    </div>
+</Page>

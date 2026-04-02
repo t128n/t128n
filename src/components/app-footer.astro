@@ -1,0 +1,13 @@
+---
+import AppBand from './app-band.astro';
+---
+
+<footer class="border-t border-default">
+  <AppBand>
+    <div slot="aside-left" />
+    <div class="px-8 py-4">
+        <p class="text-xs text-dimmed font-mono tracking-tight">Copyright &copy; {new Date().getFullYear()} t128n. All rights reserved.</p>
+    </div>
+    <div slot="aside-right" />
+  </AppBand>
+</footer>

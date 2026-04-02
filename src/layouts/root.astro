@@ -1,0 +1,72 @@
+---
+import { createHead, renderSSRHead } from 'unhead/server';
+import { useVerify } from '~/composables/use-verify';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  lang?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+}
+
+const {
+  title = 't128n.dev',
+  description = '',
+  lang = 'en',
+  canonical = Astro.url.href,
+  ogImage,
+  ogType = 'website',
+} = Astro.props as Props;
+
+const pathname = Astro.url.pathname;
+const slug = pathname.replace(/^\/+|\/+$/g, '').replace(/\.html$/, '');
+const defaultOgImage = new URL(
+  slug === ''
+    ? '/og/index.png'
+    : `/og/${slug}.png`,
+  Astro.url.origin,
+).href;
+const resolvedOgImage = ogImage ?? defaultOgImage;
+
+const head = createHead({
+  init: [{ htmlAttrs: { lang } }],
+});
+
+head.push({
+  title,
+  titleTemplate: '%s @ t128n.dev',
+  meta: [
+    { charset: 'utf-8' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { name: 'generator', content: Astro.generator },
+    ...(description ? [{ name: 'description', content: description }] : []),
+    { property: 'og:title', content: title },
+    { property: 'og:type', content: ogType },
+    { property: 'og:url', content: canonical },
+    ...(description
+      ? [{ property: 'og:description', content: description }]
+      : []),
+    { property: 'og:image', content: resolvedOgImage },
+  ],
+  link: [
+    { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+    { rel: 'canonical', href: canonical },
+    ...useVerify(),
+  ],
+});
+
+const { headTags, bodyAttrs, bodyTagsOpen  } = await renderSSRHead(head);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <Fragment set:html={headTags} />
+  </head>
+  <body set:html={bodyAttrs} class='min-h-dvh flex flex-col bg-background text-foreground'>
+    <slot />
+    <Fragment set:html={bodyTagsOpen ?? ''} />
+  </body>
+</html>

@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import Page from "~/layouts/page.astro";
+
+export const meta = {
+	title: "Writings",
+	description: "On occasion, I write about stuff.",
+};
+
+const writings = await getCollection("writings", ({ data, id }) => data.draft !== true && id !== "index");
+writings.sort((a, b) => {
+	const aDate = new Date(a.data.createdAt ?? 0).getTime();
+	const bDate = new Date(b.data.createdAt ?? 0).getTime();
+	return bDate - aDate;
+});
+
+---
+
+<Page
+	title={meta.title}
+	description={meta.description}
+>
+	<ul class="space-y-4">
+			{writings.map((writing) => (
+				<li class="border-default rounded-sm border p-4 transition-colors hover:border-primary/50">
+					<a href={`/writing/${writing.id}`} class="block">
+						<div class="flex flex-wrap items-baseline justify-between gap-2">
+							<h3 class="text-lg font-medium text-primary">{writing.data.title}</h3>
+							{writing.data.createdAt && (
+								<time class="text-sm text-muted" datetime={writing.data.createdAt.toISOString()}>
+									{writing.data.createdAt.toISOString().split("T")[0]}
+								</time>
+							)}
+						</div>
+						<p class="mt-2 text-muted">{writing.data.description}</p>
+					</a>
+				</li>
+			))}
+	</ul>
+	<p class="mt-6 text-sm text-muted">Subscribe via <a href="/feed.xml" class="text-primary font-medium">RSS</a>, <a href="/atom.xml" class="text-primary font-medium">Atom</a>, or <a class="text-primary font-medium" href="/feed.json">JSON</a>.</p>
+</Page>

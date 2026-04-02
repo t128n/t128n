@@ -1,0 +1,22 @@
+---
+import AppBand from './app-band.astro';
+---
+
+<main class="grow flex flex-col">
+  <div class="flex flex-col grow">
+    <AppBand>
+      <div slot="aside-left" class="h-full">
+        <slot name="aside-left" />
+      </div>
+      <div slot="bleed">
+          <slot name="bleed" />
+      </div>
+      <div class="px-8 py-8 flex flex-col gap-4">
+        <slot />
+      </div>
+      <div slot="aside-right" class="h-full">
+        <slot name="aside-right" />
+      </div>
+    </AppBand>
+  </div>
+</main>

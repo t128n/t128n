@@ -1,0 +1,28 @@
+---
+import redirects from '~/content/data/go.json';
+
+export function getStaticPaths() {
+    return redirects.map((entry) => ({
+        params: { slug: entry.slug },
+        props: { href: entry.href },
+    }));
+}
+
+const { href } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content={`0;url=${href}`}>
+    <script is:inline>
+        window.location.replace({href: href});
+    </script>
+</head>
+<body>
+    <p>Redirecting to <a href={href}>{href}</a>...</p>
+</body>
+</html>

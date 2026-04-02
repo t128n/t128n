@@ -1,0 +1,98 @@
+---
+import Page from '~/layouts/page.astro';
+import bookmarks from '~/content/data/bookmarks.json';
+import { Window } from 'happy-dom';
+
+type BookmarkItem = {
+    href: string;
+    title?: string;
+    description?: string;
+};
+
+const items = bookmarks.map((item): BookmarkItem =>
+    typeof item === 'string' ? { href: item } : item
+);
+
+async function fetchPageMeta(url: string) {
+    try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+        const response = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeout);
+        const html = await response.text();
+
+        const window = new Window({ url });
+        const document = window.document;
+        document.write(html);
+
+        const image = document.querySelector('meta[property="og:image"]')?.getAttribute('content')
+            || document.querySelector('meta[name="twitter:image"]')?.getAttribute('content')
+            || null;
+
+        const description = document.querySelector('meta[name="description"]')?.getAttribute('content')
+            || document.querySelector('meta[property="og:description"]')?.getAttribute('content')
+            || null;
+
+        const title = document.querySelector('meta[property="og:title"]')?.getAttribute('content')
+            || null;
+
+        window.close();
+
+        return { image, description, title };
+    } catch {
+        return { image: null, description: null, title: null };
+    }
+}
+
+const itemsWithMeta = await Promise.all(
+    items.map(async (item) => {
+        const meta = await fetchPageMeta(item.href);
+        return {
+            href: item.href,
+            title: item.title || meta.title || item.href,
+            description: item.description || meta.description,
+            image: meta.image,
+        };
+    })
+);
+
+export const meta = {
+    title: 'Bookmarks',
+    description: 'Collection of links for later reference.',
+    icon: 'i-hugeicons:all-bookmark'
+};
+---
+
+<Page title={meta.title} description={meta.description}>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {itemsWithMeta.map((item) => (
+            <a
+                href={item.href}
+                class="block rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow"
+            >
+                {item.image ? (
+                    <img
+                        src={item.image}
+                        alt=""
+                        class="w-full h-40 object-cover bg-gray-100 dark:bg-gray-800"
+                        loading="lazy"
+                    />
+                ) : (
+                    <div class="w-full h-40 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                        <span class="i-hugeicons:link-01 text-4xl text-gray-400"></span>
+                    </div>
+                )}
+                <div class="p-4">
+                    <h2 class="font-semibold text-lg mb-2">{item.title}</h2>
+                    {item.description ? (
+                        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
+                            {item.description}
+                        </p>
+                    ) : (
+                        <p class="text-sm text-gray-400 italic">No description available</p>
+                    )}
+                </div>
+            </a>
+        ))}
+    </div>
+</Page>

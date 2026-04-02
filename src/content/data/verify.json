@@ -1,0 +1,22 @@
+[
+	{
+		"label": "GitHub",
+		"icon": "i-simple-icons:github",
+		"value": "https://github.com/t128n"
+	},
+	{
+		"label": "Bluesky",
+		"icon": "i-simple-icons:bluesky",
+		"value": "https://bsky.app/profile/t128n.dev"
+	},
+	{
+		"label": "LinkedIn",
+		"icon": "i-simple-icons:linkedin",
+		"value": "https://linkedin.com/in/torben-haack"
+	},
+	{
+		"label": "Mail",
+		"icon": "i-hugeicons:mail-at-sign-01",
+		"value": "mailto:t128n@ipv4.8shield.net"
+	}
+]

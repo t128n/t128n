@@ -1,0 +1,33 @@
+name: Contact / Inquiry
+description: Generic contact form for questions or messages
+title: "[Inquiry]: "
+labels: ["inquiry"]
+assignees:
+    - t128n
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Feel free to reach out with any questions or messages!
+    - type: input
+      id: topic
+      attributes:
+          label: Topic
+          description: What is the general subject of your message?
+          placeholder: E.g., Collaboration, Question, Feedback
+      validations:
+          required: true
+    - type: textarea
+      id: message
+      attributes:
+          label: Message
+          description: Please provide the details of your inquiry here.
+          placeholder: Write your message...
+      validations:
+          required: true
+    - type: input
+      id: contact
+      attributes:
+          label: Contact Information (Optional)
+          description: If you'd like me to get back to you outside of GitHub, please leave your preferred contact method.
+          placeholder: E.g., email@example.com, @bluesky_handle.com

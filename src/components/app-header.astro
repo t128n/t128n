@@ -1,0 +1,25 @@
+---
+import AppBand from './app-band.astro';
+import AppSearch from './app-search.svelte';
+
+interface Props {}
+---
+
+<header class="border-b border-default">
+  <AppBand>
+    <div slot="aside-left" />
+    <div class="flex flex-col min-w-0">
+      <div class="px-8 py-4 flex flex-row justify-between items-center">
+        <a href="/" class="flex items-center gap-3">
+          <img src="/t128n.png" alt="t128n avatar" class="w-10 h-10 rounded-full" />
+          <h1 class="text-xl font-bold">t128n</h1>
+        </a>
+        <slot />
+        <div>
+          <AppSearch client:idle />
+        </div>
+      </div>
+    </div>
+    <div slot="aside-right" />
+  </AppBand>
+</header>
