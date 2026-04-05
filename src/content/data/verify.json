@@ -18,5 +18,10 @@
 		"label": "Mail",
 		"icon": "i-hugeicons:mail-at-sign-01",
 		"value": "mailto:t128n@ipv4.8shield.net"
+	},
+	{
+		"label": "Sifa",
+		"icon": "i-hugeicons:tie",
+		"value": "https://sifa.id/p/t128n.dev"
 	}
 ]
