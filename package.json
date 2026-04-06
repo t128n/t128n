@@ -13,7 +13,8 @@
 		"test:fmt": "oxfmt --check .",
 		"test:lint": "oxlint .",
 		"test:knip": "knip",
-		"test": "bun run test:check && bun run test:tcheck && bun run test:fmt && bun run test:lint && bun run test:knip"
+		"test": "bun run test:check && bun run test:tcheck && bun run test:fmt && bun run test:lint && bun run test:knip",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.8",
@@ -48,6 +49,7 @@
 		"@types/react": "^19.2.14",
 		"@unocss/astro": "^66.6.7",
 		"@unocss/reset": "^66.6.7",
+		"husky": "^9.1.7",
 		"knip": "^6.3.0",
 		"mdast": "^3.0.0",
 		"oxfmt": "^0.43.0",
