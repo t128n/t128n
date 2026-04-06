@@ -7,10 +7,9 @@ description: How treating errors as values will lead to cleaner code.
 
 Contrary to the popular opinion, I'm actually a big fan of Go's error handling. It makes error handling explicit while keeping the happy path clean.
 
-
 ## Examples
 
-In the examples below, `example-2.ts` just reads much cleaner to me. 
+In the examples below, `example-2.ts` just reads much cleaner to me.
 
 ```ts
 <!-- example-1.ts -->
@@ -64,6 +63,6 @@ if (user instanceof Error) return user
 console.log(user.name)
 ```
 
-
 [^1]: [Post Mortem: axios npm supply chain compromise #10636](https://github.com/axios/axios/issues/10636)
+
 [^2]: [Security Update: Suspected Supply Chain Incident](https://docs.litellm.ai/blog/security-update-march-2026)

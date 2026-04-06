@@ -6,8 +6,8 @@ import { defineConfig, fontProviders } from "astro/config";
 import UnoCSS from "unocss/astro";
 
 import { meta } from "./src/config";
-import { xmlPlugin } from "./src/plugins/vite-plugin-xml";
 import { remarkModifiedTime } from "./src/lib/remark-modified-time";
+import { xmlPlugin } from "./src/plugins/vite-plugin-xml";
 
 export default defineConfig({
 	site: meta.siteUrl,
