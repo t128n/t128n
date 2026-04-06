@@ -10,5 +10,11 @@
 		"title": "TextFX",
 		"description": "Text ideation tool by Google."
 	},
-	"https://astro.build/themes/"
+	"https://astro.build/themes/",
+	{
+		"href": "https://github.com/probot/probot",
+		"title": "GitHub Probot",
+		"description": "Framework for building GitHub Apps."
+	},
+	"https://awesome-copilot.github.com/"
 ]
