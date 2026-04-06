@@ -5,5 +5,10 @@
 		"title": "e18e Module Replacements",
 		"description": "Package replacement references"
 	},
-	"https://errore.org/"
+	{
+		"href": "https://textfx.withgoogle.com/",
+		"title": "TextFX",
+		"description": "Text ideation tool by Google."
+	},
+	"https://astro.build/themes/"
 ]

@@ -7,9 +7,13 @@ import UnoCSS from "unocss/astro";
 
 import { meta } from "./src/config";
 import { xmlPlugin } from "./src/plugins/vite-plugin-xml";
+import { remarkModifiedTime } from "./src/lib/remark-modified-time";
 
 export default defineConfig({
 	site: meta.siteUrl,
+	markdown: {
+		remarkPlugins: [remarkModifiedTime],
+	},
 	build: {
 		format: "file",
 	},
@@ -36,7 +40,9 @@ export default defineConfig({
 			injectReset: true,
 		}),
 		expressiveCode(),
-		mdx(),
+		mdx({
+			remarkPlugins: [remarkModifiedTime],
+		}),
 		svelte(),
 		sitemap(),
 	],

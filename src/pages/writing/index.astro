@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Page from "~/layouts/page.astro";
 
 export const meta = {
@@ -7,7 +7,21 @@ export const meta = {
 	description: "On occasion, I write about stuff.",
 };
 
-const writings = await getCollection("writings", ({ data, id }) => data.draft !== true && id !== "index");
+const entries = await getCollection("writings", ({ data, id }) => data.draft !== true && id !== "index");
+const writings = await Promise.all(
+	entries.map(async (entry) => {
+		const { remarkPluginFrontmatter } = await render(entry);
+		return {
+			...entry,
+			data: {
+				...entry.data,
+				createdAt: entry.data.createdAt ?? (remarkPluginFrontmatter.createdAt ? new Date(remarkPluginFrontmatter.createdAt) : undefined),
+				updatedAt: entry.data.updatedAt ?? (remarkPluginFrontmatter.updatedAt ? new Date(remarkPluginFrontmatter.updatedAt) : undefined),
+			},
+		};
+	}),
+);
+
 writings.sort((a, b) => {
 	const aDate = new Date(a.data.createdAt ?? 0).getTime();
 	const bDate = new Date(b.data.createdAt ?? 0).getTime();
