@@ -188,7 +188,7 @@
     </li>
 {/snippet}
 
-<section class="mt-10 border-t border-default pt-4">
+<section class="border-t border-default pt-4">
     <div class="flex flex-wrap items-center justify-between text-sm text-muted">
         {#if stats}
             <div class="flex gap-3 items-center">
