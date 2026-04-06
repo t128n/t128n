@@ -5,6 +5,7 @@ cover:
     href: "src/assets/images/lean-js-with-e18e-linting-rules.png"
     caption: "Oh, fast he rode, and fast she ran, Corbould, Edward Henry et al., 1865."
 icon: i-hugeicons:java-script
+blueskyUrl: "https://bsky.app/profile/did:plc:m25hu5wadnbqnt47zep7xza6/post/3mitew6mhlk2j"
 ---
 
 [e18e](https://e18e.dev/) is an initiative lead by a small circle of developers who are striving to make the JavaScript ecosystem sustainably better.[^1]
