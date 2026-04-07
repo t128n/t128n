@@ -1,0 +1,34 @@
+---
+interface Item {
+	href?: string;
+	label: string;
+}
+
+interface Props {
+	items: Item[];
+}
+
+const { items } = Astro.props as Props;
+---
+
+<nav aria-label="Breadcrumb" class="text-sm text-muted">
+	<ol class="flex flex-wrap items-center gap-2">
+		{items.map((item, index) => {
+			const isLast = index === items.length - 1;
+			return (
+				<li class="flex items-center gap-1">
+					{item.href && !isLast ? (
+						<a href={item.href} class="hover:text-foreground hover:underline underline-offset-3">
+							{item.label}
+						</a>
+					) : (
+						<span aria-current={isLast ? 'page' : undefined} class={isLast ? 'text-foreground' : ''}>
+							{item.label}
+						</span>
+					)}
+					{!isLast && <span aria-hidden="true">/</span>}
+				</li>
+			);
+		})}
+	</ol>
+</nav>
