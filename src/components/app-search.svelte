@@ -214,6 +214,7 @@
             <div
                 bind:this={dialogEl}
                 role="dialog"
+                tabindex="-1"
                 aria-modal="true"
                 aria-label="Search"
                 class="mx-auto mt-[6vh] flex max-h-[88dvh] w-full max-w-2xl flex-col overflow-hidden
@@ -266,7 +267,7 @@
                 </div>
 
                 <!-- Results pane -->
-                <div class="min-h-0 flex-1 overflow-y-auto" role="listbox">
+                <div class="min-h-0 flex-1 overflow-y-auto">
                     {#if loading}
                         <p
                             class="flex items-center gap-2 px-5 py-6 text-sm text-neutral-500 dark:text-neutral-500"
@@ -320,10 +321,9 @@
                                             href={url}
                                             onclick={closeDialog}
                                             data-search-result={url}
-                                            role="option"
                                             class="group flex items-stretch border-b border-neutral-100
-                             border-l-2 border-l-transparent text-left no-underline outline-none
-                             transition-colors
+                              border-l-2 border-l-transparent text-left no-underline outline-none
+                              transition-colors
                              focus-visible:border-l-primary focus-visible:bg-neutral-50
                              dark:border-neutral-900 dark:hover:bg-neutral-900
                              hover:border-l-primary/40 hover:bg-neutral-50

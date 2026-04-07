@@ -4,18 +4,35 @@ import type { Props as RootProps } from './root.astro';
 
 import AppHeader from '~/components/app-header.astro';
 import AppFooter from '~/components/app-footer.astro';
+import Prose from '~/components/ui/prose.astro';
 
 interface Props extends RootProps {
     showHeading?: boolean;
+    prose?: boolean;
 }
 
-const { showHeading: _showHeading = true } = Astro.props;
+type Frontmatter = {
+	title?: string;
+	description?: string;
+	prose?: boolean;
+};
 
+const {
+	showHeading: _showHeading = true,
+	prose: _prose = false,
+	frontmatter,
+	title,
+	description,
+	...rootProps
+} = Astro.props as Props & { frontmatter?: Frontmatter };
 
-const showHeading = _showHeading && (Astro.props.title || Astro.props.description );
+const prose = _prose || frontmatter?.prose;
+const resolvedTitle = title ?? frontmatter?.title;
+const resolvedDescription = description ?? frontmatter?.description;
+const showHeading = _showHeading && (resolvedTitle || resolvedDescription);
 ---
 
-<Root {...Astro.props}>
+<Root {...rootProps} title={resolvedTitle} description={resolvedDescription}>
 	<AppHeader>
 		<slot name="header" />
 	</AppHeader>
@@ -23,11 +40,17 @@ const showHeading = _showHeading && (Astro.props.title || Astro.props.descriptio
 		<slot name="bleed" />
 		{showHeading && (
 			<div class="flex flex-col gap-3">
-				{Astro.props.title && <h2 class="text-3xl">{Astro.props.title}</h2>}
-				{Astro.props.description && <p>{Astro.props.description}</p>}
+				{resolvedTitle && <h2 class="text-3xl">{resolvedTitle}</h2>}
+				{resolvedDescription && <p>{resolvedDescription}</p>}
 			</div>
 		)}
-		<slot />
+		{prose ? (
+			<Prose>
+				<slot />
+			</Prose>
+		) : (
+			<slot />
+		)}
 	</main>
     <AppFooter>
         <slot name="header" />

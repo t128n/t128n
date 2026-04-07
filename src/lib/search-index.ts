@@ -18,7 +18,7 @@ type PageModule = {
 
 export async function buildSearchIndex(): Promise<SearchDocument[]> {
 	const rawPageEntries = Object.entries(
-		import.meta.glob("../pages/**/*.{md,astro}", { eager: true }),
+		import.meta.glob("../pages/**/*.{md,astro,mdx}", { eager: true }),
 	) as [string, PageModule][];
 
 	const pageDocsWithSourcePath: SearchDocument[] = rawPageEntries

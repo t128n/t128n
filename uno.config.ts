@@ -9,8 +9,8 @@ import {
 } from "unocss";
 
 const verifyData = readFileSync("./src/content/data/verify.json", "utf-8");
-const writingsData = globSync("./src/content/writings/**/*.{md,mdx}").map(
-	(path) => readFileSync(path, "utf-8"),
+const writingsData = globSync("./src/**/*.{md,mdx}").map((path) =>
+	readFileSync(path, "utf-8"),
 );
 const searchIndexData = readFileSync(
 	"./src/pages/search-index.bin.ts",
