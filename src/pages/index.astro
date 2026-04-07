@@ -1,11 +1,11 @@
 ---
-import Splash from '~/layouts/splash.astro';
+import Page from '~/layouts/page.astro';
 import Profile from '~/components/profile.astro';
 import Button from '~/components/ui/button.astro';
 import { meta } from '~/config';
 ---
 
-<Splash title={meta.title} description={meta.description}>
+<Page title={meta.title} description={meta.description} showHeading={false}>
     <Profile
       name="Torben Haack"
       handle="t128n"
@@ -36,4 +36,4 @@ import { meta } from '~/config';
             </li>
         </ul>
     </p>
-</Splash>
+</Page>

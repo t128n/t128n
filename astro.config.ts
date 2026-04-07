@@ -39,7 +39,32 @@ export default defineConfig({
 		UnoCSS({
 			injectReset: true,
 		}),
-		expressiveCode(),
+		expressiveCode({
+			styleOverrides: {
+				frames: {
+					editorBackground: "var(--color-background)",
+					terminalBackground: "var(--color-background)",
+					editorTabBarBackground: "var(--color-foreground)",
+					terminalTitlebarBackground: "var(--color-foreground)",
+					editorTabBarBorderColor: "var(--color-foreground)",
+					editorTabBarBorderBottomColor: "var(--color-foreground)",
+					editorActiveTabBackground: "var(--color-foreground)",
+					editorActiveTabBorderColor: "var(--color-foreground)",
+					editorActiveTabForeground: "var(--color-background)",
+					editorActiveTabIndicatorTopColor: "var(--color-foreground)",
+					editorActiveTabIndicatorBottomColor:
+						"var(--color-foreground)",
+					terminalTitlebarBorderBottomColor:
+						"var(--color-foreground)",
+					terminalTitlebarForeground: "var(--color-background)",
+					terminalTitlebarDotsForeground: "var(--color-background)",
+					frameBoxShadowCssValue: "none",
+					editorTabBorderRadius: "0",
+					editorTabsMarginBlockStart: "0",
+					editorTabsMarginInlineStart: "0",
+				},
+			},
+		}),
 		mdx({
 			remarkPlugins: [remarkModifiedTime],
 		}),

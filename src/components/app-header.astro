@@ -1,24 +1,15 @@
 ---
-import AppBand from './app-band.astro';
 import AppSearch from './app-search.svelte';
 
 interface Props {}
 ---
 
-<header class="border-b border-default">
-  <AppBand>
-    <div slot="aside-left" />
-    <div class="flex flex-col min-w-0">
-      <div class="px-8 py-4 flex flex-row justify-between items-center">
-        <a href="/" class="flex items-center gap-3 hover:bg-foreground hover:text-background">
-          <h1>[ t128n ]</h1>
-        </a>
-        <slot />
-        <div>
-          <AppSearch client:idle />
-        </div>
-      </div>
+<header class="max-w-[50rem] w-full px-8 py-4 flex flex-row justify-between items-center gap-4">
+    <a href="/" class="flex items-center gap-3 hover:bg-foreground hover:text-background">
+    <h1>[ t128n ]</h1>
+    </a>
+    <slot />
+    <div>
+    <AppSearch client:idle />
     </div>
-    <div slot="aside-right" />
-  </AppBand>
 </header>
