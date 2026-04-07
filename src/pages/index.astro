@@ -13,33 +13,27 @@ import { meta } from '~/config';
       class="mb-2"
     />
     <p>
-        <abbr title="Technical Product Owner">TPO</abbr> and <abbr title="Software Engineer">SE</abbr> in the automotive industry by day, FOSS & tech enthusiast by night.
-        Developing and managing data and software systems. Part-time studying Business Informatics at <a class='text-primary font-medium hover:underline' href="https://www.bht-berlin.de/en/" target="_blank">BHT Berlin</a>.
+        <abbr class='cursor-help' title="Technical Product Owner">TPO</abbr> and <abbr class='cursor-help' title="Software Engineer">SE</abbr> in the automotive industry by day, FOSS & tech enthusiast by night.
+        Developing and managing data and software systems. Part-time studying Business Informatics at <a class='underline-offset-3 hover:no-underline underline hover:bg-foreground hover:text-background' href="https://www.bht-berlin.de/en/" target="_blank">BHT Berlin</a>.
     </p>
     <p>
-        Sometimes I also <a href="/writing/" class='text-primary font-medium hover:underline'>write about stuff</a>.
+        Sometimes I also <a href="/writing/" class='font-medium underline-offset-3 underline hover:no-underline hover:bg-foreground hover:text-background'>write about stuff</a>.
     </p>
     <p>
         Connect with me on...
-        <ul class="flex flex-wrap items-center gap-2">
-          <li>
-            <Button href="/go/bsky" target="_blank" icon="i-simple-icons:bluesky">
-              Bluesky
-            </Button>
-          </li>
-          <li>
-            <Button href="/go/gh" target="_blank" icon="i-simple-icons:github">
-              GitHub
-            </Button>
-          </li>
-          <li>
-            <Button href="/go/linkedin" target="_blank" icon="i-simple-icons:linkedin">
-              LinkedIn
-            </Button>
-          </li>
-          <li>
-            <Button variant="ghost" href='/verify'>and elsewhere.</Button>
-          </li>
+        <ul class="flex flex-col items-start gap-1">
+            <li>
+                <Button href="/go/bsky" target="_blank" icon="i-simple-icons:bluesky" class="w-48" size="lg">Bluesky</Button>
+            </li>
+            <li>
+                <Button href="/go/gh" target="_blank" icon="i-simple-icons:github" class="w-48" size="lg">GitHub</Button>
+            </li>
+            <li>
+                <Button href="/go/linkedin" target="_blank" icon="i-simple-icons:linkedin" class="w-48" size="lg">LinkedIn</Button>
+            </li>
+            <li>
+                <Button href="/verify" target="_blank" icon="i-gg:globe-alt" class="w-48" size="lg" iconSize='xl'>and elsewhere.</Button>
+            </li>
         </ul>
     </p>
 </Splash>

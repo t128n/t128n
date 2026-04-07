@@ -4,7 +4,7 @@ description: Use e18e's linting rules to automatically flag outdated packages an
 cover:
     href: "src/assets/images/lean-js-with-e18e-linting-rules.png"
     caption: "Oh, fast he rode, and fast she ran, Corbould, Edward Henry et al., 1865."
-icon: i-hugeicons:java-script
+icon: i-gg:brackets
 blueskyUrl: "https://bsky.app/profile/did:plc:m25hu5wadnbqnt47zep7xza6/post/3mitew6mhlk2j"
 ---
 

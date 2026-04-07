@@ -4,11 +4,11 @@ import { getBlogrollEntries, getPodrollEntries } from "~/lib/rolls";
 import type { SearchDocument } from "~/lib/search";
 
 const DATA_ICONS: Record<string, string> = {
-	blogroll: "i-hugeicons:books-01",
-	bookmarks: "i-hugeicons:all-bookmark",
-	podroll: "i-hugeicons:podcast",
-	verify: "i-hugeicons:identification",
-	go: "i-hugeicons:keyframes-multiple",
+	blogroll: "i-gg:readme",
+	bookmarks: "i-gg:bookmark",
+	podroll: "i-gg:media-podcast",
+	verify: "i-gg:play-list-check",
+	go: "i-gg:corner-double-up-right",
 };
 
 type PageModule = {

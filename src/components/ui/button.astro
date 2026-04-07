@@ -6,9 +6,9 @@ interface Props {
   target?:        string;
   rel?:           string;
   icon?:          string;           // UnoCSS icon class, e.g. 'i-simple-icons:github'
+  iconSize?:      'sm' | 'md' | 'lg' | 'xl'; // Optional size for the icon, defaults to the button size
   iconPosition?:  'left' | 'right';
-  variant?:       'outline' | 'solid' | 'ghost';
-  size?:          'sm' | 'md' | 'lg';
+  size?:          'sm' | 'md' | 'lg' | 'xl';
   class?:         string;
   [key: string]:  unknown;          // passthrough for aria-*, data-*, etc.
 }
@@ -19,27 +19,28 @@ const {
   rel,
   icon,
   iconPosition = 'left',
-  variant      = 'outline',
   size         = 'sm',
+  iconSize = size,
   class: className,
   ...rest
 } = Astro.props;
 
-const variantClasses = {
-  outline: 'border border-primary/50 text-primary bg-transparent hover:bg-primary/10',
-  solid:   'bg-primary text-primary-foreground hover:bg-primary/90',
-  ghost:   'text-primary hover:bg-primary/10',
+const sizeClasses = {
+  sm: 'text-sm',
+  md: 'text-sm',
+  lg: 'text-base',
+  xl: 'text-lg',
 };
 
-const sizeClasses = {
-  sm: 'px-2 py-1 text-sm',
-  md: 'px-3 py-1.5 text-sm',
-  lg: 'px-4 py-2 text-base',
+const iconSizeClasses = {
+  sm: 'text-sm',
+  md: 'text-sm',
+  lg: 'text-base',
+  xl: 'text-lg',
 };
 
 const classes = mergeClasses(
-  'inline-flex items-center gap-1 font-medium transition-colors rounded-sm cursor-pointer',
-  variantClasses[variant],
+  'inline-flex items-center gap-1 underline-offset-3 underline hover:no-underline hover:bg-foreground hover:text-background transition-colors cursor-pointer',
   sizeClasses[size],
   className,
 );
@@ -54,7 +55,7 @@ const Tag = href ? 'a' : 'button';
   rel={href && target === '_blank' ? (rel ?? 'noopener noreferrer') : rel}
   {...rest}
 >
-  {icon && iconPosition === 'left'  && <span class={`${icon} inline-flex shrink-0`} />}
+  {icon && iconPosition === 'left'  && <span class={`${icon} inline-flex shrink-0 ${iconSizeClasses[iconSize]}`} />}
   <slot />
-  {icon && iconPosition === 'right' && <span class={`${icon} inline-flex shrink-0`} />}
+  {icon && iconPosition === 'right' && <span class={`${icon} inline-flex shrink-0 ${iconSizeClasses[iconSize]}`} />}
 </Tag>

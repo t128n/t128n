@@ -4,9 +4,8 @@
 	"ignoreDependencies": [
 		"@fontsource/ia-writer-duo",
 		"@fontsource/ia-writer-mono",
-		"@iconify-json/hugeicons",
-		"@iconify-json/lucide",
 		"@iconify-json/simple-icons",
+		"@iconify-json/gg",
 		"@unocss/reset"
 	]
 }

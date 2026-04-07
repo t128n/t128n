@@ -6,7 +6,7 @@ cover:
     caption: "One hundred years' progress of the United States, Brockett, Linus Pierpont et al., 1871."
 createdAt: 2026-04-02
 draft: false
-icon: i-hugeicons:sparkles
+icon: i-gg:format-color
 blueskyUrl: "https://bsky.app/profile/did:plc:m25hu5wadnbqnt47zep7xza6/post/3mimefpylfs2b"
 ---
 

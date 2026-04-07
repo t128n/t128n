@@ -179,27 +179,26 @@
         onclick={toggle}
         aria-haspopup="dialog"
         aria-expanded={open}
-        class="inline-flex items-center gap-2 rounded-sm border border-primary/50 bg-transparent
-           px-2 py-1 text-sm font-medium text-primary transition-colors
-           hover:bg-primary/10 cursor-pointer focus-visible:outline-none
+        class="inline-flex items-center gap-2 border border-default
+           px-2 py-1 text-sm hover:border-background text-muted
+           hover:bg-foreground hover:text-background cursor-pointer focus-visible:outline-none
            focus-visible:ring-2 focus-visible:ring-primary/40"
     >
         <span
-            class="i-lucide:search inline-flex shrink-0 size-3.5"
+            class="i-gg:search inline-flex shrink-0 size-3.5"
             aria-hidden="true"
         ></span>
         Search
-        <!-- Kbd group — matches Kbd sm -->
         <span class="inline-flex items-center gap-0.5" aria-hidden="true">
             <kbd
-                class="inline-flex items-center justify-center rounded-sm border border-primary/50
-                  bg-transparent px-1 py-0.5 font-mono text-xs font-medium leading-none
-                  text-primary select-none">⌘</kbd
+                class="inline-flex items-center justify-center border border-default
+                  px-1 py-0.5 font-mono text-xs font-medium leading-none
+                  select-none">⌘</kbd
             >
             <kbd
-                class="inline-flex items-center justify-center rounded-sm border border-primary/50
-                  bg-transparent px-1 py-0.5 font-mono text-xs font-medium leading-none
-                  text-primary select-none">K</kbd
+                class="inline-flex items-center justify-center border border-default
+                  px-1 py-0.5 font-mono text-xs font-medium leading-none
+                  select-none">K</kbd
             >
         </span>
     </button>
@@ -218,7 +217,7 @@
                 aria-modal="true"
                 aria-label="Search"
                 class="mx-auto mt-[6vh] flex max-h-[88dvh] w-full max-w-2xl flex-col overflow-hidden
-               rounded-sm border border-neutral-200 bg-white shadow-xl
+               border border-neutral-200 bg-white shadow-xl
                dark:border-neutral-800 dark:bg-neutral-950"
                 onpointerdown={stopPropagation}
                 onkeydown={onDialogKeydown}
@@ -232,7 +231,7 @@
                        border-r border-neutral-200 dark:border-neutral-800
                        text-neutral-400 dark:text-neutral-600"
                     >
-                        <span class="i-lucide:search size-4" aria-hidden="true"
+                        <span class="i-gg:search size-4" aria-hidden="true"
                         ></span>
                     </span>
 
@@ -261,7 +260,7 @@
                    focus-visible:outline-none focus-visible:ring-inset
                    focus-visible:ring-2 focus-visible:ring-primary/40"
                     >
-                        <span class="i-lucide:x size-4" aria-hidden="true"
+                        <span class="i-gg:close size-4" aria-hidden="true"
                         ></span>
                     </button>
                 </div>
@@ -342,9 +341,10 @@
                                                         aria-hidden="true"
                                                     ></span>
                                                 {:else}
-                                                    <span aria-hidden="true"
-                                                        >↗</span
-                                                    >
+                                                <span
+                                                    class="i-gg:link size-6"
+                                                    aria-hidden="true"
+                                                ></span>
                                                 {/if}
                                             </span>
 

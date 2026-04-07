@@ -16,10 +16,10 @@ const { name, handle, avatar, alt = name, class: profileClass } = Astro.props;
   <img
     src={avatar}
     alt={alt}
-    class="w-13 h-13 rounded-full object-cover"
+    class="w-13 h-13 rounded-full object-cover grayscale"
   />
   <div class="flex flex-col">
-    <span class="text-lg font-semibold">{name}</span>
+    <span class="text-xl">{name}</span>
     <span class="text-muted text-sm">[{handle}]</span>
   </div>
 </div>

@@ -3,5 +3,5 @@ export const meta = {
 	title: "Torben Haack",
 	description:
 		"TPO and SE. FOSS & tech enthusiast. Part-time Business Informatics student at BHT Berlin.",
-	icon: "i-hugeicons:home-12",
+	icon: "i-gg:home",
 };

@@ -40,7 +40,7 @@ export default defineConfig({
 
 				return `
           :root {
-            --color-primary:    ${shade("blue", 600)};
+            --color-primary:    ${shade("zinc", 950)};
             --color-secondary:  ${shade("violet", 500)};
             --color-success:    ${shade("green", 500)};
             --color-info:       ${shade("sky", 500)};
@@ -59,7 +59,7 @@ export default defineConfig({
           }
           @media (prefers-color-scheme: dark) {
             :root {
-              --color-primary:    ${shade("blue", 500)};
+              --color-primary:    ${shade("zinc", 50)};
               --color-secondary:  ${shade("violet", 400)};
               --color-success:    ${shade("green", 400)};
               --color-info:       ${shade("sky", 400)};

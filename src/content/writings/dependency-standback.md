@@ -6,7 +6,7 @@ cover:
     caption: "The sand bank, Stanfield, Clarkson, 1836."
 createdAt: 2026-04-01
 draft: false
-icon: i-lucide-clock-fading
+icon: i-gg:sand-clock
 blueskyUrl: "https://bsky.app/profile/did:plc:m25hu5wadnbqnt47zep7xza6/post/3mimefgduis2b"
 ---
 
