@@ -17,5 +17,9 @@
 		"description": "Framework for building GitHub Apps."
 	},
 	"https://awesome-copilot.github.com/",
-	"https://github.com/github/how-engineering-communicates/blob/main/quick-ref.md"
+	{
+		"href": "https://github.com/github/how-engineering-communicates/blob/main/quick-ref.md",
+		"title": "GitHub Engineering Communication Quick Reference",
+		"description": "A quick reference guide for effective communication within Engineering teams."
+	}
 ]
