@@ -5,6 +5,7 @@ interface Item {
     description?: string | null;
     meta?: string | null;
     image?: string | null;
+    icon?: string | null;
 }
 
 interface Props {
@@ -40,7 +41,7 @@ const {
                     <img src={item.image} alt="" class={imageClass} loading="lazy" />
                 ) : (
                     <div class={iconWrapClass}>
-                        <span class={icon + ' ' + iconClass}></span>
+                        <span class={(item.icon ?? icon) + ' ' + iconClass}></span>
                     </div>
                 )}
                 <div class="min-w-0 flex-1">
