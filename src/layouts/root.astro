@@ -65,8 +65,8 @@ const { headTags, bodyAttrs, bodyTagsOpen  } = await renderSSRHead(head);
 <html lang={lang}>
   <head>
     <Fragment set:html={headTags} />
-    <Font cssVariable="--font-ia-writer-duo" />
-    <Font cssVariable="--font-ia-writer-mono" />
+    <Font cssVariable="--font-ia-writer-duo" preload={[{ weight: 400, style: 'normal' }, { weight: 700, style: 'normal' }]} />
+    <Font cssVariable="--font-ia-writer-mono" preload={[{ weight: 400, style: 'normal' }, { weight: 700, style: 'normal' }]} />
   </head>
   <body set:html={bodyAttrs} class='min-h-dvh flex flex-col bg-background text-foreground font-sans'>
     <slot />
