@@ -1,5 +1,6 @@
 ---
 import Page from '~/layouts/page.astro';
+import LinkList from '~/components/link-list.astro';
 import { getPodrollEntries } from '~/lib/rolls';
 
 const podcastsWithMeta = await getPodrollEntries();
@@ -12,35 +13,13 @@ export const meta = {
 ---
 
 <Page title={meta.title} description={meta.description}>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {podcastsWithMeta.map((podcast) => (
-            <a
-                href={podcast.url}
-                class="block rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow"
-            >
-                {podcast.image ? (
-                    <img
-                        src={podcast.image}
-                        alt=""
-                        class="w-full h-40 object-cover bg-gray-100 dark:bg-gray-800"
-                        loading="lazy"
-                    />
-                ) : (
-                    <div class="w-full h-40 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                        <span class="i-gg:media-podcast text-4xl text-gray-400"></span>
-                    </div>
-                )}
-                <div class="p-4">
-                    <h2 class="font-semibold text-lg mb-2">{podcast.title}</h2>
-                    {podcast.description ? (
-                        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
-                            {podcast.description}
-                        </p>
-                    ) : (
-                        <p class="text-sm text-gray-400 italic">No description available</p>
-                    )}
-                </div>
-            </a>
-        ))}
-    </div>
+    <LinkList
+        items={podcastsWithMeta.map((podcast) => ({
+            href: podcast.url,
+            title: podcast.title,
+            description: podcast.description,
+            image: podcast.image,
+        }))}
+        icon="i-gg:media-podcast"
+    />
 </Page>

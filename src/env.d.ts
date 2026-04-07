@@ -1,6 +1,9 @@
 declare module "*.opml" {
 	const value: {
 		opml: {
+			head: {
+				title: string;
+			};
 			body: {
 				outline: Array<{
 					"@_text": string;

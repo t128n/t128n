@@ -1,0 +1,54 @@
+---
+interface Item {
+    href: string;
+    title: string;
+    description?: string | null;
+    image?: string | null;
+}
+
+interface Props {
+    items: Item[];
+    icon: string;
+    titleClass?: string;
+    listClass?: string;
+    itemClass?: string;
+    iconWrapClass?: string;
+    imageClass?: string;
+    iconClass?: string;
+}
+
+const {
+    items,
+    icon,
+    titleClass = 'text-base',
+    listClass = 'flex flex-col gap-8',
+    itemClass = 'flex items-start gap-4',
+    iconWrapClass = 'flex h-12 w-12 shrink-0 items-center justify-center',
+    imageClass = 'h-12 w-12 shrink-0 object-cover bg-gray-100 dark:bg-gray-800',
+    iconClass = 'text-xl text-gray-400',
+} = Astro.props;
+---
+
+<ul class={listClass}>
+    {items.map((item) => (
+        <li>
+            <a href={item.href} class={itemClass}>
+                {item.image ? (
+                    <img src={item.image} alt="" class={imageClass} loading="lazy" />
+                ) : (
+                    <div class={iconWrapClass}>
+                        <span class={icon + ' ' + iconClass}></span>
+                    </div>
+                )}
+                <div class="min-w-0 flex-1">
+                    <h2 class={titleClass}>{item.title}</h2>
+                    {item.description ? (
+                        <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{item.description}</p>
+                    ) : (
+                        <p class="text-sm text-gray-400 italic line-clamp-2">No description available</p>
+                    )}
+                </div>
+            </a>
+        </li>
+    ))}
+</ul>

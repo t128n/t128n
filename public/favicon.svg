@@ -4,10 +4,11 @@
     role="img"
     aria-label="t128n favicon"
 >
-  <circle
-        cx="36"
-        cy="36"
-        r="25"
+  <rect
+        x="15"
+        y="15"
+        width="42"
+        height="42"
         fill="#09090b"
     />
 </svg>

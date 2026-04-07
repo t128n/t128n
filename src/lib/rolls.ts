@@ -30,7 +30,9 @@ export async function getBlogrollEntries() {
 				const meta = await resolveRemoteUrl(outline["@_htmlUrl"]);
 				return {
 					title:
-						meta.title ?? outline["@_text"] ?? outline["@_title"],
+						outline["@_title"] ??
+						outline["@_text"] ??
+						outline["@_htmlUrl"],
 					htmlUrl: outline["@_htmlUrl"],
 					xmlUrl: outline["@_xmlUrl"],
 					description: meta.description ?? "",
