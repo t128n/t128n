@@ -20,19 +20,19 @@ export default defineConfig({
 	fonts: [
 		{
 			provider: fontProviders.fontsource(),
-			name: "Geist",
-			cssVariable: "--font-sans",
+			name: "iA Writer Duo",
+			cssVariable: "--font-ia-writer-duo",
 			fallbacks: ["sans-serif"],
-			weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-			styles: ["normal"],
+			weights: [400, 700],
+			styles: ["normal", "italic"],
 		},
 		{
 			provider: fontProviders.fontsource(),
-			name: "Geist Mono",
-			cssVariable: "--font-mono",
+			name: "iA Writer Mono",
+			cssVariable: "--font-ia-writer-mono",
 			fallbacks: ["monospace"],
-			weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-			styles: ["normal"],
+			weights: [400, 700],
+			styles: ["normal", "italic"],
 		},
 	],
 	integrations: [

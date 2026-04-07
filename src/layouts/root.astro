@@ -1,5 +1,6 @@
 ---
 import { createHead, renderSSRHead } from 'unhead/server';
+import { Font } from 'astro:assets';
 import { useVerify } from '~/composables/use-verify';
 
 export interface Props {
@@ -64,8 +65,10 @@ const { headTags, bodyAttrs, bodyTagsOpen  } = await renderSSRHead(head);
 <html lang={lang}>
   <head>
     <Fragment set:html={headTags} />
+    <Font cssVariable="--font-ia-writer-duo" />
+    <Font cssVariable="--font-ia-writer-mono" />
   </head>
-  <body set:html={bodyAttrs} class='min-h-dvh flex flex-col bg-background text-foreground'>
+  <body set:html={bodyAttrs} class='min-h-dvh flex flex-col bg-background text-foreground font-sans'>
     <slot />
     <Fragment set:html={bodyTagsOpen ?? ''} />
   </body>

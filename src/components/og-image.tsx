@@ -14,7 +14,7 @@ export const OGImage = ({ title, description, url = "t128n.dev" }: Props) => {
 				height: "100%",
 				backgroundColor: "#fafafa", // zinc-50
 				color: "#09090b", // zinc-950
-				fontFamily: "Geist Sans",
+				fontFamily: "iA Writer Duo",
 			}}
 		>
 			{/* Top section */}
@@ -51,7 +51,7 @@ export const OGImage = ({ title, description, url = "t128n.dev" }: Props) => {
 					<h1
 						style={{
 							fontSize: "72px",
-							fontWeight: 600,
+							fontWeight: 700,
 							margin: 0,
 							lineHeight: 1.1,
 						}}
@@ -85,7 +85,7 @@ export const OGImage = ({ title, description, url = "t128n.dev" }: Props) => {
 				<div style={{ flex: 1, borderRight: "1px solid #e4e4e7" }} />
 				<div
 					style={{
-						fontFamily: "Geist Mono",
+						fontFamily: "iA Writer Mono",
 						width: "60rem",
 						display: "flex",
 						alignItems: "center",

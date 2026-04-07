@@ -8,12 +8,27 @@ import {
 	presetIcons,
 } from "unocss";
 
+const verifyData = readFileSync("./src/content/data/verify.json", "utf-8");
+const writingsData = globSync("./src/content/writings/**/*.{md,mdx}").map(
+	(path) => readFileSync(path, "utf-8"),
+);
+const searchIndexData = readFileSync(
+	"./src/pages/search-index.bin.ts",
+	"utf-8",
+);
+
 export default defineConfig({
 	presets: [
 		presetWind4({ dark: "media" }),
 		presetTypography(),
 		presetIcons(),
 	],
+	theme: {
+		font: {
+			sans: "var(--font-ia-writer-duo), ui-sans-serif, system-ui, sans-serif",
+			mono: "var(--font-ia-writer-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+		},
+	},
 	preflights: [
 		{
 			getCSS: ({ theme }) => {
@@ -85,9 +100,6 @@ export default defineConfig({
 		t.colors.soft = { DEFAULT: "var(--color-soft)" };
 		t.colors.background = { DEFAULT: "var(--color-background)" };
 		t.colors.foreground = { DEFAULT: "var(--color-foreground)" };
-
-		t.font.sans = "var(--font-sans)";
-		t.font.mono = "var(--font-mono)";
 	},
 
 	shortcuts: {
@@ -99,12 +111,6 @@ export default defineConfig({
 		"border-default": "border-zinc-200 dark:border-zinc-800",
 	},
 	content: {
-		inline: [
-			readFileSync("./src/content/data/verify.json", "utf-8"),
-			...globSync("./src/content/writings/**/*.{md,mdx}").map((path) =>
-				readFileSync(path, "utf-8"),
-			),
-			readFileSync("./src/pages/search-index.bin.ts", "utf-8"),
-		],
+		inline: [verifyData, ...writingsData, searchIndexData],
 	},
 });

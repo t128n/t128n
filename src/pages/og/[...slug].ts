@@ -41,13 +41,13 @@ export const GET = async ({ props }: { props: { slug: string } }) => {
 
 	// Load fonts
 	const fontRegular = readFileSync(
-		"./node_modules/@fontsource/geist/files/geist-latin-400-normal.woff",
+		"./node_modules/@fontsource/ia-writer-duo/files/ia-writer-duo-latin-400-normal.woff",
 	);
-	const fontSemiBold = readFileSync(
-		"./node_modules/@fontsource/geist/files/geist-latin-600-normal.woff",
+	const fontBold = readFileSync(
+		"./node_modules/@fontsource/ia-writer-duo/files/ia-writer-duo-latin-700-normal.woff",
 	);
 	const fontMonoRegular = readFileSync(
-		"./node_modules/@fontsource/geist-mono/files/geist-mono-latin-400-normal.woff",
+		"./node_modules/@fontsource/ia-writer-mono/files/ia-writer-mono-latin-400-normal.woff",
 	);
 
 	const width = 1200;
@@ -64,19 +64,19 @@ export const GET = async ({ props }: { props: { slug: string } }) => {
 			height,
 			fonts: [
 				{
-					name: "Geist Sans",
+					name: "iA Writer Duo",
 					data: fontRegular,
 					weight: 400,
 					style: "normal",
 				},
 				{
-					name: "Geist Sans",
-					data: fontSemiBold,
-					weight: 600,
+					name: "iA Writer Duo",
+					data: fontBold,
+					weight: 700,
 					style: "normal",
 				},
 				{
-					name: "Geist Mono",
+					name: "iA Writer Mono",
 					data: fontMonoRegular,
 					weight: 400,
 					style: "normal",

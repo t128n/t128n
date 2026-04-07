@@ -2,8 +2,8 @@
 	"$schema": "https://unpkg.com/knip@6/schema.json",
 	"tags": ["-lintignore"],
 	"ignoreDependencies": [
-		"@fontsource/geist",
-		"@fontsource/geist-mono",
+		"@fontsource/ia-writer-duo",
+		"@fontsource/ia-writer-mono",
 		"@iconify-json/hugeicons",
 		"@iconify-json/lucide",
 		"@iconify-json/simple-icons",
