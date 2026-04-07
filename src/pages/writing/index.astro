@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Page from "~/layouts/page.astro";
+import LinkList from "~/components/link-list.astro";
 
 export const meta = {
 	title: "Writings",
@@ -34,22 +35,19 @@ writings.sort((a, b) => {
 	title={meta.title}
 	description={meta.description}
 >
-	<ul class="space-y-4">
-			{writings.map((writing) => (
-				<li class="border-default rounded-sm border p-4 transition-colors hover:border-primary/50">
-					<a href={`/writing/${writing.id}`} class="block">
-						<div class="flex flex-wrap items-baseline justify-between gap-2">
-							<h3 class="text-lg font-medium text-primary">{writing.data.title}</h3>
-							{writing.data.createdAt && (
-								<time class="text-sm text-muted" datetime={writing.data.createdAt.toISOString()}>
-									{writing.data.createdAt.toISOString().split("T")[0]}
-								</time>
-							)}
-						</div>
-						<p class="mt-2 text-muted">{writing.data.description}</p>
-					</a>
-				</li>
-			))}
-	</ul>
+	<LinkList
+		items={writings.map((writing) => ({
+			href: `/writing/${writing.id}`,
+			title: writing.data.title,
+			description: writing.data.description,
+			meta: writing.data.createdAt ? writing.data.createdAt.toISOString().split("T")[0] : null,
+		}))}
+		icon="i-gg:file-document"
+		listClass="space-y-4"
+		itemClass="block"
+		iconWrapClass="hidden"
+		titleClass="text-lg font-medium text-primary"
+		metaClass="text-sm text-muted"
+	/>
 	<p class="mt-6 text-sm text-muted">Subscribe via <a href="/feed.xml" class="text-primary font-medium">RSS</a>, <a href="/atom.xml" class="text-primary font-medium">Atom</a>, or <a class="text-primary font-medium" href="/feed.json">JSON</a>.</p>
 </Page>

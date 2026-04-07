@@ -3,6 +3,7 @@ interface Item {
     href: string;
     title: string;
     description?: string | null;
+    meta?: string | null;
     image?: string | null;
 }
 
@@ -10,6 +11,7 @@ interface Props {
     items: Item[];
     icon: string;
     titleClass?: string;
+    metaClass?: string;
     listClass?: string;
     itemClass?: string;
     iconWrapClass?: string;
@@ -21,6 +23,7 @@ const {
     items,
     icon,
     titleClass = 'text-base',
+    metaClass = 'text-sm text-muted',
     listClass = 'flex flex-col gap-8',
     itemClass = 'flex items-start gap-4',
     iconWrapClass = 'flex h-12 w-12 shrink-0 items-center justify-center',
@@ -41,7 +44,10 @@ const {
                     </div>
                 )}
                 <div class="min-w-0 flex-1">
-                    <h2 class={titleClass}>{item.title}</h2>
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                        <h2 class={titleClass}>{item.title}</h2>
+                        {item.meta ? <span class={metaClass}>{item.meta}</span> : null}
+                    </div>
                     {item.description ? (
                         <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{item.description}</p>
                     ) : (

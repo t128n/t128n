@@ -42,7 +42,7 @@ if (cover && typeof cover === 'object') {
 			<Image src={coverSrc} alt={typeof cover === 'object' ? cover.caption : ''} class="block h-full w-full object-cover object-center" />
 		</div>
 	)}
-	<article class="prose pb-6 dark:prose-invert prose-h2:text-xl prose-h3:text-lg prose-h4:text-base prose-h5:text-sm prose-h6:text-xs">
+	<article class="prose pb-6 dark:prose-invert prose-h2:text-xl prose-h3:text-lg prose-h4:text-base prose-h5:text-sm prose-h6:text-xs prose-a:underline-offset-3 hover:prose-a:bg-foreground hover:prose-a:text-background hover:prose-a:no-underline">
 		<Content />
 	</article>
 	{updatedAt && (
