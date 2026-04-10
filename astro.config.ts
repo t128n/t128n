@@ -4,6 +4,7 @@ import svelte from "@astrojs/svelte";
 import expressiveCode from "astro-expressive-code";
 import { defineConfig, fontProviders } from "astro/config";
 import UnoCSS from "unocss/astro";
+import viteTsconfigPaths from "vite-tsconfig-paths";
 
 import { meta } from "./src/config";
 import { remarkModifiedTime } from "./src/lib/remark-modified-time";
@@ -75,6 +76,6 @@ export default defineConfig({
 		ssr: {
 			external: ["satori", "sharp"],
 		},
-		plugins: [xmlPlugin()],
+		plugins: [xmlPlugin(), viteTsconfigPaths()],
 	},
 });

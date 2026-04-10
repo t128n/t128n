@@ -1,0 +1,33 @@
+---
+title: Releasing packy v2
+description: Creating bundles for air-gapped deployments just got a bit fancier.
+---
+
+import { Image } from "astro:assets";
+import PackyScreenshot from "assets/images/packy-screenshot.png";
+import PackySpritesheet from "assets/images/packy-spritesheet.png";
+
+[packy.js.org](https://packy.js.org) | [repository](https://github.com/t128n/packy)
+
+**packy** is a web-based wrapper around `npm pack` for creating standalone dependency bundles that can be used for air-gapped deployments.
+
+<Image src={PackyScreenshot} alt="Screenshot of packy.js.org." />
+
+It is a full rewrite of the original core logic, mostly done by [GPT-5.4-mini](https://openai.com/de-DE/index/introducing-gpt-5-4-mini-and-nano/) using
+[opencode](https://opencode.ai/). Whereas this may sound like a `Refactor packy to use xzy` type of situation, substantial steering was required to achieve a satisfactory result.
+It now features a new UI (mostly powered by [Nuxt UI](https://ui.nuxt.com/)) as well as links to [npmx](https://npmx.dev/),
+[node-modules.dev](https://node-modules.dev/) and [pkg-size.dev](https://pkg-size.dev/) in the package selection. When used correctly, LLMs can be a major
+aid in the software development cycle. However when the LLM user lacks experience or guidance, he might experience the fate of the [sorcerer's apprentice](https://www.babelmatrix.org/works/de/Goethe,_Johann_Wolfgang_von/Der_Zauberlehrling/en/5462-The_Sorcerer_s_Apprentice).
+
+One thing that really surprised me was [Claude Sonnet 4.6's](https://www.anthropic.com/news/claude-sonnet-4-6) capability to generate SVG mascots[^1].
+
+<Image src={PackySpritesheet} alt="Spritesheet of different packy states" />
+
+I expected some mediocre results, sufficient to not bother the user, but the results were genuinely satisfactory.
+The different states of packy are used to visualize the various WebContainer runtime states in a playful manner.
+The sleeping state, for example, is shown when the WebContainer is shut down; the sad state is shown when the WebContainer encounters an error.
+
+Anyway, if you run into a case where you need to deploy npm packages to an air-gapped environment, feel free to try [packy](https://packy.js.org)
+and leave some feedback either on [GitHub](https://t128n.dev/go/gh) or [Bluesky](https://t128n.dev/go/bsky)
+
+[^1]: https://claude.ai/share/996c3484-ec89-4df5-8337-0b1e38729667
