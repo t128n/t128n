@@ -1,9 +1,12 @@
-import { getCollection } from "astro:content";
-import { Feed } from "feed";
+import { getContainerRenderer as getMDXRenderer } from "@astrojs/mdx";
+import type { RSSFeedItem } from "@astrojs/rss";
+import { experimental_AstroContainer } from "astro/container";
+import { loadRenderers } from "astro:container";
+import { getCollection, render } from "astro:content";
 
 import { meta } from "~/config";
 
-const site = new URL(meta.siteUrl);
+export { meta };
 
 type WritingEntry = Awaited<ReturnType<typeof getWritingEntries>>[number];
 
@@ -24,7 +27,7 @@ async function getWritingEntries() {
 	return entries;
 }
 
-function getWritingUrl(entry: WritingEntry) {
+function getWritingUrl(entry: WritingEntry, site: URL) {
 	return new URL(`/writing/${entry.id}`, site).href;
 }
 
@@ -32,32 +35,24 @@ function getWritingDate(entry: WritingEntry) {
 	return entry.data.updatedAt ?? entry.data.createdAt ?? new Date(0);
 }
 
-export async function createWritingsFeed() {
+export async function getWritingFeedItems(site: URL): Promise<RSSFeedItem[]> {
 	const entries = await getWritingEntries();
-	const latestDate = entries[0] ? getWritingDate(entries[0]) : new Date();
-	const feed = new Feed({
-		title: meta.title,
-		description: meta.description,
-		id: site.href,
-		link: new URL("/writing/", site).href,
-		language: "en",
-		updated: latestDate,
-		feedLinks: {
-			json: new URL("/feed.json", site).href,
-			atom: new URL("/atom.xml", site).href,
-			rss: new URL("/feed.xml", site).href,
-		},
-	});
 
-	for (const entry of entries) {
-		feed.addItem({
-			title: entry.data.title,
-			id: getWritingUrl(entry),
-			link: getWritingUrl(entry),
-			description: entry.data.description,
-			date: getWritingDate(entry),
-		});
-	}
+	const renderers = await loadRenderers([getMDXRenderer()]);
+	const container = await experimental_AstroContainer.create({ renderers });
 
-	return feed;
+	return Promise.all(
+		entries.map(async (entry) => {
+			const { Content } = await render(entry);
+			const content = await container.renderToString(Content);
+
+			return {
+				title: entry.data.title,
+				link: getWritingUrl(entry, site),
+				description: entry.data.description,
+				content,
+				pubDate: getWritingDate(entry),
+			};
+		}),
+	);
 }

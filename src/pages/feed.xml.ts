@@ -1,12 +1,15 @@
-import type { APIRoute } from "astro";
+import rss from "@astrojs/rss";
+import type { APIContext } from "astro";
 
-import { createWritingsFeed } from "~/lib/feed";
+import { meta, getWritingFeedItems } from "~/lib/feed";
 
-export const GET: APIRoute = async () => {
-	const feed = await createWritingsFeed();
-	return new Response(feed.rss2(), {
-		headers: {
-			"Content-Type": "application/rss+xml; charset=utf-8",
-		},
+export async function GET(context: APIContext) {
+	const site = context.site ?? new URL(meta.siteUrl);
+	const items = await getWritingFeedItems(site);
+	return rss({
+		title: meta.title,
+		description: meta.description,
+		site,
+		items,
 	});
-};
+}
