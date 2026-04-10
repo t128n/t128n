@@ -8,6 +8,22 @@ export const meta = {
 	description: "On occasion, I write about stuff.",
 };
 
+type WritingListEntry = {
+	data: {
+		pubDate?: Date;
+		createdAt?: Date;
+	};
+};
+
+function getWritingDate(entry: WritingListEntry) {
+	return entry.data.pubDate ?? entry.data.createdAt ?? null;
+}
+
+function formatWritingDate(entry: WritingListEntry) {
+	const date = getWritingDate(entry);
+	return date ? date.toISOString().split("T")[0] : null;
+}
+
 const entries = await getCollection("writings", ({ data, id }) => data.draft !== true && id !== "index");
 const writings = await Promise.all(
 	entries.map(async (entry) => {
@@ -16,6 +32,9 @@ const writings = await Promise.all(
 			...entry,
 			data: {
 				...entry.data,
+				pubDate:
+					entry.data.pubDate ??
+					(remarkPluginFrontmatter.createdAt ? new Date(remarkPluginFrontmatter.createdAt) : undefined),
 				createdAt: entry.data.createdAt ?? (remarkPluginFrontmatter.createdAt ? new Date(remarkPluginFrontmatter.createdAt) : undefined),
 				updatedAt: entry.data.updatedAt ?? (remarkPluginFrontmatter.updatedAt ? new Date(remarkPluginFrontmatter.updatedAt) : undefined),
 			},
@@ -24,8 +43,8 @@ const writings = await Promise.all(
 );
 
 writings.sort((a, b) => {
-	const aDate = new Date(a.data.createdAt ?? 0).getTime();
-	const bDate = new Date(b.data.createdAt ?? 0).getTime();
+	const aDate = new Date(a.data.pubDate ?? a.data.createdAt ?? 0).getTime();
+	const bDate = new Date(b.data.pubDate ?? b.data.createdAt ?? 0).getTime();
 	return bDate - aDate;
 });
 
@@ -40,7 +59,7 @@ writings.sort((a, b) => {
 			href: `/writing/${writing.id}`,
 			title: writing.data.title,
 			description: writing.data.description,
-			meta: writing.data.createdAt ? writing.data.createdAt.toISOString().split("T")[0] : null,
+			meta: formatWritingDate(writing),
 		}))}
 		icon="i-gg:file-document"
 		listClass="space-y-4"
