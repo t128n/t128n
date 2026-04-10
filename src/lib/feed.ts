@@ -31,8 +31,21 @@ function getWritingUrl(entry: WritingEntry, site: URL) {
 	return new URL(`/writing/${entry.id}`, site).href;
 }
 
-function getWritingDate(entry: WritingEntry) {
-	return entry.data.updatedAt ?? entry.data.createdAt ?? new Date(0);
+function getWritingDate(
+	entry: WritingEntry,
+	remarkPluginFrontmatter: { createdAt?: string; updatedAt?: string },
+) {
+	const createdAt =
+		entry.data.createdAt ??
+		(remarkPluginFrontmatter.createdAt
+			? new Date(remarkPluginFrontmatter.createdAt)
+			: undefined);
+	const updatedAt =
+		entry.data.updatedAt ??
+		(remarkPluginFrontmatter.updatedAt
+			? new Date(remarkPluginFrontmatter.updatedAt)
+			: undefined);
+	return updatedAt ?? createdAt ?? new Date(0);
 }
 
 export async function getWritingFeedItems(site: URL): Promise<RSSFeedItem[]> {
@@ -43,7 +56,7 @@ export async function getWritingFeedItems(site: URL): Promise<RSSFeedItem[]> {
 
 	return Promise.all(
 		entries.map(async (entry) => {
-			const { Content } = await render(entry);
+			const { Content, remarkPluginFrontmatter } = await render(entry);
 			const content = await container.renderToString(Content);
 
 			return {
@@ -51,7 +64,7 @@ export async function getWritingFeedItems(site: URL): Promise<RSSFeedItem[]> {
 				link: getWritingUrl(entry, site),
 				description: entry.data.description,
 				content,
-				pubDate: getWritingDate(entry),
+				pubDate: getWritingDate(entry, remarkPluginFrontmatter),
 			};
 		}),
 	);

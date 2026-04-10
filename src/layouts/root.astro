@@ -54,6 +54,7 @@ head.push({
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
     { rel: 'canonical', href: canonical },
+    { rel: 'alternate', type: 'application/rss+xml', title: `${title} @ t128n.dev`, href: '/feed.xml' },
     ...useVerify(),
   ],
 });
