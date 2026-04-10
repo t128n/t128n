@@ -16,12 +16,8 @@ async function getWritingEntries() {
 		({ data, id }) => data.draft !== true && id !== "index",
 	);
 	entries.sort((a, b) => {
-		const aDate = new Date(
-			a.data.updatedAt ?? a.data.createdAt ?? 0,
-		).getTime();
-		const bDate = new Date(
-			b.data.updatedAt ?? b.data.createdAt ?? 0,
-		).getTime();
+		const aDate = new Date(a.data.createdAt ?? 0).getTime();
+		const bDate = new Date(b.data.createdAt ?? 0).getTime();
 		return bDate - aDate;
 	});
 	return entries;
@@ -33,19 +29,14 @@ function getWritingUrl(entry: WritingEntry, site: URL) {
 
 function getWritingDate(
 	entry: WritingEntry,
-	remarkPluginFrontmatter: { createdAt?: string; updatedAt?: string },
+	remarkPluginFrontmatter: { createdAt?: string },
 ) {
 	const createdAt =
 		entry.data.createdAt ??
 		(remarkPluginFrontmatter.createdAt
 			? new Date(remarkPluginFrontmatter.createdAt)
 			: undefined);
-	const updatedAt =
-		entry.data.updatedAt ??
-		(remarkPluginFrontmatter.updatedAt
-			? new Date(remarkPluginFrontmatter.updatedAt)
-			: undefined);
-	return updatedAt ?? createdAt ?? new Date(0);
+	return createdAt ?? new Date(0);
 }
 
 export async function getWritingFeedItems(site: URL): Promise<RSSFeedItem[]> {
