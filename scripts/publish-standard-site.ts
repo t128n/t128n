@@ -73,7 +73,9 @@ const pub = await putRecord("site.standard.publication", "self", {
 	url: meta.siteUrl,
 	name: meta.title,
 	description: meta.description,
-	allowDiscovery: true,
+	preferences: {
+		showInDiscover: true,
+	},
 });
 console.log(`publication → ${pub.uri}`);
 
@@ -117,13 +119,13 @@ for (const file of files) {
 
 	const record: Record<string, unknown> = {
 		$type: "site.standard.document",
-		publication: pub.uri,
-		url: `${meta.siteUrl}/writing/${slug}`,
+		site: pub.uri,
+		path: `/writing/${slug}`,
 		title: data.title ?? slug,
 		publishedAt: data.createdAt
 			? new Date(data.createdAt).toISOString()
 			: new Date().toISOString(),
-		content: stripFrontmatter(raw).trim(),
+		textContent: stripFrontmatter(raw).trim(),
 	};
 	if (data.description) record.description = data.description;
 
