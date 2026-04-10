@@ -1,4 +1,7 @@
-import { getCollection } from "astro:content";
+import { getContainerRenderer as getMDXRenderer } from "@astrojs/mdx";
+import { experimental_AstroContainer } from "astro/container";
+import { loadRenderers } from "astro:container";
+import { getCollection, render } from "astro:content";
 import { Feed } from "feed";
 
 import { meta } from "~/config";
@@ -49,12 +52,19 @@ export async function createWritingsFeed() {
 		},
 	});
 
+	const renderers = await loadRenderers([getMDXRenderer()]);
+	const container = await experimental_AstroContainer.create({ renderers });
+
 	for (const entry of entries) {
+		const { Content } = await render(entry);
+		const html = await container.renderToString(Content);
+
 		feed.addItem({
 			title: entry.data.title,
 			id: getWritingUrl(entry),
 			link: getWritingUrl(entry),
 			description: entry.data.description,
+			content: html,
 			date: getWritingDate(entry),
 		});
 	}
