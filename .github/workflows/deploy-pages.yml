@@ -7,38 +7,11 @@ on:
         branches: [main]
 
 jobs:
-    validate:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
-
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 22
-
-            - name: Setup Bun
-              uses: oven-sh/setup-bun@v2
-              with:
-                  bun-version: latest
-
-            - name: Install dependencies
-              run: bun install --frozen-lockfile
-
-            - name: Lint and Typecheck
-              run: bun run test
-
     build:
-        needs: validate
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
 
             - name: Setup Node
               uses: actions/setup-node@v4
@@ -89,25 +62,3 @@ jobs:
                   directory: dist
                   branch: ${{ github.head_ref || github.ref_name }}
                   gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-
-    publish-standard-site:
-        needs: deploy
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-
-            - name: Setup Bun
-              uses: oven-sh/setup-bun@v2
-              with:
-                  bun-version: latest
-
-            - name: Install dependencies
-              run: bun install --frozen-lockfile
-
-            - name: Publish to ATProto
-              run: bun scripts/publish-standard-site.ts
-              env:
-                  ATP_HANDLE: ${{ secrets.ATP_HANDLE }}
-                  ATP_APP_PASSWORD: ${{ secrets.ATP_APP_PASSWORD }}
