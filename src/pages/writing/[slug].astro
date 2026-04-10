@@ -57,8 +57,10 @@ if (cover && typeof cover === 'object') {
 		<Content />
 	</Prose>
 	{updatedAt && (
-		<footer class="flex justify-end gap-1 text-sm text-muted italic">
-			Last updated on <time datetime={updatedAt.toISOString()}>{updatedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+		<footer class="flex justify-end">
+		    <p class="text-sm text-muted italic">
+				Last updated on <time datetime={updatedAt.toISOString()}>{updatedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+			</p>
 		</footer>
 	)}
 	{blueskyUrl && <BlueskyIntegration blueskyUrl={blueskyUrl} client:load />}
