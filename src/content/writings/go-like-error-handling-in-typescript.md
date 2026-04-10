@@ -1,6 +1,7 @@
 ---
 title: Go-like Error Handling in TypeScript
 description: How treating errors as values will lead to cleaner code.
+pubDate: 2026-04-05
 ---
 
 [Errors as Values in TypeScript](https://errore.org/)

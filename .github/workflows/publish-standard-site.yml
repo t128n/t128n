@@ -1,6 +1,7 @@
 name: Publish Standard Site
 
 on:
+    workflow_dispatch:
     workflow_run:
         workflows: ["Deploy to Cloudflare Pages"]
         types: [completed]

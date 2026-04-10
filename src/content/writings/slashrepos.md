@@ -1,6 +1,7 @@
 ---
 title: Slashrepos
 description: List of commonly used repositories.
+pubDate: 2026-04-03
 draft: true
 ---
 

@@ -1,10 +1,10 @@
 ---
 title: Code Formatting Guidelines
 description: The formatting rules I use across my projects.
+pubDate: 2026-04-02
 cover:
     href: "src/assets/images/code-formatting-guidelines.jpg"
     caption: "One hundred years' progress of the United States, Brockett, Linus Pierpont et al., 1871."
-createdAt: 2026-04-02
 draft: false
 icon: i-gg:format-color
 blueskyUrl: "https://bsky.app/profile/did:plc:m25hu5wadnbqnt47zep7xza6/post/3mimefpylfs2b"

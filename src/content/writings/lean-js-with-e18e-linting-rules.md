@@ -1,6 +1,7 @@
 ---
 title: Lean JavaScript with e18e Linting Rules
 description: Use e18e's linting rules to automatically flag outdated packages and enforce modern JS patterns.
+pubDate: 2026-04-06
 cover:
     href: "src/assets/images/lean-js-with-e18e-linting-rules.png"
     caption: "Oh, fast he rode, and fast she ran, Corbould, Edward Henry et al., 1865."

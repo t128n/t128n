@@ -1,6 +1,7 @@
 ---
 title: Ops
 description: Because Operations Are Fun.
+pubDate: 2026-04-03
 draft: true
 ---
 
