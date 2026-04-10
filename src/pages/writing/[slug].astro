@@ -6,6 +6,7 @@ import Page from '~/layouts/page.astro';
 import Breadcrumb from '~/components/breadcrumb.astro';
 import BlueskyIntegration from '~/components/bluesky-integration.svelte';
 import Prose from '~/components/ui/prose.astro';
+import { meta } from '~/config';
 
 const coverImages = import.meta.glob<{ default: ImageMetadata }>(
 	'/src/assets/images/*.{jpg,jpeg,png,webp}',
@@ -22,6 +23,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await render(entry);
+const atUri = `at://${meta.atDid}/site.standard.document/${entry.id}`;
 
 const updatedAt = entry.data.updatedAt ?? (remarkPluginFrontmatter.updatedAt ? new Date(remarkPluginFrontmatter.updatedAt) : undefined);
 
@@ -38,7 +40,7 @@ if (cover && typeof cover === 'object') {
 }
 ---
 
-<Page title={entry.data.title} description={entry.data.description}>
+<Page title={entry.data.title} description={entry.data.description} atUri={atUri} ogType="article">
 	<Fragment slot="bleed">
 		<Breadcrumb
 			items={[

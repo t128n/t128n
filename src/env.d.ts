@@ -1,3 +1,6 @@
+/// <reference types="@atcute/atproto" />
+/// <reference types="@atcute/standard-site" />
+
 declare module "*.opml" {
 	const value: {
 		opml: {
