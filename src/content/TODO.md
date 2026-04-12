@@ -4,7 +4,7 @@
 - [ ] https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-gemma-4
 - [ ] https://github.com/social-impact/insights/perspectives/03-17-2026-github-for-everyone
 - [ ] https://bsky.app/profile/paolo.ricciuti.me/post/3miosfpq2ok2i
-- [ ] https://bsky.app/profile/jason.energy/post/3miofppqzdk2v
+- [x] https://bsky.app/profile/jason.energy/post/3miofppqzdk2v
 - [ ] https://bsky.app/profile/lynnandtonic.com/post/3mionsvjtj226
 - [ ] https://bsky.app/profile/jamesgulland.com/post/3minvzxacgk2d
 - [ ] https://www.linkedin.com/posts/github_github-agentic-workflows-activity-7446317014798925824-WrlR?utm_medium=ios_app&rcm=ACoAAEGUOB4BzdOdFtHds1VGfN3eR_W8zRWFWss&utm_source=social_share_send&utm_campaign=share_via

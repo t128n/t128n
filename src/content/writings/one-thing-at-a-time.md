@@ -27,7 +27,7 @@ everything touched.
 
 1. **F**ix on one single task
 2. **L**ock a 90-minute timer[^1]
-3. **O**ff. close all distractions
+3. **O**ff. Close all distractions
 4. **W**ork until the timer ends
 
 [^1]: 90-minutes are a good default. Long enough to get into a flow state; not so long that people start filing a missing person report.
