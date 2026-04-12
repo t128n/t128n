@@ -3,6 +3,8 @@ import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import expressiveCode from "astro-expressive-code";
 import { defineConfig, fontProviders } from "astro/config";
+import rehypeKatex from "rehype-katex";
+import remarkMath from "remark-math";
 import UnoCSS from "unocss/astro";
 import viteTsconfigPaths from "vite-tsconfig-paths";
 
@@ -13,7 +15,8 @@ import { xmlPlugin } from "./src/plugins/vite-plugin-xml";
 export default defineConfig({
 	site: meta.siteUrl,
 	markdown: {
-		remarkPlugins: [remarkModifiedTime],
+		remarkPlugins: [remarkModifiedTime, remarkMath],
+		rehypePlugins: [rehypeKatex],
 	},
 	build: {
 		format: "file",
@@ -67,7 +70,8 @@ export default defineConfig({
 			},
 		}),
 		mdx({
-			remarkPlugins: [remarkModifiedTime],
+			remarkPlugins: [remarkModifiedTime, remarkMath],
+			rehypePlugins: [rehypeKatex],
 		}),
 		svelte(),
 		sitemap(),

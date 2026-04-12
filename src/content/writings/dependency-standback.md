@@ -10,7 +10,7 @@ icon: i-gg:sand-clock
 blueskyUrl: "https://bsky.app/profile/did:plc:m25hu5wadnbqnt47zep7xza6/post/3mimefgduis2b"
 ---
 
-The recent [LiteLLM PyPI embargo](https://futuresearch.ai/blog/litellm-attack-transcript/) shook the software development community and served as yet another reminder that dependency hygiene isn't optional.
+The recent [LiteLLM PyPI embargo](https://web.archive.org/web/20260402081221/https://futuresearch.ai/blog/litellm-attack-transcript/) shook the software development community and served as yet another reminder that dependency hygiene isn't optional.
 
 But not everyone has the ressources to audit every dependency thoroughly. Sometimes the best you can do is **just wait**. That's what **dependency standback** is all about. Before installing or upgrading software, you give it some time to "breathe" in the ecosystem. It doesn't do anything magical: it simply gives the community time to find problems before they become your problems.
 
