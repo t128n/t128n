@@ -21,5 +21,10 @@
 		"href": "https://github.com/github/how-engineering-communicates/blob/main/quick-ref.md",
 		"title": "GitHub Engineering Communication Quick Reference",
 		"description": "A quick reference guide for effective communication within Engineering teams."
+	},
+	{
+		"href": "https://oat.ink/",
+		"title": "Oat Components",
+		"description": "Semantic UI component library with zero dependencies"
 	}
 ]
