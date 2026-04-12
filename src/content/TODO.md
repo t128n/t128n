@@ -5,4 +5,3 @@
 - [ ] https://github.com/social-impact/insights/perspectives/03-17-2026-github-for-everyone
 - [ ] https://www.linkedin.com/posts/github_github-agentic-workflows-activity-7446317014798925824-WrlR?utm_medium=ios_app&rcm=ACoAAEGUOB4BzdOdFtHds1VGfN3eR_W8zRWFWss&utm_source=social_share_send&utm_campaign=share_via
 - [ ] https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
-- [ ] https://oat.ink/components/
