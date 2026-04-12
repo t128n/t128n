@@ -1,6 +1,17 @@
 ---
+const commitHash = import.meta.env.COMMIT_HASH;
 ---
 
-<footer class="w-full max-w-[50rem] px-8 py-4">
-<p class="text-xs text-dimmed font-mono tracking-tight">Copyright &copy; {new Date().getFullYear()} t128n. All rights reserved.</p>
+<footer class="w-full max-w-[50rem] px-8 py-8 flex flex-col gap-1">
+	<p class="text-xs text-dimmed font-mono tracking-tight">
+		Copyright &copy; {new Date().getFullYear()} t128n. All rights reserved.
+	</p>
+	<a
+		href={`https://github.com/t128n/t128n/commit/${commitHash}`}
+		class="text-xs text-dimmed font-mono underline underline-offset-3 hover:no-underline hover:bg-foreground hover:text-background transition-colors w-fit my-2"
+		target="_blank"
+		rel="noopener noreferrer"
+	>
+		{commitHash}
+	</a>
 </footer>

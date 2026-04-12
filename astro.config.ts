@@ -1,3 +1,5 @@
+import { execSync } from "node:child_process";
+
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
@@ -11,6 +13,8 @@ import viteTsconfigPaths from "vite-tsconfig-paths";
 import { meta } from "./src/config";
 import { remarkModifiedTime } from "./src/lib/remark-modified-time";
 import { xmlPlugin } from "./src/plugins/vite-plugin-xml";
+
+const commitHash = execSync("git rev-parse --short HEAD").toString().trim();
 
 export default defineConfig({
 	site: meta.siteUrl,
@@ -77,6 +81,9 @@ export default defineConfig({
 		sitemap(),
 	],
 	vite: {
+		define: {
+			"import.meta.env.COMMIT_HASH": JSON.stringify(commitHash),
+		},
 		ssr: {
 			external: ["satori", "sharp"],
 		},
