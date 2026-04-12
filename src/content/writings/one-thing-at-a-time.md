@@ -30,5 +30,4 @@ everything touched.
 3. **O**ff. close all distractions
 4. **W**ork until the timer ends
 
-
 [^1]: 90-minutes are a good default. Long enough to get into a flow state; not so long that people start filing a missing person report.
