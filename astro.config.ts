@@ -1,7 +1,6 @@
 import { execSync } from "node:child_process";
 
 import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import expressiveCode from "astro-expressive-code";
 import { defineConfig, fontProviders } from "astro/config";
@@ -78,7 +77,6 @@ export default defineConfig({
 			rehypePlugins: [rehypeKatex],
 		}),
 		svelte(),
-		sitemap(),
 	],
 	vite: {
 		define: {

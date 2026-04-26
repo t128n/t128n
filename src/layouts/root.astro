@@ -17,7 +17,7 @@ const {
   title = 't128n.dev',
   description = '',
   lang = 'en',
-  canonical = Astro.url.href,
+  canonical = new URL(Astro.url.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, ''), Astro.url.origin).href,
   ogImage,
   ogType = 'website',
   atUri,
