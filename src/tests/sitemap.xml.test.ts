@@ -155,7 +155,12 @@ describe("feed.xml", () => {
 	let channel: Record<string, unknown>;
 
 	function parseRss() {
-		const result = xmlParser.parse(readDist("feed.xml"));
+		const rssParser = new XMLParser({
+			ignoreAttributes: false,
+			attributeNamePrefix: "@_",
+			processEntities: false,
+		});
+		const result = rssParser.parse(readDist("feed.xml"));
 		channel = result?.rss?.channel;
 		const raw = channel?.item;
 		items = Array.isArray(raw) ? raw : [raw];
@@ -303,5 +308,11 @@ describe("homepage HTML", () => {
 		html ??= readDist("index.html");
 		const ogType = html.match(/property="og:type" content="([^"]+)"/)?.[1];
 		expect(ogType).toBe("website");
+	});
+
+	it("links to sitemap.xml", () => {
+		html ??= readDist("index.html");
+		expect(html).toContain(`rel="sitemap"`);
+		expect(html).toContain(`href="/sitemap.xml"`);
 	});
 });
