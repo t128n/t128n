@@ -20,7 +20,7 @@ So how long should you wait? A grace period of **7-14 days** is a solid default.
 
 Most modern package managers expose standback natively, with varying degrees of control. The JS ecosystem is the most mature here: npm covers the basics with `--min-release-age`, pnpm goes further with per-package exclusions via `minimumReleaseAgeExclude` — useful for whitelisting internal or trusted packages — and bun offers the finest granularity of the three, configuring the age gate down to the second.
 
-On the Python side, uv supports standback out of the box via `--exclude-newer`. pip requires a bit more work: it only accepts an absolute date natively, but a small shell wrapper makes relative dates work just as well.
+On the Python side, uv supports standback out of the box via `--exclude-newer`. pip originally only accepted absolute dates, but as of version 26.1, it natively supports relative durations via the `PnD` format[^1].
 
 The OS and runtime layer is where things get inconsistent. [mise](https://mise.jdx.dev/) handles it well, supporting both relative durations and absolute timestamps. brew and winget, however, don't support standback at all. Their maintainers argue that existing review cycles make it unnecessary, a position [Andrew Nesbitt expands on](https://nesbitt.io/2026/03/04/package-managers-need-to-cool-down.html). I'm not fully convinced. Slip-ups happen, and malicious actors are patient. A review cycle and a grace period don't have to be mutually exclusive.
 
@@ -145,12 +145,19 @@ exclude-newer = "2026-01-01T00:00:00Z"
 
 #### pip
 
-- `--uploaded-prior-to` (`date`): Absolute timestamp before which packages must have been published.
-- `PIP_UPLOADED_PRIOR_TO` (`env`): Global equivalent of `--uploaded-prior-to`, evaluated on every run.
+- `--uploaded-prior-to` (`date | duration`): Absolute timestamp or relative duration (since pip 26.1).
+- `PIP_UPLOADED_PRIOR_TO` (`env`): Global equivalent of `--uploaded-prior-to`.
 
-pip only accepts an absolute date natively. A small shell expression makes relative dates work:
+As of pip 26.1, the `PnD` format (where `n` is the number of days) is supported for relative durations. For older versions or more complex offsets, a shell expression is still required:
 
 ```bash frame="terminal" title="CLI usage"
+# Native relative duration (pip 26.1+)
+pip install litellm --uploaded-prior-to P7D
+
+# Absolute timestamp
+pip install litellm --uploaded-prior-to 2026-01-01T00:00:00Z
+
+# Shell wrapper (pre-26.1)
 pip install litellm --uploaded-prior-to $(date -v-3d "+%Y-%m-%dT%H:%M:%SZ")
 ```
 
@@ -158,12 +165,16 @@ pip install litellm --uploaded-prior-to $(date -v-3d "+%Y-%m-%dT%H:%M:%SZ")
 
 ```sh frame="code"
 <!-- .bashrc -->
+# pip 26.1+
+export PIP_UPLOADED_PRIOR_TO="P7D"
+
+# pre-26.1
 export PIP_UPLOADED_PRIOR_TO=$(date -u -v-3d "+%Y-%m-%dT%H:%M:%SZ")
 ```
 
 ```powershell frame="code"
 <!-- profile.ps1 -->
-$env:PIP_UPLOADED_PRIOR_TO = (Get-Date).ToUniversalTime().AddDays(-3).ToString('yyyy-MM-ddTHH:mm:ssZ')
+$env:PIP_UPLOADED_PRIOR_TO = "P7D"
 ```
 
 ### OS & Runtime
@@ -181,3 +192,5 @@ install_before = "7d"
 #### brew & winget
 
 Not supported, and not planned.
+
+[^1]: https://ichard26.github.io/blog/2026/04/whats-new-in-pip-26.1/#dependency-cooldowns
