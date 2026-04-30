@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { XMLParser } from "fast-xml-parser";
@@ -16,6 +16,10 @@ const xmlParser = new XMLParser({
 
 function readDist(file: string): string {
 	return readFileSync(resolve(DIST, file), "utf-8");
+}
+
+function distExists(file: string): boolean {
+	return existsSync(resolve(DIST, file));
 }
 
 type SitemapUrl = { loc: string; lastmod?: string };
@@ -40,7 +44,7 @@ describe("sitemap.xml", () => {
 		urls ??= parseSitemap();
 		const locs = urls.map((u) => u.loc);
 		for (const path of [
-			"",
+			"/",
 			"/writing",
 			"/bookmarks",
 			"/blogroll",
@@ -255,7 +259,7 @@ describe("writing page HTML", () => {
 			let html: string;
 
 			it("canonical URL has no .html extension", () => {
-				html = readDist(`writing/${slug}.html`);
+				html = readDist(`writing/${slug}/index.html`);
 				const canonical = getCanonical(html);
 				expect(canonical).toBeDefined();
 				expect(canonical).not.toMatch(/\.html/);
@@ -263,7 +267,7 @@ describe("writing page HTML", () => {
 			});
 
 			it("og:url has no .html extension", () => {
-				html ??= readDist(`writing/${slug}.html`);
+				html ??= readDist(`writing/${slug}/index.html`);
 				const ogUrl = getMeta(html, 'property="og:url"');
 				expect(ogUrl).toBeDefined();
 				expect(getAttr(ogUrl!, "content")).toBe(
@@ -272,21 +276,25 @@ describe("writing page HTML", () => {
 			});
 
 			it("og:type is article", () => {
-				html ??= readDist(`writing/${slug}.html`);
+				html ??= readDist(`writing/${slug}/index.html`);
 				const ogType = getMeta(html, 'property="og:type"');
 				expect(getAttr(ogType!, "content")).toBe("article");
 			});
 
 			it("has a meta description", () => {
-				html ??= readDist(`writing/${slug}.html`);
+				html ??= readDist(`writing/${slug}/index.html`);
 				const desc = getMeta(html, 'name="description"');
 				expect(desc).toBeDefined();
 				expect(getAttr(desc!, "content")?.length).toBeGreaterThan(0);
 			});
 
 			it("title includes site suffix", () => {
-				html ??= readDist(`writing/${slug}.html`);
+				html ??= readDist(`writing/${slug}/index.html`);
 				expect(html).toMatch(/<title>[^<]+ @ t128n\.dev<\/title>/);
+			});
+
+			it("does not emit a sibling .html file", () => {
+				expect(distExists(`writing/${slug}.html`)).toBe(false);
 			});
 		});
 	}

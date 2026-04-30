@@ -17,12 +17,13 @@ const commitHash = execSync("git rev-parse --short HEAD").toString().trim();
 
 export default defineConfig({
 	site: meta.siteUrl,
+	trailingSlash: "never",
 	markdown: {
 		remarkPlugins: [remarkModifiedTime, remarkMath],
 		rehypePlugins: [rehypeKatex],
 	},
 	build: {
-		format: "file",
+		format: "directory",
 	},
 	fonts: [
 		{

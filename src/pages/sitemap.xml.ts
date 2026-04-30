@@ -31,7 +31,13 @@ export const GET: APIRoute = async ({ site }) => {
 		}),
 	);
 
-	const staticPages = ["", "/writing", "/bookmarks", "/blogroll", "/podroll"];
+	const staticPages = [
+		"/",
+		"/writing",
+		"/bookmarks",
+		"/blogroll",
+		"/podroll",
+	];
 
 	const staticEntries = staticPages
 		.map((path) => `  <url><loc>${base}${path}</loc></url>`)
