@@ -1,0 +1,33 @@
+---
+import Page from '~/layouts/page.astro';
+import Breadcrumb from '~/components/breadcrumb.astro';
+import Button from '~/components/ui/button.astro';
+
+export const meta = {
+    title: 'Tools',
+    description: 'Collection of tools for various purposes.',
+    icon: 'i-gg:toolbox'
+};
+---
+
+<Page title={meta.title} description={meta.description}>
+  <Fragment slot="bleed">
+    <Breadcrumb
+      items={[
+        { href: '/', label: 't128n.dev' },
+        { label: 'tools' },
+      ]}
+    />
+  </Fragment>
+  <ul class="flex flex-col items-start gap-1">
+    <li>
+      <Button href="/tools/timespan" icon="i-gg:time" class="w-56" size="lg">timespan calculator</Button>
+    </li>
+    <li>
+      <Button href="/tools/clock" icon="i-gg:play-button" class="w-56" size="lg">clock in / out</Button>
+    </li>
+    <li>
+      <Button href="/tools/timezone" icon="i-gg:globe-alt" class="w-56" size="lg">timezone</Button>
+    </li>
+  </ul>
+</Page>

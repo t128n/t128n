@@ -1,0 +1,171 @@
+---
+import Page from '~/layouts/page.astro';
+import Breadcrumb from '~/components/breadcrumb.astro';
+
+export const meta = {
+	title: 'Timespan Calculator',
+	description: 'Calculate duration between two times.',
+	icon: 'i-gg:time',
+};
+---
+
+<Page title={meta.title} description={meta.description}>
+	<Fragment slot="bleed">
+		<Breadcrumb
+			items={[
+				{ href: '/', label: 't128n.dev' },
+				{ href: '/tools', label: 'tools' },
+				{ label: 'timespan calculator' },
+			]}
+		/>
+	</Fragment>
+	<section class="flex flex-col gap-4">
+		<div class="flex flex-col gap-2 border border-default p-4">
+			<label class="flex flex-col gap-2" for="timespan-input">
+				<span class="text-sm text-muted">Range</span>
+				<input
+					id="timespan-input"
+					type="text"
+					inputmode="text"
+					placeholder="06:45 - 15:14"
+					class="w-full border border-default bg-transparent px-3 py-2 font-mono focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
+				/>
+			</label>
+			<p id="timespan-hint" class="text-sm text-muted">
+				Supported formats: <code>HH:MM - HH:MM</code> or plain numbers separated by <code>-</code>.
+			</p>
+			<div id="timespan-result" class="flex flex-col gap-1" aria-live="polite">
+				<p class="font-mono text-lg">No result yet.</p>
+				<p class="text-sm text-muted">Type a valid range to see the duration.</p>
+			</div>
+		</div>
+	</section>
+
+	<script is:inline>
+		const rangeInput = document.querySelector('#timespan-input');
+		const rangeResult = document.querySelector('#timespan-result');
+
+		const formatSignedNumber = (value) => {
+			const absolute = Math.abs(value);
+			const formatted = Number.isInteger(absolute) ? absolute.toString() : absolute.toFixed(2).replace(/\.?0+$/, '');
+			return `${value < 0 ? '-' : ''}${formatted}`;
+		};
+
+		const formatMinutesBreakdown = (totalMinutes) => {
+			const absoluteMinutes = Math.abs(totalMinutes);
+			const hours = Math.floor(absoluteMinutes / 60);
+			const minutes = absoluteMinutes % 60;
+			const sign = totalMinutes < 0 ? '-' : '';
+
+			if (hours === 0) {
+				return `${sign}${minutes} minute${minutes === 1 ? '' : 's'}`;
+			}
+
+			if (minutes === 0) {
+				return `${sign}${hours} hour${hours === 1 ? '' : 's'}`;
+			}
+
+			return `${sign}${hours} hour${hours === 1 ? '' : 's'} ${minutes} minute${minutes === 1 ? '' : 's'}`;
+		};
+
+		const renderRangeResult = (markup) => {
+			rangeResult.innerHTML = markup;
+		};
+
+		const parseRange = (value) => {
+			const match = value.match(/^(.+?)\s*-\s*(.+)$/);
+
+			if (!match) {
+				return null;
+			}
+
+			const start = match[1].trim();
+			const end = match[2].trim();
+			const timePattern = /^\d{1,2}:\d{2}$/;
+
+			if (timePattern.test(start) && timePattern.test(end)) {
+				const toMinutes = (timeValue) => {
+					const [hoursText, minutesText] = timeValue.split(':');
+					const hours = Number.parseInt(hoursText, 10);
+					const minutes = Number.parseInt(minutesText, 10);
+
+					if (hours > 23 || minutes > 59) {
+						return null;
+					}
+
+					return (hours * 60) + minutes;
+				};
+
+				const startMinutes = toMinutes(start);
+				const endMinutes = toMinutes(end);
+
+				if (startMinutes === null || endMinutes === null) {
+					return null;
+				}
+
+				return {
+					type: 'time',
+					start,
+					end,
+					difference: endMinutes - startMinutes,
+				};
+			}
+
+			const startNumber = Number.parseFloat(start);
+			const endNumber = Number.parseFloat(end);
+
+			if (!Number.isNaN(startNumber) && !Number.isNaN(endNumber)) {
+				return {
+					type: 'number',
+					start: startNumber,
+					end: endNumber,
+					difference: endNumber - startNumber,
+				};
+			}
+
+			return null;
+		};
+
+		const updateRangeCalculation = () => {
+			const value = rangeInput instanceof HTMLInputElement ? rangeInput.value.trim() : '';
+
+			if (!value) {
+				renderRangeResult(`
+					<p class="font-mono text-lg">No result yet.</p>
+					<p class="text-sm text-muted">Type a valid range to see the duration.</p>
+				`);
+				return;
+			}
+
+			const parsed = parseRange(value);
+
+			if (!parsed) {
+				renderRangeResult(`
+					<p class="font-mono text-lg">Invalid range.</p>
+					<p class="text-sm text-muted">Use either <code>15 - 18</code> or <code>06:45 - 15:14</code>.</p>
+				`);
+				return;
+			}
+
+			if (parsed.type === 'number') {
+				renderRangeResult(`
+					<p class="font-mono text-lg">${formatSignedNumber(parsed.difference)}</p>
+					<p class="text-sm text-muted">Difference between ${formatSignedNumber(parsed.start)} and ${formatSignedNumber(parsed.end)}.</p>
+				`);
+				return;
+			}
+
+			const hours = parsed.difference / 60;
+			const formattedHours = Number.isInteger(hours) ? hours.toString() : hours.toFixed(2).replace(/\.?0+$/, '');
+
+			renderRangeResult(`
+				<p class="font-mono text-lg">${formatMinutesBreakdown(parsed.difference)}</p>
+				<p class="text-sm text-muted">${parsed.difference} minutes total · ${formattedHours} hours</p>
+			`);
+		};
+
+		rangeInput?.addEventListener('input', updateRangeCalculation);
+
+		updateRangeCalculation();
+	</script>
+</Page>

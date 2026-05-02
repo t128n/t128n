@@ -1,0 +1,154 @@
+---
+import Page from '~/layouts/page.astro';
+import Breadcrumb from '~/components/breadcrumb.astro';
+import Button from '~/components/ui/button.astro';
+
+export const meta = {
+	title: 'Clock',
+	description: 'Simple clock tool to track durations.',
+	icon: 'i-gg:play-button',
+};
+---
+
+<Page title={meta.title} description={meta.description}>
+	<Fragment slot="bleed">
+		<Breadcrumb
+			items={[
+				{ href: '/', label: 't128n.dev' },
+				{ href: '/tools', label: 'tools' },
+				{ label: 'clock' },
+			]}
+		/>
+	</Fragment>
+	<section class="flex flex-col gap-4">
+		<div class="flex flex-col gap-3 border border-default p-4">
+			<div class="grid gap-3 md:grid-cols-2">
+				<div class="flex flex-col gap-1">
+					<p class="text-sm text-muted">Clocked in</p>
+					<p id="clock-in-display" class="font-mono">Not set</p>
+				</div>
+				<div class="flex flex-col gap-1">
+					<p class="text-sm text-muted">Clocked out</p>
+					<p id="clock-out-display" class="font-mono">Not set</p>
+				</div>
+			</div>
+
+			<div class="flex flex-wrap gap-x-4 gap-y-2">
+				<Button id="clock-in-button" icon="i-gg:play-button" size="md" type="button">Clock in</Button>
+				<Button id="clock-out-button" icon="i-gg:stop" size="md" type="button">Clock out</Button>
+				<Button id="clock-clear-button" icon="i-gg:trash-empty" size="md" type="button">Clear</Button>
+			</div>
+
+			<div id="clock-result" class="flex flex-col gap-1 border-t border-default pt-3" aria-live="polite">
+				<p class="font-mono text-lg">No saved duration yet.</p>
+				<p class="text-sm text-muted">Use the buttons above to capture timestamps.</p>
+			</div>
+		</div>
+	</section>
+
+	<script is:inline>
+		const storageKey = 'tools:clock:state';
+
+		const clockInDisplay = document.querySelector('#clock-in-display');
+		const clockOutDisplay = document.querySelector('#clock-out-display');
+		const clockResult = document.querySelector('#clock-result');
+		const clockInButton = document.querySelector('#clock-in-button');
+		const clockOutButton = document.querySelector('#clock-out-button');
+		const clockClearButton = document.querySelector('#clock-clear-button');
+
+		const renderClockResult = (markup) => {
+			clockResult.innerHTML = markup;
+		};
+
+		const formatMinutesBreakdown = (totalMinutes) => {
+			const absoluteMinutes = Math.abs(totalMinutes);
+			const hours = Math.floor(absoluteMinutes / 60);
+			const minutes = absoluteMinutes % 60;
+			const sign = totalMinutes < 0 ? '-' : '';
+
+			if (hours === 0) {
+				return `${sign}${minutes} minute${minutes === 1 ? '' : 's'}`;
+			}
+
+			if (minutes === 0) {
+				return `${sign}${hours} hour${hours === 1 ? '' : 's'}`;
+			}
+
+			return `${sign}${hours} hour${hours === 1 ? '' : 's'} ${minutes} minute${minutes === 1 ? '' : 's'}`;
+		};
+
+		const readClockState = () => {
+			try {
+				const rawValue = window.localStorage.getItem(storageKey);
+				return rawValue ? JSON.parse(rawValue) : {};
+			} catch {
+				return {};
+			}
+		};
+
+		const writeClockState = (state) => {
+			window.localStorage.setItem(storageKey, JSON.stringify(state));
+		};
+
+		const formatTimestamp = (value) => {
+			if (!value) {
+				return 'Not set';
+			}
+
+			return new Date(value).toLocaleString();
+		};
+
+		const updateClockDisplay = () => {
+			const state = readClockState();
+			const clockIn = typeof state.clockIn === 'number' ? state.clockIn : null;
+			const clockOut = typeof state.clockOut === 'number' ? state.clockOut : null;
+
+			clockInDisplay.textContent = formatTimestamp(clockIn);
+			clockOutDisplay.textContent = formatTimestamp(clockOut);
+
+			if (!clockIn || !clockOut) {
+				renderClockResult(`
+					<p class="font-mono text-lg">No saved duration yet.</p>
+					<p class="text-sm text-muted">Use the buttons above to capture timestamps.</p>
+				`);
+				return;
+			}
+
+			const differenceMinutes = Math.round((clockOut - clockIn) / 60000);
+			const differenceHours = differenceMinutes / 60;
+			const formattedHours = Number.isInteger(differenceHours)
+				? differenceHours.toString()
+				: differenceHours.toFixed(2).replace(/\.?0+$/, '');
+
+			renderClockResult(`
+				<p class="font-mono text-lg">${formatMinutesBreakdown(differenceMinutes)}</p>
+				<p class="text-sm text-muted">${differenceMinutes} minutes total · ${formattedHours} hours</p>
+			`);
+		};
+
+		clockInButton?.addEventListener('click', () => {
+			const state = readClockState();
+			writeClockState({
+				...state,
+				clockIn: Date.now(),
+			});
+			updateClockDisplay();
+		});
+
+		clockOutButton?.addEventListener('click', () => {
+			const state = readClockState();
+			writeClockState({
+				...state,
+				clockOut: Date.now(),
+			});
+			updateClockDisplay();
+		});
+
+		clockClearButton?.addEventListener('click', () => {
+			window.localStorage.removeItem(storageKey);
+			updateClockDisplay();
+		});
+
+		updateClockDisplay();
+	</script>
+</Page>

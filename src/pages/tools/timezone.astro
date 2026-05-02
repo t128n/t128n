@@ -1,0 +1,463 @@
+---
+import Page from '~/layouts/page.astro';
+import Breadcrumb from '~/components/breadcrumb.astro';
+
+export const meta = {
+	title: 'Timezone',
+	description: 'Convert a time or timespan across timezones.',
+	icon: 'i-gg:globe-alt',
+};
+---
+
+<Page title={meta.title} description={meta.description}>
+	<Fragment slot="bleed">
+		<Breadcrumb
+			items={[
+				{ href: '/', label: 't128n.dev' },
+				{ href: '/tools', label: 'tools' },
+				{ label: 'timezone' },
+			]}
+		/>
+	</Fragment>
+
+	<section class="flex flex-col gap-4">
+		<div id="timezone-summary" class="flex flex-col gap-2 border border-default p-4" aria-live="polite"></div>
+		<div id="timezone-errors" class="flex flex-col gap-1 text-sm" aria-live="polite"></div>
+		<div id="timezone-results" class="flex flex-col gap-3" aria-live="polite"></div>
+
+		<hr class="h-px border-0 bg-muted" />
+		<p class="text-muted text-sm">
+			Use <code>?time=13:00</code> or <code>?timespan=13:00-15:00</code>. Optionally set <code>?zone=utc</code> for the
+			source zone and <code>?zones=utc,cest,cdt</code> for the output list. Conversions are date-independent and use
+			fixed offsets, not calendar dates.
+		</p>
+	</section>
+
+	<script>
+		import { Temporal } from '@js-temporal/polyfill';
+
+		type ZoneDefinition = {
+			input: string;
+			label: string;
+			canonical: string;
+			offsetMinutes: number;
+			offsetText: string;
+		};
+
+		type TimespanValue = {
+			start: Temporal.PlainTime;
+			end: Temporal.PlainTime;
+		};
+
+		type RenderItem = {
+			label: string;
+			canonical: string;
+			primary: string;
+			secondary: string;
+		};
+
+		type RenderMode = 'time' | 'timespan' | null;
+
+		const DEFAULT_ZONE = 'utc';
+		const DEFAULT_ZONES = ['utc', 'cest', 'cdt', 'jst', 'aest'];
+		const MINUTES_PER_DAY = 24 * 60;
+
+		const ZONE_ALIASES: Record<string, { label: string; offsetMinutes: number }> = {
+			utc: { label: 'UTC', offsetMinutes: 0 },
+			gmt: { label: 'GMT', offsetMinutes: 0 },
+			cet: { label: 'CET', offsetMinutes: 60 },
+			cest: { label: 'CEST', offsetMinutes: 120 },
+			eet: { label: 'EET', offsetMinutes: 120 },
+			eest: { label: 'EEST', offsetMinutes: 180 },
+			bst: { label: 'BST', offsetMinutes: 60 },
+			est: { label: 'EST', offsetMinutes: -300 },
+			edt: { label: 'EDT', offsetMinutes: -240 },
+			cst: { label: 'CST', offsetMinutes: -360 },
+			cdt: { label: 'CDT', offsetMinutes: -300 },
+			mst: { label: 'MST', offsetMinutes: -420 },
+			mdt: { label: 'MDT', offsetMinutes: -360 },
+			pst: { label: 'PST', offsetMinutes: -480 },
+			pdt: { label: 'PDT', offsetMinutes: -420 },
+			ist: { label: 'IST', offsetMinutes: 330 },
+			jst: { label: 'JST', offsetMinutes: 540 },
+			hkt: { label: 'HKT', offsetMinutes: 480 },
+			aest: { label: 'AEST', offsetMinutes: 600 },
+			aedt: { label: 'AEDT', offsetMinutes: 660 },
+			nzst: { label: 'NZST', offsetMinutes: 720 },
+			nzdt: { label: 'NZDT', offsetMinutes: 780 },
+		};
+
+		const getContainer = (selector: string): HTMLDivElement => {
+			const element = document.querySelector<HTMLDivElement>(selector);
+			if (!element) {
+				throw new Error(`Missing container: ${selector}`);
+			}
+			return element;
+		};
+
+		const summaryElement = getContainer('#timezone-summary');
+		const errorsElement = getContainer('#timezone-errors');
+		const resultsElement = getContainer('#timezone-results');
+
+		const normalizeSpace = (value: string): string => value.trim().replace(/\s+/g, '');
+
+		const escapeHtml = (value: string): string => value
+			.replaceAll('&', '&amp;')
+			.replaceAll('<', '&lt;')
+			.replaceAll('>', '&gt;')
+			.replaceAll('"', '&quot;')
+			.replaceAll("'", '&#39;');
+
+		const formatOffset = (offsetMinutes: number): string => {
+			const sign = offsetMinutes >= 0 ? '+' : '-';
+			const absoluteMinutes = Math.abs(offsetMinutes);
+			const hours = String(Math.floor(absoluteMinutes / 60)).padStart(2, '0');
+			const minutes = String(absoluteMinutes % 60).padStart(2, '0');
+			return `UTC${sign}${hours}:${minutes}`;
+		};
+
+		const parseOffsetToken = (value: string): ZoneDefinition | null => {
+			const raw = value.trim();
+			const compact = raw.toLowerCase();
+			const match = compact.match(/^(?:utc|gmt)?([+-])(\d{1,2})(?::?(\d{2}))?$/);
+
+			if (!match) {
+				return null;
+			}
+
+			const hours = Number.parseInt(match[2], 10);
+			const minutes = Number.parseInt(match[3] ?? '0', 10);
+
+			if (hours > 23 || minutes > 59) {
+				return null;
+			}
+
+			const sign = match[1] === '+' ? 1 : -1;
+			const offsetMinutes = sign * ((hours * 60) + minutes);
+			const offsetText = formatOffset(offsetMinutes);
+
+			return {
+				input: raw,
+				label: offsetText,
+				canonical: offsetText,
+				offsetMinutes,
+				offsetText,
+			};
+		};
+
+		const resolveZone = (value: string): ZoneDefinition | null => {
+			const raw = value.trim();
+
+			if (!raw) {
+				return null;
+			}
+
+			const alias = ZONE_ALIASES[raw.toLowerCase()];
+			if (alias) {
+				return {
+					input: raw,
+					label: alias.label,
+					canonical: formatOffset(alias.offsetMinutes),
+					offsetMinutes: alias.offsetMinutes,
+					offsetText: formatOffset(alias.offsetMinutes),
+				};
+			}
+
+			return parseOffsetToken(raw);
+		};
+
+		const parseTimeValue = (value: string): Temporal.PlainTime | null => {
+			const match = normalizeSpace(value).match(/^(\d{1,2}):(\d{2})$/);
+
+			if (!match) {
+				return null;
+			}
+
+			const hour = Number.parseInt(match[1], 10);
+			const minute = Number.parseInt(match[2], 10);
+
+			if (hour > 23 || minute > 59) {
+				return null;
+			}
+
+			return Temporal.PlainTime.from({ hour, minute });
+		};
+
+		const parseTimespanValue = (value: string): TimespanValue | null => {
+			const compact = normalizeSpace(value);
+			const match = compact.match(/^(.+?)-(.+)$/);
+
+			if (!match) {
+				return null;
+			}
+
+			const start = parseTimeValue(match[1]);
+			const end = parseTimeValue(match[2]);
+
+			if (!start || !end) {
+				return null;
+			}
+
+			return { start, end };
+		};
+
+		const dedupeZones = (entries: ZoneDefinition[]): ZoneDefinition[] => {
+			const seen = new Set<string>();
+
+			return entries.filter((entry) => {
+				const identity = `${entry.label}:${entry.offsetMinutes}`;
+				if (seen.has(identity)) {
+					return false;
+				}
+
+				seen.add(identity);
+				return true;
+			});
+		};
+
+		const plainTimeToMinutes = (value: Temporal.PlainTime): number => (value.hour * 60) + value.minute;
+
+		const wrapMinutes = (value: number): { dayDelta: number; minuteOfDay: number } => {
+			const dayDelta = Math.floor(value / MINUTES_PER_DAY);
+			const minuteOfDay = ((value % MINUTES_PER_DAY) + MINUTES_PER_DAY) % MINUTES_PER_DAY;
+			return { dayDelta, minuteOfDay };
+		};
+
+		const minutesToPlainTime = (value: number): Temporal.PlainTime => {
+			const hour = Math.floor(value / 60);
+			const minute = value % 60;
+			return Temporal.PlainTime.from({ hour, minute });
+		};
+
+		const formatPlainTime = (value: Temporal.PlainTime): string => {
+			const hour = String(value.hour).padStart(2, '0');
+			const minute = String(value.minute).padStart(2, '0');
+			return `${hour}:${minute}`;
+		};
+
+		const formatRelativeDay = (value: number): string => {
+			if (value === 0) {
+				return 'same day';
+			}
+
+			if (value === 1) {
+				return '+1 day';
+			}
+
+			if (value === -1) {
+				return '-1 day';
+			}
+
+			return `${value > 0 ? '+' : ''}${value} days`;
+		};
+
+		const formatDuration = (totalMinutes: number): string => {
+			const hours = Math.floor(totalMinutes / 60);
+			const minutes = totalMinutes % 60;
+
+			if (hours === 0) {
+				return `${minutes} minute${minutes === 1 ? '' : 's'}`;
+			}
+
+			if (minutes === 0) {
+				return `${hours} hour${hours === 1 ? '' : 's'}`;
+			}
+
+			return `${hours} hour${hours === 1 ? '' : 's'} ${minutes} minute${minutes === 1 ? '' : 's'}`;
+		};
+
+		const renderErrors = (errors: string[]): void => {
+			if (!errors.length) {
+				errorsElement.innerHTML = '';
+				return;
+			}
+
+			errorsElement.innerHTML = errors
+				.map((error) => `<p class="border border-default p-3">${escapeHtml(error)}</p>`)
+				.join('');
+		};
+
+		const renderResults = (items: RenderItem[]): void => {
+			if (!items.length) {
+				resultsElement.innerHTML = `
+					<div class="border border-default p-4">
+						<p class="font-mono text-lg">No conversion yet.</p>
+						<p class="text-sm text-muted">Provide either a time or a timespan in the URL or in the fields above.</p>
+					</div>
+				`;
+				return;
+			}
+
+			resultsElement.innerHTML = items.map((item) => `
+				<article class="flex flex-col gap-2 border border-default p-4">
+					<div class="flex flex-wrap items-baseline justify-between gap-2">
+						<h3 class="text-xl">${escapeHtml(item.label)}</h3>
+						<p class="font-mono text-sm text-muted">${escapeHtml(item.canonical)}</p>
+					</div>
+					<p class="font-mono text-lg">${escapeHtml(item.primary)}</p>
+					<p class="text-sm text-muted">${escapeHtml(item.secondary)}</p>
+				</article>
+			`).join('');
+		};
+
+		const readStateFromUrl = (): { zone: string; zones: string; time: string; timespan: string } => {
+			const params = new URLSearchParams(window.location.search);
+			return {
+				zone: params.get('zone') ?? DEFAULT_ZONE,
+				zones: params.get('zones') ?? DEFAULT_ZONES.join(','),
+				time: params.get('time') ?? '',
+				timespan: params.get('timespan') ?? '',
+			};
+		};
+
+		const renderSummary = (
+			sourceZone: ZoneDefinition,
+			mode: RenderMode,
+			selectedZones: ZoneDefinition[],
+			state: { zone: string; zones: string; time: string; timespan: string },
+		): void => {
+			const subject = mode === 'timespan'
+				? `<code>${escapeHtml(state.timespan)}</code>`
+				: mode === 'time'
+					? `<code>${escapeHtml(state.time)}</code>`
+					: '<code>?time=13:00</code> or <code>?timespan=13:00-15:00</code>';
+
+			summaryElement.innerHTML = `
+				<p class="font-mono text-lg">${subject}</p>
+				<p class="text-sm text-muted">Source zone: ${escapeHtml(sourceZone.label)} (${escapeHtml(sourceZone.offsetText)})</p>
+				<p class="text-sm text-muted">Showing ${selectedZones.length} zone${selectedZones.length === 1 ? '' : 's'} from <code>?zones=${escapeHtml(state.zones || DEFAULT_ZONES.join(','))}</code>.</p>
+			`;
+		};
+
+		const resolveSelectedZones = (rawZones: string, sourceZone: ZoneDefinition, errors: string[]): ZoneDefinition[] => {
+			const zoneTokens = rawZones
+				.split(',')
+				.map((value: string) => value.trim())
+				.filter(Boolean);
+
+			const inputZones = zoneTokens.length ? zoneTokens : DEFAULT_ZONES;
+			const resolved: ZoneDefinition[] = [];
+
+			for (const token of inputZones) {
+				const zone = resolveZone(token);
+
+				if (!zone) {
+					errors.push(`Unknown output zone: ${token}`);
+					continue;
+				}
+
+				resolved.push(zone);
+			}
+
+			if (!resolved.length) {
+				resolved.push(sourceZone);
+			}
+
+			return dedupeZones(resolved);
+		};
+
+		const buildSingleTimeResults = (
+			sourceZone: ZoneDefinition,
+			selectedZones: ZoneDefinition[],
+			sourceTime: Temporal.PlainTime,
+		): RenderItem[] => {
+			const sourceMinutes = plainTimeToMinutes(sourceTime);
+
+			return selectedZones.map((zone: ZoneDefinition) => {
+				const absoluteMinutes = sourceMinutes - sourceZone.offsetMinutes + zone.offsetMinutes;
+				const wrapped = wrapMinutes(absoluteMinutes);
+				const convertedTime = minutesToPlainTime(wrapped.minuteOfDay);
+
+				return {
+					label: zone.label,
+					canonical: zone.offsetText,
+					primary: `${formatPlainTime(convertedTime)} (${formatRelativeDay(wrapped.dayDelta)})`,
+					secondary: `Source ${formatPlainTime(sourceTime)} in ${sourceZone.label}`,
+				};
+			});
+		};
+
+		const buildTimespanResults = (
+			sourceZone: ZoneDefinition,
+			selectedZones: ZoneDefinition[],
+			parsedTimespan: TimespanValue,
+		): RenderItem[] => {
+			const startMinutes = plainTimeToMinutes(parsedTimespan.start);
+			const rawEndMinutes = plainTimeToMinutes(parsedTimespan.end);
+			const endMinutes = rawEndMinutes >= startMinutes ? rawEndMinutes : rawEndMinutes + MINUTES_PER_DAY;
+			const durationMinutes = endMinutes - startMinutes;
+
+			return selectedZones.map((zone: ZoneDefinition) => {
+				const convertedStart = wrapMinutes(startMinutes - sourceZone.offsetMinutes + zone.offsetMinutes);
+				const convertedEnd = wrapMinutes(endMinutes - sourceZone.offsetMinutes + zone.offsetMinutes);
+
+				return {
+					label: zone.label,
+					canonical: zone.offsetText,
+					primary: `${formatPlainTime(minutesToPlainTime(convertedStart.minuteOfDay))} (${formatRelativeDay(convertedStart.dayDelta)}) - ${formatPlainTime(minutesToPlainTime(convertedEnd.minuteOfDay))} (${formatRelativeDay(convertedEnd.dayDelta)})`,
+					secondary: `${formatDuration(durationMinutes)} total`,
+				};
+			});
+		};
+
+		const render = (): void => {
+			const rawState = readStateFromUrl();
+			const state = {
+				zone: rawState.zone.trim().toLowerCase() || DEFAULT_ZONE,
+				zones: rawState.zones.trim() || DEFAULT_ZONES.join(','),
+				time: normalizeSpace(rawState.time),
+				timespan: normalizeSpace(rawState.timespan),
+			};
+
+			const errors: string[] = [];
+			const sourceZone = resolveZone(state.zone);
+
+			if (!sourceZone) {
+				errors.push(`Unknown source zone: ${state.zone}`);
+				renderErrors(errors);
+				renderResults([]);
+				summaryElement.innerHTML = '';
+				return;
+			}
+
+			const selectedZones = resolveSelectedZones(state.zones, sourceZone, errors);
+			const parsedTimespan = state.timespan ? parseTimespanValue(state.timespan) : null;
+			const parsedTime = state.time ? parseTimeValue(state.time) : null;
+
+			if (state.timespan && !parsedTimespan) {
+				errors.push(`Invalid timespan: ${state.timespan}`);
+			}
+
+			if (!state.timespan && state.time && !parsedTime) {
+				errors.push(`Invalid time: ${state.time}`);
+			}
+
+			renderErrors(errors);
+
+			if (errors.length) {
+				renderResults([]);
+				renderSummary(sourceZone, null, selectedZones, state);
+				return;
+			}
+
+			if (parsedTimespan) {
+				renderSummary(sourceZone, 'timespan', selectedZones, state);
+				renderResults(buildTimespanResults(sourceZone, selectedZones, parsedTimespan));
+				return;
+			}
+
+			if (parsedTime) {
+				renderSummary(sourceZone, 'time', selectedZones, state);
+				renderResults(buildSingleTimeResults(sourceZone, selectedZones, parsedTime));
+				return;
+			}
+
+			renderSummary(sourceZone, null, selectedZones, state);
+			renderResults([]);
+		};
+
+		window.addEventListener('popstate', render);
+
+		render();
+	</script>
+</Page>
