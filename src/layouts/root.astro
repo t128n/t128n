@@ -1,5 +1,6 @@
 ---
-import { createHead, renderSSRHead } from 'unhead/server';
+import { defineLink } from 'unhead';
+import { createHead } from 'unhead/server';
 import { Font } from 'astro:assets';
 import { useVerify } from '~/composables/use-verify';
 
@@ -67,11 +68,11 @@ head.push({
       crossorigin: 'anonymous',
     },
     ...useVerify(),
-    ...(atUri ? [{ rel: 'site.standard.document', href: atUri }] : []),
+    ...(atUri ? [defineLink({ rel: 'site.standard.document', href: atUri })] : []),
   ],
 });
 
-const { headTags, bodyAttrs, bodyTagsOpen  } = await renderSSRHead(head);
+const { headTags, bodyAttrs, bodyTagsOpen } = head.render();
 ---
 
 <!doctype html>
