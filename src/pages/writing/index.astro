@@ -4,7 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
 import { postUrl } from "@/lib/posts";
 
-const posts = (await getCollection("blog", ({ data }) => {
+const posts = (await getCollection("writing", ({ data }) => {
   return import.meta.env.PROD ? !data.draft : true;
 })).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---

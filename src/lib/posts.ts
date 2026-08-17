@@ -3,7 +3,7 @@ import type { CollectionEntry } from "astro:content";
 // Shared by the post-detail route and the archive listing so the URL shape
 // (/YYYY/MM/slug/) is computed in exactly one place.
 
-export function postUrlParams(post: CollectionEntry<"blog">) {
+export function postUrlParams(post: CollectionEntry<"writing">) {
   const { pubDate } = post.data;
   return {
     // UTC, not local time: pubDate is a date-only value (e.g. "2026-08-17")
@@ -15,7 +15,7 @@ export function postUrlParams(post: CollectionEntry<"blog">) {
   };
 }
 
-export function postUrl(post: CollectionEntry<"blog">) {
+export function postUrl(post: CollectionEntry<"writing">) {
   const { year, month, slug } = postUrlParams(post);
   return `/${year}/${month}/${slug}/`;
 }
