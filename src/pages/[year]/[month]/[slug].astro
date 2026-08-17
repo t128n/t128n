@@ -1,0 +1,51 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+import { postUrlParams } from "@/lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  return posts.map((post) => ({
+    params: postUrlParams(post),
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title}>
+  <Header />
+
+  <main>
+    <article>
+      <header>
+        <h1>{post.data.title}</h1>
+        <p>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString("en-US", { dateStyle: "long" })}
+          </time>
+          {post.data.updatedDate && (
+            <>
+              {" "}· updated{" "}
+              <time datetime={post.data.updatedDate.toISOString()}>
+                {post.data.updatedDate.toLocaleDateString("en-US", { dateStyle: "long" })}
+              </time>
+            </>
+          )}
+        </p>
+      </header>
+
+      {post.data.cover && (
+        <img src={post.data.cover.src} alt={post.data.coverAlt ?? ""} />
+      )}
+
+      <Content />
+    </article>
+  </main>
+</BaseLayout>

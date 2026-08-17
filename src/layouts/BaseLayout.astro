@@ -1,0 +1,48 @@
+---
+import "marx-css/css/marx.css";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "t128n.dev" } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <style is:global>
+      :root {
+        /* Keep the reading column narrow — plain-text-web measure, not a
+           full-bleed app layout. */
+        --marx-measure: 700px;
+      }
+
+      /* Marx's own :where(main) already centers itself and adds
+         padding-inline: var(--marx-space-md). header gets no such rule by
+         default, so give it the identical frame here — otherwise nav text
+         sits flush at the column edge while headings/body copy are inset,
+         and the two blocks visibly don't line up. */
+      body > header {
+        max-width: var(--marx-measure);
+        margin-inline: auto;
+        padding-inline: var(--marx-space-md);
+      }
+
+      /* Headings anchor to that shared left edge; prose content insets a
+         full tab-stop further, so the two levels read as distinct at a
+         glance. */
+      main :where(p, ul, ol, dl, blockquote) {
+        padding-inline-start: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,17 +1,25 @@
 ---
-
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Torben Haack">
+  <Header />
+
+  <main>
+    <img src="/t128n.png" alt="Torben Haack" width="72" height="72" />
+    <h1>Torben Haack</h1>
+    <p>
+      Technical Product Owner and Software Engineer in the automotive
+      industry. I build and manage data and software systems, contribute to
+      FOSS, and study Business Informatics part-time at BHT Berlin. I
+      sometimes <a href="/writing/">write about stuff</a>.
+    </p>
+
+    <h2>Connect</h2>
+    <ul>
+      <li><a href="https://bsky.app/profile/t128n.dev">Bluesky</a></li>
+      <li><a href="https://github.com/t128n">GitHub</a></li>
+    </ul>
+  </main>
+</BaseLayout>
