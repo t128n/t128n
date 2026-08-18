@@ -3,9 +3,28 @@ import "marx-css/css/marx.css";
 
 interface Props {
   title?: string;
+  description?: string;
+  // Open Graph page type: "website" for the site's own pages, "article"
+  // for posts. Kept narrow on purpose — the OG spec's article/* fields
+  // are the only extras we use.
+  type?: "website" | "article";
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  noindex?: boolean;
 }
 
-const { title = "t128n.dev" } = Astro.props;
+const {
+  title = "t128n.dev",
+  description,
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  noindex = false,
+} = Astro.props;
+
+// Absolute canonical URL: the generated pages always have a trailing
+// slash, so pathname already carries the canonical form.
+const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <html lang="en">
@@ -16,6 +35,32 @@ const { title = "t128n.dev" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#ffffff" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="t128n.dev"
+      href="/rss.xml"
+    />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="t128n.dev" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:url" content={canonical} />
+    {description && <meta property="og:description" content={description} />}
+    {type === "article" && publishedTime && (
+      <meta property="article:published_time" content={publishedTime.toISOString()} />
+    )}
+    {type === "article" && modifiedTime && (
+      <meta property="article:modified_time" content={modifiedTime.toISOString()} />
+    )}
+
+    <slot name="head" />
     <style is:global>
       :root {
         /* Keep the reading column narrow — plain-text-web measure, not a

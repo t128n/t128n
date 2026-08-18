@@ -1,0 +1,19 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Header from "@/components/Header.astro";
+---
+
+<BaseLayout
+  title="404"
+  description="This page does not exist."
+  noindex
+>
+  <Header />
+
+  <main>
+    <h1>404</h1>
+    <p>
+      Nothing here. <a href="/">Go back home</a>.
+    </p>
+  </main>
+</BaseLayout>

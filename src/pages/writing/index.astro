@@ -9,7 +9,10 @@ const posts = (await getCollection("writing", ({ data }) => {
 })).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title="Writing">
+<BaseLayout
+  title="Writing"
+  description="Essays and notes on software engineering, data systems, and architecture from Torben Haack."
+>
   <Header />
 
   <main>

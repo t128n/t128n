@@ -3,7 +3,20 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
 ---
 
-<BaseLayout title="Torben Haack">
+<BaseLayout
+  title="Torben Haack"
+  description="Technical Product Owner and Software Engineer in the automotive industry. Building and managing data and software systems, contributing to FOSS, studying Business Informatics at BHT Berlin."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Torben Haack",
+    url: "https://t128n.dev/",
+    sameAs: [
+      "https://bsky.app/profile/t128n.dev",
+      "https://github.com/t128n",
+    ],
+  })} />
   <Header />
 
   <main>
