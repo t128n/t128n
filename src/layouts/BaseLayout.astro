@@ -34,11 +34,27 @@ const { title = "t128n.dev" } = Astro.props;
         padding-inline: var(--marx-space-md);
       }
 
-      /* Headings anchor to that shared left edge; prose content insets a
-         full tab-stop further, so the two levels read as distinct at a
-         glance. */
-      main :where(p, ul, ol, dl, blockquote) {
-        padding-inline-start: 2rem;
+      /* Standing heads (academic report / man-page model):
+         h1/h2 sit on the left margin, forming a scannable rail; the
+         content a heading introduces sets one step in. Sub-headings
+         step halfway — subordinate, but never inside the text column. */
+      main :where(h3, h4, h5, h6) {
+        margin-inline-start: 1rem;
+      }
+
+      main :where(p, ul, ol, dl, blockquote, small) {
+        margin-inline-start: 2rem;
+      }
+
+      /* Elements inside a list item, quote, or definition detail are
+         already in the content column — don't indent them twice. */
+      main :where(li, blockquote, dd) :where(p, ul, ol, dl, blockquote, small) {
+        margin-inline-start: 0;
+      }
+
+      /* Post date acts as a byline: rail-aligned under the title. */
+      main article header p {
+        margin-inline-start: 0;
       }
     </style>
   </head>

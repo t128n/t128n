@@ -1,15 +1,12 @@
 ---
-import { Image } from "astro:assets";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Header from "@/components/Header.astro";
-import avatar from "@/assets/t128n.png";
 ---
 
 <BaseLayout title="Torben Haack">
   <Header />
 
   <main>
-    <Image src={avatar} alt="Torben Haack" width={72} height={72} class="avatar" />
     <h1>Torben Haack</h1>
     <p>
       Technical Product Owner and Software Engineer in the automotive
@@ -25,11 +22,3 @@ import avatar from "@/assets/t128n.png";
     </ul>
   </main>
 </BaseLayout>
-
-<style>
-  /* Marx rounds img/video by default; a flat headshot fits the plain-text
-     aesthetic better than a softened one. */
-  /* .avatar {
-    border-radius: 0;
-  } */
-</style>
