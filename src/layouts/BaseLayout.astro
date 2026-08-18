@@ -21,6 +21,16 @@ const { title = "t128n.dev" } = Astro.props;
         /* Keep the reading column narrow — plain-text-web measure, not a
            full-bleed app layout. */
         --marx-measure: 700px;
+
+        /* Report/document look: sharp corners (no app-y rounding on
+           code/images) and a denser, paper-like heading scale. */
+        --marx-radius: 0;
+        --marx-text-h1: 1.75rem;
+        --marx-text-h2: 1.25rem;
+        --marx-text-h3: 1.0625rem;
+        --marx-text-h4: 1rem;
+        --marx-text-h5: 1rem;
+        --marx-text-h6: 1rem;
       }
 
       /* Marx's own :where(main) already centers itself and adds
@@ -55,6 +65,34 @@ const { title = "t128n.dev" } = Astro.props;
       /* Post date acts as a byline: rail-aligned under the title. */
       main article header p {
         margin-inline-start: 0;
+      }
+
+      /* Paper-style headings: bold throughout, numbered inside posts.
+         Numbers come from CSS counters (markdown renders flat siblings),
+         so no content changes are needed — just the .post class. */
+      main :where(h1, h2, h3, h4, h5, h6) {
+        font-weight: 600;
+      }
+
+      main article.post {
+        counter-reset: section;
+      }
+
+      main article.post :where(h2) {
+        counter-increment: section;
+        counter-reset: subsection;
+      }
+
+      main article.post :where(h2)::before {
+        content: counter(section) ".\00a0";
+      }
+
+      main article.post :where(h3) {
+        counter-increment: subsection;
+      }
+
+      main article.post :where(h3)::before {
+        content: counter(section) "." counter(subsection) ".\00a0";
       }
     </style>
   </head>
