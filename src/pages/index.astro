@@ -1,6 +1,10 @@
 ---
 import Base from "@/layouts/Base.astro";
 import { site } from "@/lib/site";
+import { getCollection } from "astro:content";
+import { isPublished } from "@/lib/posts";
+
+const posts = (await getCollection("writing")).filter(isPublished);
 ---
 
 <Base
@@ -20,10 +24,10 @@ import { site } from "@/lib/site";
 
   <main transition:animate="fade">
     <h1>{site.author}</h1>
-    <p>
-      {site.description} I
-      sometimes <a href="/writing/">write about stuff</a>.
-    </p>
+    <p>{site.description}</p>
+    {posts.length > 0 && (
+      <p>I sometimes <a href="/writing/">write about stuff</a>.</p>
+    )}
 
     <h2>Connect</h2>
     <ul>
