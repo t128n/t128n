@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import { isPublished, sortByDate, postUrl } from "@/lib/posts";
+
+const posts = (await getCollection("writing"))
+  .filter(isPublished)
+  .sort(sortByDate);
+---
+
+<Base
+  title="Writing"
+  description="Essays and notes on software engineering, data systems, and architecture from Torben Haack."
+>
+  <main transition:animate="fade">
+    <h1>Writing</h1>
+
+    {posts.map((post) => (
+      <article>
+        <h2 transition:name={`post-title-${post.id}`}>
+          <a href={postUrl(post)}>{post.data.title}</a>
+        </h2>
+        <p>{post.data.description}</p>
+        <small>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString("en-US", { dateStyle: "long" })}
+          </time>
+        </small>
+      </article>
+    ))}
+  </main>
+</Base>

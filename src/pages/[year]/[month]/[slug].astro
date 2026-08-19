@@ -1,0 +1,77 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import { isPublished, postUrl, postUrlParams } from "@/lib/posts";
+import { site } from "@/lib/site";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("writing")).filter(isPublished);
+
+  return posts.map((post) => ({
+    params: postUrlParams(post),
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const author = {
+  "@type": "Person",
+  name: site.author,
+  url: `${site.url}/`,
+};
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  url: new URL(postUrl(post), Astro.site),
+  mainEntityOfPage: new URL(postUrl(post), Astro.site),
+  datePublished: post.data.pubDate.toISOString(),
+  ...(post.data.updatedDate && {
+    dateModified: post.data.updatedDate.toISOString(),
+  }),
+  author,
+  ...(post.data.cover && {
+    image: post.data.cover.src,
+  }),
+};
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate}
+  modifiedTime={post.data.updatedDate}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <main transition:animate="fade">
+    <article class="post">
+      <header>
+        <h1 transition:name={`post-title-${post.id}`}>{post.data.title}</h1>
+        <p>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString("en-US", { dateStyle: "long" })}
+          </time>
+          {post.data.updatedDate && (
+            <>
+              {" "}· updated{" "}
+              <time datetime={post.data.updatedDate.toISOString()}>
+                {post.data.updatedDate.toLocaleDateString("en-US", { dateStyle: "long" })}
+              </time>
+            </>
+          )}
+        </p>
+      </header>
+
+      {post.data.cover && (
+        <img src={post.data.cover.src} alt={post.data.coverAlt ?? ""} />
+      )}
+
+      <Content />
+    </article>
+  </main>
+</Base>

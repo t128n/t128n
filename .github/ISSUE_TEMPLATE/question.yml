@@ -1,0 +1,12 @@
+name: "✉️ Question"
+description: General question or feedback
+type: "enhancement"
+labels: ["question"]
+body:
+  - type: textarea
+    id: message
+    attributes:
+      label: Your message
+      placeholder: What would you like to know or say?
+    validations:
+      required: true

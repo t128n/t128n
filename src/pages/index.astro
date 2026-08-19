@@ -1,17 +1,34 @@
 ---
-
+import Base from "@/layouts/Base.astro";
+import { site } from "@/lib/site";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base
+  title={site.author}
+  description={site.description}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: site.author,
+    url: `${site.url}/`,
+    sameAs: [
+      site.social.bluesky,
+      site.social.github,
+    ],
+  })} />
+
+  <main transition:animate="fade">
+    <h1>{site.author}</h1>
+    <p>
+      {site.description} I
+      sometimes <a href="/writing/">write about stuff</a>.
+    </p>
+
+    <h2>Connect</h2>
+    <ul>
+      <li><a href={site.social.bluesky}>Bluesky</a></li>
+      <li><a href={site.social.github}>GitHub</a></li>
+    </ul>
+  </main>
+</Base>
