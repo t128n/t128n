@@ -1,56 +1,59 @@
+import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
-import { OGImageRoute } from "astro-og-canvas";
-import { site } from "@/lib/site";
-import { isPublished, postUrl } from "@/lib/posts";
+import { isPublished, writingUrl } from "@/lib/posts";
+import { renderOgImage } from "@/lib/og";
 
-const writingEntries = await getCollection("writing");
-
-const writingPages = Object.fromEntries(
-  writingEntries.filter(isPublished).map((post) => [
-    postUrl(post)
-      .replace(/^\/|\/$/g, "")
-      .replace(/\//g, "-"),
-    {
-      title: post.data.title,
-      description: post.data.description,
-    },
-  ]),
+// Auto-discover all static .astro pages in src/pages (excluding dynamic routes)
+const astroPages = import.meta.glob<{ title?: string; description?: string }>(
+  "/src/pages/**/*.astro",
+  { eager: true },
 );
 
-const staticPages = {
-  index: {
-    title: site.title,
-    description: site.description,
-  },
-  writing: {
-    title: "Writing",
-    description: "Essays and notes on software engineering, data systems, and architecture.",
-  },
+const staticPages: Record<string, { title: string; description?: string }> = {};
+
+for (const [path, mod] of Object.entries(astroPages)) {
+  if (mod.title) {
+    const slug = path
+      .replace(/^\/src\/pages\//, "")
+      .replace(/\.astro$/, "")
+      .replace(/\/index$/, "");
+    staticPages[slug === "" ? "index" : slug] = {
+      title: mod.title,
+      description: mod.description,
+    };
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const writingEntries = await getCollection("writing");
+  const writingPages: Record<string, { title: string; description?: string }> = Object.fromEntries(
+    writingEntries.filter(isPublished).map((writing) => [
+      writingUrl(writing)
+        .replace(/^\/|\/$/g, "")
+        .replace(/\//g, "-"),
+      {
+        title: writing.data.title,
+        description: writing.data.description,
+      },
+    ]),
+  );
+
+  const allPages = { ...staticPages, ...writingPages };
+
+  return Object.entries(allPages).map(([slug, data]) => ({
+    params: { route: `${slug}.jpg` },
+    props: { data },
+  }));
 };
 
-const pages = { ...staticPages, ...writingPages };
+export const GET: APIRoute = async ({ props }) => {
+  const { data } = props as { data: { title: string; description?: string } };
+  const imageBuffer = await renderOgImage(data);
 
-export const { getStaticPaths, GET } = await OGImageRoute({
-  pages,
-  getImageOptions: (_path, page) => ({
-    title: page.title,
-    description: page.description,
-    bgGradient: [[255, 255, 255]],
-    border: {
-      color: [0, 0, 0],
-      width: 8,
-      side: "inline-start",
+  return new Response(Buffer.from(imageBuffer), {
+    headers: {
+      "Content-Type": "image/jpeg",
+      "Cache-Control": "public, max-age=31536000, immutable",
     },
-    font: {
-      title: {
-        color: [0, 0, 0],
-        size: 64,
-        weight: "Bold",
-      },
-      description: {
-        color: [80, 80, 80],
-        size: 32,
-      },
-    },
-  }),
-});
+  });
+};

@@ -1,0 +1,22 @@
+@media (max-width: 767px) {
+  html {
+    font-size: 15px;
+  }
+
+  main
+    :where(
+      p,
+      ul,
+      ol,
+      dl,
+      blockquote,
+      pre,
+      table,
+      figure:not(.full-width):not(.fullwidth):not(.full-bleed),
+      small,
+      .writings-list,
+      .posts-list
+    ) {
+    margin-inline-start: 1.25rem;
+  }
+}

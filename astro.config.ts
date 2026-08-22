@@ -7,4 +7,13 @@ import mdx from "@astrojs/mdx";
 export default defineConfig({
   site: "https://t128n.dev",
   integrations: [sitemap(), mdx()],
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+      wrap: false,
+    },
+  },
 });

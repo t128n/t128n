@@ -1,0 +1,57 @@
+article.writing,
+article.post {
+  counter-reset: section;
+}
+
+article:where(.writing, .post) :where(.writing-header, .post-header) {
+  margin-bottom: 2rem;
+}
+
+article:where(.writing, .post) :where(.writing-header, .post-header) h1 {
+  margin-bottom: 0.5rem;
+}
+
+article:where(.writing, .post) :where(.writing-meta, .post-meta) {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  color: var(--text-muted);
+  margin-bottom: 0;
+  margin-top: 0.4rem;
+}
+
+article:where(.writing, .post) :where(.writing-footer, .post-footer) {
+  grid-column: main-start / main-end;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+article:where(.writing, .post) :where(.writing-author, .post-author) {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: var(--lh-mono);
+  margin: 0;
+}
+
+article:where(.writing, .post) :where(.writing-author, .post-author) a {
+  font-weight: 500;
+}
+
+article:where(.writing, .post) h2:not(.no-num) {
+  counter-increment: section;
+  counter-reset: subsection;
+}
+
+article:where(.writing, .post) h2:not(.no-num)::before {
+  content: counter(section) ".\00a0";
+}
+
+article:where(.writing, .post) h3:not(.no-num) {
+  counter-increment: subsection;
+  counter-reset: subsubsection;
+}
+
+article:where(.writing, .post) h3:not(.no-num)::before {
+  content: counter(section) "." counter(subsection) ".\00a0";
+}

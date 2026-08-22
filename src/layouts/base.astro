@@ -1,8 +1,6 @@
 ---
-import "marx-css/css/marx.css";
 import "@/styles/global.css";
-import Header from "@/components/Header.astro";
-import { ClientRouter } from "astro:transitions";
+import Header from "@/components/header.astro";
 import { site } from "@/lib/site";
 
 interface Props {
@@ -16,31 +14,33 @@ interface Props {
 
 const {
   title = site.title,
-  description,
+  description = site.description,
   type = "website",
   publishedTime,
   modifiedTime,
   noindex = false,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://t128n.dev");
 const ogRoute =
   Astro.url.pathname === "/"
     ? "index"
     : Astro.url.pathname.replace(/^\/|\/$/g, "").replace(/\//g, "-");
-const ogImage = new URL(`/og/${ogRoute}.png`, Astro.site);
+const ogImage = new URL(`/og/${ogRoute}.jpg`, Astro.site ?? "https://t128n.dev");
 ---
 
-<html lang="en" transition:animate="none">
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title>{title === site.title ? title : `${title} · ${site.title}`}</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)" />
 
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex" />}
@@ -66,11 +66,12 @@ const ogImage = new URL(`/og/${ogRoute}.png`, Astro.site);
     <link rel="me" href={site.social.bluesky} />
     <link rel="me" href="mailto:t128n@ipv4.8shield.net" />
 
-    <ClientRouter />
     <slot name="head" />
   </head>
   <body>
-    <Header />
-    <slot />
+    <div class="site-container">
+      <Header />
+      <slot />
+    </div>
   </body>
 </html>

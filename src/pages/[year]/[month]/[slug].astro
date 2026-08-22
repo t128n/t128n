@@ -1,77 +1,107 @@
 ---
 import { getCollection, render } from "astro:content";
-import Base from "@/layouts/Base.astro";
-import { isPublished, postUrl, postUrlParams } from "@/lib/posts";
+import Base from "@/layouts/base.astro";
+import { isPublished, writingUrl, writingUrlParams } from "@/lib/posts";
 import { site } from "@/lib/site";
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("writing")).filter(isPublished);
+  const writings = (await getCollection("writing")).filter(isPublished);
 
-  return posts.map((post) => ({
-    params: postUrlParams(post),
-    props: { post },
+  return writings.map((writing) => ({
+    params: writingUrlParams(writing),
+    props: { writing },
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { writing } = Astro.props;
+const { Content } = await render(writing);
 
+const writingAuthorName =
+  typeof writing.data.author === "object"
+    ? writing.data.author.name
+    : (writing.data.author ?? site.author);
+const writingAuthorUrl =
+  typeof writing.data.author === "object" && writing.data.author.url
+    ? writing.data.author.url
+    : writing.data.author && writing.data.author !== site.author
+      ? undefined
+      : `${site.url}/`;
 const author = {
   "@type": "Person",
-  name: site.author,
-  url: `${site.url}/`,
+  name: writingAuthorName,
+  ...(writingAuthorUrl ? { url: writingAuthorUrl } : {}),
 };
 const schema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  headline: post.data.title,
-  description: post.data.description,
-  url: new URL(postUrl(post), Astro.site),
-  mainEntityOfPage: new URL(postUrl(post), Astro.site),
-  datePublished: post.data.pubDate.toISOString(),
-  ...(post.data.updatedDate && {
-    dateModified: post.data.updatedDate.toISOString(),
+  headline: writing.data.title,
+  description: writing.data.description,
+  url: new URL(writingUrl(writing), Astro.site ?? "https://t128n.dev"),
+  mainEntityOfPage: new URL(writingUrl(writing), Astro.site ?? "https://t128n.dev"),
+  datePublished: writing.data.pubDate.toISOString(),
+  ...(writing.data.updatedDate && {
+    dateModified: writing.data.updatedDate.toISOString(),
   }),
   author,
-  ...(post.data.cover && {
-    image: post.data.cover.src,
+  ...(writing.data.cover && {
+    image: writing.data.cover.src,
   }),
 };
 ---
 
 <Base
-  title={post.data.title}
-  description={post.data.description}
+  title={writing.data.title}
+  description={writing.data.description}
   type="article"
-  publishedTime={post.data.pubDate}
-  modifiedTime={post.data.updatedDate}
+  publishedTime={writing.data.pubDate}
+  modifiedTime={writing.data.updatedDate}
 >
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
 
-  <main transition:animate="fade">
-    <article class="post">
-      <header>
-        <h1 transition:name={`post-title-${post.id}`}>{post.data.title}</h1>
-        <p>
-          <time datetime={post.data.pubDate.toISOString()}>
-            {post.data.pubDate.toLocaleDateString("en-US", { dateStyle: "long" })}
+  <main>
+    <article class="writing">
+      <header class="writing-header">
+        <h1 class="writing-title">{writing.data.title}</h1>
+        <p class="writing-meta">
+          <time datetime={writing.data.pubDate.toISOString()}>
+            {writing.data.pubDate.toLocaleDateString("en-US", {
+              timeZone: "UTC",
+              dateStyle: "long",
+            })}
           </time>
-          {post.data.updatedDate && (
+          {writing.data.updatedDate && (
             <>
               {" "}· updated{" "}
-              <time datetime={post.data.updatedDate.toISOString()}>
-                {post.data.updatedDate.toLocaleDateString("en-US", { dateStyle: "long" })}
+              <time datetime={writing.data.updatedDate.toISOString()}>
+                {writing.data.updatedDate.toLocaleDateString("en-US", {
+                  timeZone: "UTC",
+                  dateStyle: "long",
+                })}
               </time>
             </>
           )}
         </p>
       </header>
 
-      {post.data.cover && (
-        <img src={post.data.cover.src} alt={post.data.coverAlt ?? ""} />
+      {writing.data.cover && (
+        <figure>
+          <img src={writing.data.cover.src} alt={writing.data.coverAlt ?? ""} />
+          {writing.data.coverAlt && <figcaption>{writing.data.coverAlt}</figcaption>}
+        </figure>
       )}
 
       <Content />
+
+      <footer class="writing-footer">
+        <p class="writing-author">
+          —{" "}
+          {writingAuthorUrl ? (
+            <a href={writingAuthorUrl}>{writingAuthorName}</a>
+          ) : (
+            writingAuthorName
+          )}
+        </p>
+      </footer>
     </article>
   </main>
 </Base>

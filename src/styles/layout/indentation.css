@@ -1,0 +1,49 @@
+main :where(h1, h2, h3, h4, h5, h6) {
+  margin-inline-start: 0;
+}
+
+main
+  :where(
+    p,
+    ul,
+    ol,
+    dl,
+    blockquote,
+    pre,
+    table,
+    figure:not(.full-width):not(.fullwidth):not(.full-bleed),
+    small,
+    .writings-list,
+    .posts-list
+  ) {
+  margin-inline-start: 2rem;
+}
+
+main
+  :where(li, blockquote, dd, th, td, aside)
+  :where(p, ul, ol, dl, blockquote, pre, table, figure, small) {
+  margin-inline-start: 0;
+}
+
+main article header p,
+main article :where(.writing-header, .post-header) p,
+main article :where(.writing-meta, .post-meta) {
+  margin-inline-start: 0;
+}
+
+.heading-anchor {
+  opacity: 0;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.85em;
+  margin-left: 0.4rem;
+  font-weight: 400;
+  transition: opacity 0.15s ease;
+}
+
+h1:hover .heading-anchor,
+h2:hover .heading-anchor,
+h3:hover .heading-anchor,
+.heading-anchor:focus {
+  opacity: 1;
+}

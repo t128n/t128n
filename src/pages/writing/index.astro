@@ -1,32 +1,47 @@
 ---
 import { getCollection } from "astro:content";
-import Base from "@/layouts/Base.astro";
-import { isPublished, sortByDate, postUrl } from "@/lib/posts";
+import Base from "@/layouts/base.astro";
+import { isPublished, sortByDate, writingUrl } from "@/lib/posts";
 
-const posts = (await getCollection("writing"))
+export const title = "Writing";
+export const description = "Collection of writings about all things tech.";
+
+const writings = (await getCollection("writing"))
   .filter(isPublished)
-  .sort(sortByDate);
+  .toSorted(sortByDate);
 ---
 
 <Base
-  title="Writing"
-  description="Essays and notes on software engineering, data systems, and architecture from Torben Haack."
+  title={title}
+  description={description}
 >
-  <main transition:animate="fade">
+  <main>
     <h1>Writing</h1>
 
-    {posts.map((post) => (
-      <article>
-        <h2 transition:name={`post-title-${post.id}`}>
-          <a href={postUrl(post)}>{post.data.title}</a>
-        </h2>
-        <p>{post.data.description}</p>
-        <small>
-          <time datetime={post.data.pubDate.toISOString()}>
-            {post.data.pubDate.toLocaleDateString("en-US", { dateStyle: "long" })}
-          </time>
-        </small>
-      </article>
-    ))}
+    {writings.length === 0 ? (
+      <p>No writings yet.</p>
+    ) : (
+      <ul class="writings-list">
+        {writings.map((writing) => (
+          <li>
+            <time datetime={writing.data.pubDate.toISOString()}>
+              {writing.data.pubDate.toLocaleDateString("en-US", {
+                timeZone: "UTC",
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+              })}
+            </time>
+            {" — "}
+            <a href={writingUrl(writing)} class="writing-title-link">
+              {writing.data.title}
+            </a>
+            {writing.data.description && (
+              <p class="writing-desc">{writing.data.description}</p>
+            )}
+          </li>
+        ))}
+      </ul>
+    )}
   </main>
 </Base>

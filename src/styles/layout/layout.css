@@ -1,0 +1,113 @@
+.site-container {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(1.5rem, 1fr)
+    [main-start] minmax(auto, var(--max-text-width)) [main-end]
+    var(--gutter)
+    [margin-start] var(--sidenote-width) [margin-end]
+    minmax(1.5rem, 1fr) [full-end];
+  max-width: var(--max-container-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem 1.5rem;
+  align-items: start;
+}
+
+.site-header {
+  grid-column: main-start / main-end;
+}
+
+main {
+  grid-column: full-start / full-end;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-auto-flow: row;
+}
+
+article.writing,
+article.post {
+  grid-column: full-start / full-end;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-auto-flow: row;
+}
+
+main > *,
+article.writing > *,
+article.post > * {
+  grid-column: main-start / main-end;
+}
+
+main > :where(.sidenote, .marginnote, aside:not(.fullwidth):not(.full-width):not(.full-bleed)),
+article.writing
+  > :where(.sidenote, .marginnote, aside:not(.fullwidth):not(.full-width):not(.full-bleed)),
+article.post
+  > :where(.sidenote, .marginnote, aside:not(.fullwidth):not(.full-width):not(.full-bleed)) {
+  grid-column: margin-start / margin-end;
+  font-family: var(--font-mono);
+  font-size: var(--text-sidenote);
+  line-height: var(--lh-mono);
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  margin-bottom: 1.25rem;
+  margin-inline-start: 0;
+  text-align: left;
+}
+
+main > :where(.full-width, .fullwidth, figure.fullwidth, figure.full-width),
+article.writing > :where(.full-width, .fullwidth, figure.fullwidth, figure.full-width),
+article.post > :where(.full-width, .fullwidth, figure.fullwidth, figure.full-width) {
+  grid-column: main-start / margin-end;
+  width: 100%;
+  max-width: 100%;
+}
+
+main > :where(.full-bleed, figure.full-bleed),
+article.writing > :where(.full-bleed, figure.full-bleed),
+article.post > :where(.full-bleed, figure.full-bleed) {
+  grid-column: full-start / full-end;
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 1023px) {
+  .site-container {
+    display: block;
+    max-width: var(--max-text-width);
+    padding: 1.5rem 1.25rem 4rem 1.25rem;
+  }
+
+  main,
+  article.writing,
+  article.post {
+    display: block;
+    width: 100%;
+  }
+
+  main > *,
+  article.writing > *,
+  article.post > * {
+    grid-column: auto;
+  }
+
+  main > :where(.full-width, .fullwidth, figure.fullwidth, figure.full-width, .full-bleed),
+  article.writing
+    > :where(.full-width, .fullwidth, figure.fullwidth, figure.full-width, .full-bleed),
+  article.post > :where(.full-width, .fullwidth, figure.fullwidth, figure.full-width, .full-bleed) {
+    grid-column: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  :where(.sidenote, .marginnote, aside:not(.fullwidth):not(.full-width):not(.full-bleed)) {
+    display: block;
+    margin: 1rem 0 1.5rem 0;
+    padding: 0.65rem 0.9rem;
+    border-left: 3px solid var(--accent);
+    background-color: var(--code-bg);
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    font-size: var(--text-sidenote);
+    line-height: var(--lh-mono);
+    border-radius: 0 2px 2px 0;
+  }
+}

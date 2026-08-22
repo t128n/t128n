@@ -1,0 +1,65 @@
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  font-variant-ligatures: none;
+}
+
+code {
+  background-color: var(--code-bg);
+  color: var(--text-main);
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+  font-size: 0.88em;
+  border: 1px solid var(--border-color);
+}
+
+pre,
+pre.astro-code {
+  background-color: var(--code-bg) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  padding: 1.15rem 1.25rem;
+  margin: 2rem 0;
+  overflow-x: auto;
+  line-height: var(--lh-mono);
+  font-size: var(--text-code);
+}
+
+pre code,
+pre.astro-code code {
+  background-color: transparent !important;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+@media (prefers-color-scheme: dark) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+}
+
+pre::-webkit-scrollbar {
+  height: 5px;
+}
+
+pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+pre::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

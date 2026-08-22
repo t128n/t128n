@@ -1,0 +1,14 @@
+---
+interface Props {
+  id?: string | number;
+  numbered?: boolean;
+}
+
+const { id, numbered = true } = Astro.props;
+const sidenoteId = id ? `sn-${id}` : undefined;
+---
+
+<aside class={numbered ? "sidenote" : "marginnote"} id={sidenoteId}>
+  {numbered && id && <span class="sidenote-num">[{id}]</span>}
+  <slot />
+</aside>

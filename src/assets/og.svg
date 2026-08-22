@@ -1,0 +1,59 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg { fill: #fbfbfa; }
+      .hairline { stroke: #e4e4e7; stroke-width: 1.5; }
+      .site-title {
+        font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+        font-size: 20px;
+        font-weight: 600;
+        fill: #18181b;
+        letter-spacing: 0.5px;
+      }
+      .site-badge {
+        font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+        font-size: 14px;
+        font-weight: 600;
+        fill: #1d4ed8;
+      }
+      .title {
+        font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+        font-size: 46px;
+        font-weight: 600;
+        fill: #18181b;
+        letter-spacing: -0.5px;
+      }
+      .desc {
+        font-family: "Charter", "Bitstream Charter", "Iowan Old Style", "Source Serif 4", Georgia, "Times New Roman", serif;
+        font-size: 28px;
+        font-weight: 400;
+        fill: #52525b;
+        line-height: 1.68;
+      }
+      .colophon {
+        font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+        font-size: 18px;
+        font-weight: 400;
+        fill: #71717a;
+      }
+      .accent {
+        fill: #1d4ed8;
+        font-weight: 600;
+      }
+    </style>
+  </defs>
+
+  <rect width="1200" height="630" class="bg" />
+
+  <text x="100" y="85" class="site-title">{{ site_name }}</text>
+
+  <text class="title">
+    {{ title_tspans }}
+  </text>
+
+  {{ description_block }}
+
+  <text x="100" y="565" class="colophon">
+    {{ author }}
+  </text>
+</svg>

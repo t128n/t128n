@@ -1,12 +1,16 @@
+## Tooling & Runtime
+
+Use **Bun** as the runtime and package manager, managed via `mise.toml` (`bun = "1.4.0"`). Always run scripts and commands using Bun (e.g. `bun run dev`, `bun run build`, `bun run fmt`, `bunx`, etc.).
+
 ## Development
 
 When starting the dev server, use background mode:
 
 ```
-astro dev --background
+bun astro dev --background
 ```
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+Manage the background server with `bun astro dev stop`, `bun astro dev status`, and `bun astro dev logs`.
 
 ## Documentation
 

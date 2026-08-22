@@ -1,6 +1,10 @@
 import { execSync } from "node:child_process";
 import type { APIContext } from "astro";
+import { Liquid } from "liquidjs";
 import { site } from "@/lib/site";
+import template from "@/assets/humans.txt?raw";
+
+const liquid = new Liquid();
 
 const lastUpdate = (() => {
   try {
@@ -13,20 +17,13 @@ const lastUpdate = (() => {
 export async function GET(context: APIContext) {
   const host = context.site?.hostname ?? "t128n.dev";
 
-  const humans = `/* TEAM */
-
-Name: ${site.author}
-Site: ${host}
-Bluesky: ${site.social.bluesky}
-GitHub: ${site.social.github}
-
-/* SITE */
-
-Last update: ${lastUpdate}
-Language: English
-Doctype: HTML5
-Built with: Astro
-`;
+  const humans = await liquid.parseAndRender(template, {
+    author: site.author,
+    host,
+    bluesky: site.social.bluesky,
+    github: site.social.github,
+    last_update: lastUpdate,
+  });
 
   return new Response(humans, {
     headers: { "Content-Type": "text/plain; charset=utf-8" },
