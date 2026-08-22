@@ -1,10 +1,13 @@
-<div align="center">
+<samp>
 
-# torben haack [ t128n ]
+torben haack [ t128n ]
 
-Technical Product Owner and Software Engineer in the automotive industry. Building and managing data and software systems, studying Business Informatics at BHT Berlin.
+&nbsp;&nbsp;&nbsp;&nbsp; Technical Product Owner and Software Engineer in the automotive industry. <br/>
+&nbsp;&nbsp;&nbsp;&nbsp; Building and managing data and software systems, studying Business Informatics at BHT Berlin.
 
-[t128n.dev](https://t128n.dev) .
-[@t128n.dev](https://t128n.dev/go/bsky)
+Connect
 
-</div>
+&nbsp;&nbsp;&nbsp;&nbsp; [t128n.dev](https://t128n.dev) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp; [@t128n.dev](https://t128n.dev/go/bsky)
+
+</samp>
