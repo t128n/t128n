@@ -1,7 +1,5 @@
 <samp>
 
-torben haack [ t128n ]
-
 &nbsp;&nbsp;&nbsp;&nbsp; Technical Product Owner and Software Engineer in the automotive industry. <br/>
 &nbsp;&nbsp;&nbsp;&nbsp; Building and managing data and software systems, studying Business Informatics at BHT Berlin.
 
