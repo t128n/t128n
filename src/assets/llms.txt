@@ -1,0 +1,16 @@
+{{ title }}
+
+  {{ description }}
+
+Author
+
+  {{ author }}
+
+Links
+
+  - Bluesky: {{ bluesky }}
+  - GitHub: {{ github }}
+  - Site: {{ url }}
+{% if writing_count > 0 %}
+  - Writing: {{ url }}/writing/
+{% endif %}

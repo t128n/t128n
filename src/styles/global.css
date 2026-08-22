@@ -1,78 +1,23 @@
-:root {
-  /* Keep the reading column narrow — plain-text-web measure, not a
-     full-bleed app layout. */
-  --marx-measure: 700px;
+/* Base */
+@import "./base/tokens.css";
+@import "./base/reset.css";
+@import "./base/typography.css";
+@import "./base/links.css";
 
-  /* Report/document look: sharp corners (no app-y rounding on
-     code/images) and a denser, paper-like heading scale. */
-  --marx-radius: 0;
-  --marx-text-h1: 1.75rem;
-  --marx-text-h2: 1.25rem;
-  --marx-text-h3: 1.0625rem;
-  --marx-text-h4: 1rem;
-  --marx-text-h5: 1rem;
-  --marx-text-h6: 1rem;
-}
+/* Elements */
+@import "./elements/code.css";
+@import "./elements/lists.css";
+@import "./elements/media.css";
+@import "./elements/tables.css";
 
-/* Marx's own :where(main) already centers itself and adds
-   padding-inline: var(--marx-space-md). header gets no such rule by
-   default, so give it the identical frame here — otherwise nav text
-   sits flush at the column edge while headings/body copy are inset,
-   and the two blocks visibly don't line up. */
-body > header {
-  max-width: var(--marx-measure);
-  margin-inline: auto;
-  margin-block-start: 0;
-  padding-inline: var(--marx-space-md);
-}
+/* Layout */
+@import "./layout/layout.css";
+@import "./layout/indentation.css";
 
-/* Standing heads (academic report / man-page model):
-   h1/h2 sit on the left margin, forming a scannable rail; the
-   content a heading introduces sets one step in. Sub-headings
-   step halfway — subordinate, but never inside the text column. */
-main :where(h3, h4, h5, h6) {
-  margin-inline-start: 1rem;
-}
+/* Components */
+@import "./components/header.css";
+@import "./components/article.css";
+@import "./components/sidenotes.css";
 
-main :where(p, ul, ol, dl, blockquote, small) {
-  margin-inline-start: 2rem;
-}
-
-/* Elements inside a list item, quote, or definition detail are
-   already in the content column — don't indent them twice. */
-main :where(li, blockquote, dd) :where(p, ul, ol, dl, blockquote, small) {
-  margin-inline-start: 0;
-}
-
-/* Post date acts as a byline: rail-aligned under the title. */
-main article header p {
-  margin-inline-start: 0;
-}
-
-/* Paper-style headings: bold throughout, numbered inside posts.
-   Numbers come from CSS counters (markdown renders flat siblings),
-   so no content changes are needed — just the .post class. */
-main :where(h1, h2, h3, h4, h5, h6) {
-  font-weight: 600;
-}
-
-main article.post {
-  counter-reset: section;
-}
-
-main article.post :where(h2) {
-  counter-increment: section;
-  counter-reset: subsection;
-}
-
-main article.post :where(h2)::before {
-  content: counter(section) ".\00a0";
-}
-
-main article.post :where(h3) {
-  counter-increment: subsection;
-}
-
-main article.post :where(h3)::before {
-  content: counter(section) "." counter(subsection) ".\00a0";
-}
+/* Overrides & Breakpoints */
+@import "./layout/breakpoints.css";

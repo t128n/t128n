@@ -1,0 +1,51 @@
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 1.35rem;
+  padding-left: 1.5rem;
+  font-family: var(--font-body);
+}
+
+li {
+  margin-bottom: 0.45rem;
+}
+
+li::marker {
+  color: var(--text-muted);
+}
+
+.writings-list,
+.posts-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1.5rem;
+}
+
+.writings-list li,
+.posts-list li {
+  margin-bottom: 1.5rem;
+  line-height: var(--lh-body);
+}
+
+.writings-list time,
+.posts-list time {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.writings-list :where(.writing-title-link, .post-title-link),
+.posts-list :where(.writing-title-link, .post-title-link) {
+  display: inline;
+  font-weight: 500;
+}
+
+.writings-list :where(.writing-desc, .post-desc),
+.posts-list :where(.writing-desc, .post-desc) {
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}

@@ -1,5 +1,0 @@
-allowBuilds:
-  esbuild: true
-  sharp: true
-minimumReleaseAgeExclude:
-  - "@oxlint/binding-linux-x64-musl@1.79.0"

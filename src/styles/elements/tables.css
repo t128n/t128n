@@ -1,0 +1,54 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--text-table);
+  line-height: var(--lh-mono);
+  font-variant-ligatures: none;
+  margin: 2rem 0;
+  border-top: 1.5px solid var(--text-main);
+  border-bottom: 1.5px solid var(--text-main);
+}
+
+th,
+td {
+  padding: 0.55rem 0.75rem;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+th {
+  border-bottom: 1.5px solid var(--text-main);
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+th[align="right"],
+td[align="right"],
+th[style*="text-align: right"],
+td[style*="text-align: right"],
+th[style*="text-align:right"],
+td[style*="text-align:right"],
+.num,
+td.num,
+th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+th[align="center"],
+td[align="center"],
+th[style*="text-align: center"],
+td[style*="text-align: center"],
+th[style*="text-align:center"],
+td[style*="text-align:center"] {
+  text-align: center;
+}

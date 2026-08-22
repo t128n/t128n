@@ -1,0 +1,23 @@
+.site-header {
+  margin-bottom: 2.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  line-height: var(--lh-mono);
+  font-variant-ligatures: none;
+}
+
+.site-header nav {
+  display: flex;
+  align-items: baseline;
+}
+
+.site-header .site-title {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.site-header .site-title:hover {
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

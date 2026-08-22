@@ -1,0 +1,116 @@
+sup {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+  line-height: 0;
+}
+
+.sidenote-ref,
+sup a,
+a[data-footnote-ref] {
+  font-family: var(--font-mono);
+  font-size: inherit;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 0 0.1rem;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.sidenote-ref:hover,
+sup a:hover,
+a[data-footnote-ref]:hover {
+  text-decoration: underline;
+}
+
+aside,
+.sidenote,
+.marginnote {
+  font-family: var(--font-mono);
+  font-size: var(--text-sidenote);
+  line-height: var(--lh-mono);
+  color: var(--text-muted);
+}
+
+aside strong:first-child,
+aside b:first-child,
+aside p:first-child > strong:first-child,
+aside p:first-child > b:first-child,
+.sidenote .sidenote-num,
+.marginnote .sidenote-num,
+aside .sidenote-num {
+  color: var(--accent);
+  font-weight: 600;
+  margin-right: 0.35rem;
+}
+
+aside code,
+.sidenote code,
+.marginnote code {
+  font-size: 0.8rem;
+}
+
+aside > p:first-of-type,
+.sidenote > p:first-of-type,
+.marginnote > p:first-of-type {
+  display: inline;
+}
+
+aside p,
+.sidenote p,
+.marginnote p {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: inherit;
+  line-height: inherit;
+}
+
+aside p:last-child,
+.sidenote p:last-child,
+.marginnote p:last-child {
+  margin-bottom: 0;
+}
+
+section.footnotes,
+section[data-footnotes] {
+  margin-top: 3.5rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-sidenote);
+  line-height: var(--lh-mono);
+  color: var(--text-muted);
+}
+
+section.footnotes h2,
+section[data-footnotes] h2 {
+  font-size: var(--text-sidenote);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: var(--text-muted);
+}
+
+section.footnotes ol,
+section[data-footnotes] ol {
+  padding-left: 1.25rem;
+  margin-bottom: 0;
+}
+
+section.footnotes li,
+section[data-footnotes] li {
+  margin-bottom: 0.5rem;
+}
+
+section.footnotes a[data-footnote-backref],
+section[data-footnotes] a[data-footnote-backref] {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 0.25rem;
+}

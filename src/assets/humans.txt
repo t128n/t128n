@@ -1,0 +1,13 @@
+/* TEAM */
+
+Name: {{ author }}
+Site: {{ host }}
+Bluesky: {{ bluesky }}
+GitHub: {{ github }}
+
+/* SITE */
+
+Last update: {{ last_update }}
+Language: English
+Doctype: HTML5
+Built with: Astro

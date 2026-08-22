@@ -1,23 +1,26 @@
 import type { CollectionEntry } from "astro:content";
 
-export function isPublished(post: CollectionEntry<"writing">): boolean {
-  return import.meta.env.PROD ? !post.data.draft : true;
+export function isPublished(writing: CollectionEntry<"writing">): boolean {
+  return import.meta.env.PROD ? !writing.data.draft : true;
 }
 
 export function sortByDate(a: CollectionEntry<"writing">, b: CollectionEntry<"writing">): number {
   return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
 }
 
-export function postUrlParams(post: CollectionEntry<"writing">) {
-  const { pubDate } = post.data;
+export function writingUrlParams(writing: CollectionEntry<"writing">) {
+  const { pubDate } = writing.data;
   return {
     year: String(pubDate.getUTCFullYear()),
     month: String(pubDate.getUTCMonth() + 1).padStart(2, "0"),
-    slug: post.data.slug ?? post.id,
+    slug: writing.data.slug ?? writing.id,
   };
 }
 
-export function postUrl(post: CollectionEntry<"writing">) {
-  const { year, month, slug } = postUrlParams(post);
+export function writingUrl(writing: CollectionEntry<"writing">) {
+  const { year, month, slug } = writingUrlParams(writing);
   return `/${year}/${month}/${slug}/`;
 }
+
+export const postUrl = writingUrl;
+export const postUrlParams = writingUrlParams;

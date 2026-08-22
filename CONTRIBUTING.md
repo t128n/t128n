@@ -6,15 +6,15 @@ Thanks for your interest in contributing.
 
 1. Fork the repository
 2. Clone your fork
-3. Install dependencies: `pnpm install`
-4. Start the dev server: `pnpm dev`
+3. Install dependencies: `bun install`
+4. Start the dev server: `bun dev`
 
 ## Development
 
-- **Lint:** `pnpm lint`
-- **Format:** `pnpm fmt`
-- **Type check:** `pnpm astro check`
-- **Build:** `pnpm build`
+- **Lint:** `bun run lint`
+- **Format:** `bun run fmt`
+- **Type check:** `bun astro check`
+- **Build:** `bun run build`
 
 ## Submitting a Change
 

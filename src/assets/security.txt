@@ -1,0 +1,5 @@
+Contact: {{ contact }}
+Policy: {{ policy }}
+Preferred-Languages: {{ preferred_languages }}
+Canonical: {{ canonical }}
+Expires: {{ expires }}

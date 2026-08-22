@@ -1,31 +1,36 @@
 ---
-import Base from "@/layouts/Base.astro";
+import Base from "@/layouts/base.astro";
 import { site } from "@/lib/site";
 import { getCollection } from "astro:content";
 import { isPublished } from "@/lib/posts";
 
-const posts = (await getCollection("writing")).filter(isPublished);
+export const title = site.title;
+export const description = site.description;
+
+const writings = (await getCollection("writing")).filter(isPublished);
 ---
 
 <Base
-  title={site.author}
-  description={site.description}
+  title={title}
+  description={description}
 >
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: site.author,
-    url: `${site.url}/`,
-    sameAs: [
-      site.social.bluesky,
-      site.social.github,
-    ],
-  })} />
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: site.author,
+      url: `${site.url}/`,
+      sameAs: [site.social.bluesky, site.social.github],
+    })}
+  />
 
-  <main transition:animate="fade">
+  <main>
     <h1>{site.author}</h1>
     <p>{site.description}</p>
-    {posts.length > 0 && (
+    {writings.length > 0 && (
       <p>I sometimes <a href="/writing/">write about stuff</a>.</p>
     )}
 
@@ -33,6 +38,7 @@ const posts = (await getCollection("writing")).filter(isPublished);
     <ul>
       <li><a href={site.social.bluesky}>Bluesky</a></li>
       <li><a href={site.social.github}>GitHub</a></li>
+      <li><a href="mailto:t128n@ipv4.8shield.net">Email</a></li>
     </ul>
   </main>
 </Base>
