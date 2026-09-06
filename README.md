@@ -1,7 +1,7 @@
 <samp>
 
 &nbsp;&nbsp;&nbsp;&nbsp; Technical Product Owner and Software Engineer in the automotive industry. <br/>
-&nbsp;&nbsp;&nbsp;&nbsp; Building and managing data and software systems, defining technical standards, 
+&nbsp;&nbsp;&nbsp;&nbsp; Building and managing data and software systems, defining technical standards, <br/>
 &nbsp;&nbsp;&nbsp;&nbsp; studying Business Informatics at BHT Berlin.
 
 Connect
