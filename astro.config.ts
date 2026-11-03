@@ -6,7 +6,15 @@ import mdx from "@astrojs/mdx";
 // https://astro.build/config
 export default defineConfig({
   site: "https://t128n.dev",
-  integrations: [sitemap(), mdx()],
+  integrations: [
+    sitemap({
+      filter: (page) => !page.endsWith("/404/"),
+    }),
+    mdx(),
+  ],
+  redirects: {
+    "/writing": "/blog/",
+  },
   markdown: {
     shikiConfig: {
       themes: {

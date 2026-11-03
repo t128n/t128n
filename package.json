@@ -19,7 +19,8 @@
     "@astrojs/sitemap": "^3.7.4",
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^7.3.1",
-    "astro-embed": "^0.13.1",
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.2",
     "liquidjs": "^10.29.0"
   },
   "devDependencies": {

@@ -32,4 +32,4 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org)
 
 - Use the existing formatter (oxfmt) and linter (oxlint)
 - Match the style of surrounding code
-- See `STYLE.md` for design principles
+- See `DESIGN.md` for design principles

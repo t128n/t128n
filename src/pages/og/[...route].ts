@@ -1,6 +1,6 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
-import { isPublished, writingUrl } from "@/lib/posts";
+import { isPublished, postUrl } from "@/lib/posts";
 import { renderOgImage } from "@/lib/og";
 
 // Auto-discover all static .astro pages in src/pages (excluding dynamic routes)
@@ -25,20 +25,22 @@ for (const [path, mod] of Object.entries(astroPages)) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const writingEntries = await getCollection("writing");
-  const writingPages: Record<string, { title: string; description?: string }> = Object.fromEntries(
-    writingEntries.filter(isPublished).map((writing) => [
-      writingUrl(writing)
-        .replace(/^\/|\/$/g, "")
-        .replace(/\//g, "-"),
-      {
-        title: writing.data.title,
-        description: writing.data.description,
-      },
-    ]),
+  const posts = await getCollection("blog");
+  const postPages: Record<string, { title: string; description?: string }> = Object.fromEntries(
+    posts
+      .filter((post) => isPublished(post))
+      .map((post) => [
+        postUrl(post)
+          .replace(/^\/|\/$/g, "")
+          .replace(/\//g, "-"),
+        {
+          title: post.data.title,
+          description: post.data.description,
+        },
+      ]),
   );
 
-  const allPages = { ...staticPages, ...writingPages };
+  const allPages = { ...staticPages, ...postPages };
 
   return Object.entries(allPages).map(([slug, data]) => ({
     params: { route: `${slug}.jpg` },

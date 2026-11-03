@@ -10,4 +10,4 @@ GitHub: {{ github }}
 Last update: {{ last_update }}
 Language: English
 Doctype: HTML5
-Built with: Astro
+Built with: Astro and Bootstrap

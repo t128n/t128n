@@ -1,0 +1,11 @@
+---
+import { site } from "@/lib/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-top mt-auto">
+  <div class="container py-3">
+    <p class="small text-body-secondary text-center mb-0">© {year} {site.author} · {site.title}</p>
+  </div>
+</footer>

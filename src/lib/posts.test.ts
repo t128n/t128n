@@ -1,84 +1,52 @@
 import { describe, expect, it } from "bun:test";
 import type { CollectionEntry } from "astro:content";
-import {
-  isPublished,
-  postUrl,
-  postUrlParams,
-  sortByDate,
-  writingUrl,
-  writingUrlParams,
-} from "./posts";
+import { formatDate, isPublished, postUrl, sortByPublishedAt } from "./posts";
 
-function createMockEntry(
-  id: string,
-  pubDate: Date,
-  draft = false,
-  slug?: string,
-): CollectionEntry<"writing"> {
+function createMockEntry(id: string, publishedAt: Date, draft = false): CollectionEntry<"blog"> {
   return {
     id,
-    collection: "writing",
+    collection: "blog",
     data: {
       title: `Title for ${id}`,
-      description: `Description for ${id}`,
-      pubDate,
+      publishedAt,
       draft,
-      tags: [],
-      ...(slug ? { slug } : {}),
     },
-  } as unknown as CollectionEntry<"writing">;
+  } as unknown as CollectionEntry<"blog">;
 }
 
-describe("posts utilities", () => {
-  it("computes URL params using UTC year, month, and slug/id", () => {
-    const entry = createMockEntry("my-first-post", new Date("2026-08-22T00:00:00Z"));
-    const params = writingUrlParams(entry);
-
-    expect(params).toEqual({
-      year: "2026",
-      month: "08",
-      slug: "my-first-post",
-    });
-  });
-
-  it("uses custom slug when provided", () => {
-    const entry = createMockEntry(
-      "2026-08-22-some-file",
-      new Date("2026-01-05T00:00:00Z"),
-      false,
-      "custom-slug",
-    );
-    const params = writingUrlParams(entry);
-
-    expect(params).toEqual({
-      year: "2026",
-      month: "01",
-      slug: "custom-slug",
-    });
-  });
-
-  it("generates correct writingUrl", () => {
+describe("blog utilities", () => {
+  it("builds the article URL from the collection id", () => {
     const entry = createMockEntry("hello-world", new Date("2025-12-31T00:00:00Z"));
-    expect(writingUrl(entry)).toBe("/2025/12/hello-world/");
-    expect(postUrl(entry)).toBe("/2025/12/hello-world/");
-    expect(postUrlParams(entry)).toEqual(writingUrlParams(entry));
+    expect(postUrl(entry)).toBe("/blog/hello-world/");
   });
 
-  it("sorts entries in descending order by pubDate", () => {
+  it("sorts entries newest first by publication date", () => {
     const older = createMockEntry("older", new Date("2025-01-01T00:00:00Z"));
     const newer = createMockEntry("newer", new Date("2026-01-01T00:00:00Z"));
 
-    const sorted = [older, newer].toSorted(sortByDate);
+    const sorted = [older, newer].toSorted(sortByPublishedAt);
     expect(sorted[0].id).toBe("newer");
     expect(sorted[1].id).toBe("older");
   });
 
-  it("determines publication status", () => {
+  it("formats dates in UTC without a local timezone shift", () => {
+    const date = new Date("2026-08-22T23:30:00Z");
+    expect(formatDate(date, "medium")).toBe("Aug 22, 2026");
+  });
+
+  it("keeps drafts visible outside a production build", () => {
     const draft = createMockEntry("draft-post", new Date(), true);
     const published = createMockEntry("live-post", new Date(), false);
 
-    expect(isPublished(published)).toBe(true);
-    // In non-PROD mode (test environment), isPublished returns true
-    expect(isPublished(draft)).toBe(true);
+    expect(isPublished(published, false)).toBe(true);
+    expect(isPublished(draft, false)).toBe(true);
+  });
+
+  it("excludes drafts from a production build", () => {
+    const draft = createMockEntry("draft-post", new Date(), true);
+    const published = createMockEntry("live-post", new Date(), false);
+
+    expect(isPublished(published, true)).toBe(true);
+    expect(isPublished(draft, true)).toBe(false);
   });
 });

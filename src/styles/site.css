@@ -1,0 +1,109 @@
+/*
+ * Markdown content styles. Layout, navigation, typography, colors, and
+ * tables in the blog index come from Bootstrap.
+ */
+
+.article-body h2 {
+  margin-top: 2rem;
+}
+
+.article-body h3 {
+  margin-top: 1.5rem;
+}
+
+.article-body h4 {
+  margin-top: 1.25rem;
+}
+
+.article-body blockquote {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 0.25rem solid var(--bs-border-color);
+  color: var(--bs-secondary-color);
+}
+
+.article-body blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.article-body :not(pre) > code {
+  padding: 0.15em 0.35em;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-sm);
+  background-color: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
+  font-size: 0.875em;
+}
+
+.article-body pre {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  background-color: var(--bs-tertiary-bg);
+  overflow-x: auto;
+}
+
+.article-body pre.astro-code {
+  background-color: var(--bs-tertiary-bg) !important;
+}
+
+.article-body pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.article-body table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.article-body th,
+.article-body td {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--bs-border-color);
+  text-align: left;
+}
+
+.article-body thead th {
+  border-bottom-width: 2px;
+  font-weight: 600;
+}
+
+.article-body img {
+  max-width: 100%;
+  height: auto;
+}
+
+.article-body figcaption {
+  margin-top: 0.5rem;
+  color: var(--bs-secondary-color);
+  font-size: 0.875rem;
+}
+
+.article-body hr {
+  margin: 2rem 0;
+  border-color: var(--bs-border-color);
+  opacity: 1;
+}
+
+/* Shiki emits both themes in the markup; follow Bootstrap's color mode. */
+
+[data-bs-theme="dark"] .astro-code,
+[data-bs-theme="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+[data-bs-theme="dark"] .article-body pre.astro-code {
+  background-color: var(--bs-tertiary-bg) !important;
+}
