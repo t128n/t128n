@@ -13,49 +13,29 @@ const posts = (await getCollection("blog"))
 ---
 
 <Base title={title} description={description}>
-  <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-3">
-    <h1 class="mb-0">Blog</h1>
-    <a href="/rss.xml">
-      <i class="bi bi-rss me-1" aria-hidden="true"></i>
-      RSS
-    </a>
-  </div>
-
-  <p class="lead">{description}</p>
+  <h1>{title}</h1>
+  <p class="page-description">{description}</p>
 
   {posts.length === 0 ? (
-    <p class="text-body-secondary">
-      No posts yet. <a href="/rss.xml">Subscribe via RSS</a> to read them when they appear.
-    </p>
+    <p class="page-description">No posts yet.</p>
   ) : (
-    <div class="table-responsive">
-      <table class="table table-hover align-middle">
-        <thead>
-          <tr>
-            <th scope="col" class="text-nowrap">Date</th>
-            <th scope="col">Post</th>
-          </tr>
-        </thead>
-        <tbody>
-          {posts.map((post) => (
-            <tr>
-              <td class="text-nowrap text-body-secondary">
-                <time datetime={post.data.publishedAt.toISOString()}>
-                  {formatDate(post.data.publishedAt, "medium")}
-                </time>
-              </td>
-              <td>
-                <a href={postUrl(post)} class="fw-semibold">
-                  {post.data.title}
-                </a>
-                {post.data.description && (
-                  <div class="small text-body-secondary">{post.data.description}</div>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li>
+          <time datetime={post.data.publishedAt.toISOString()}>
+            {formatDate(post.data.publishedAt, "medium")}
+          </time>
+          {" — "}
+          <a href={postUrl(post)}>{post.data.title}</a>
+          {post.data.description && (
+            <p class="post-description">{post.data.description}</p>
+          )}
+        </li>
+      ))}
+    </ul>
   )}
+
+  <p>
+    <a href="/rss.xml">RSS feed</a>
+  </p>
 </Base>

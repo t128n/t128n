@@ -9,8 +9,8 @@ touch, and not much else. The previous version leaned into that minimalism with
 a custom type system and a carefully tuned grid. It worked, but it also made
 every future change a design decision.
 
-The new version keeps the restraint and replaces the machinery with stock
-Bootstrap components.
+The new version keeps the restraint. Bootstrap supplies the foundation, while
+the site keeps its narrow column and quiet typography.
 
 ## Why rebuild
 
@@ -49,19 +49,19 @@ boring:
 bun add bootstrap bootstrap-icons
 ```
 
-Bootstrap supplies the navbar, containers, grid, typography, tables, links,
-spacing, and light/dark color modes. The site adds only a small stylesheet for
-Markdown content: code blocks, tables, blockquotes, and Shiki's dark theme.
+Bootstrap supplies the reset, spacing utilities, typography foundations, and
+color-mode plumbing. The site adds a small stylesheet for the reading column,
+the monospace headings, and Markdown content such as code and tables.
 
 ## What stayed
 
 The homepage still begins with my name and the same introduction. Bluesky,
 GitHub, and email are still the only ways to get in touch. The palette is still
-neutral, the navigation is still text, and the footer is still quiet.
+neutral, the header is still a small line of text, and there is no footer.
 
-What changed is the amount of custom design. The old tokens, narrow reading
-column, and custom header are gone. Pages now use Bootstrap's container, navbar,
-grid, list group, and table components directly.
+What changed is that writing now has a place on the site. The blog is a short
+list of ordinary links, and articles use the same quiet typography as the rest
+of the page.
 
 ## Writing in Markdown
 

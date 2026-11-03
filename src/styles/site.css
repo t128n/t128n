@@ -1,96 +1,366 @@
 /*
- * Markdown content styles. Layout, navigation, colors, tables in the blog
- * index, and controls all come from Bootstrap.
+ * Bootstrap provides the reset, utilities, and color-mode plumbing. These
+ * rules restore the narrow, text-first presentation of the original site.
  */
 
-.article-body h2 {
-  margin-top: 2rem;
+:root {
+  --font-serif:
+    "Charter", "Bitstream Charter", "Iowan Old Style", "Source Serif 4", Georgia, "Times New Roman",
+    serif;
+  --font-mono:
+    ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+
+  --site-bg: #fbfbfa;
+  --site-text: #18181b;
+  --site-muted: #52525b;
+  --site-border: #e4e4e7;
+  --site-code-bg: #f4f4f5;
+  --site-accent: #1d4ed8;
+  --site-link-underline: rgba(24, 24, 27, 0.25);
+
+  --bs-body-bg: var(--site-bg);
+  --bs-body-color: var(--site-text);
+  --bs-secondary-color: var(--site-muted);
+  --bs-border-color: var(--site-border);
+  --bs-tertiary-bg: var(--site-code-bg);
+  --bs-body-font-family: var(--font-serif);
+  --bs-body-font-size: 1rem;
+  --bs-body-font-weight: 400;
+  --bs-body-line-height: 1.68;
 }
 
-.article-body h3 {
+[data-bs-theme="dark"] {
+  --site-bg: #121214;
+  --site-text: #e4e4e7;
+  --site-muted: #a1a1aa;
+  --site-border: #27272a;
+  --site-code-bg: #18181b;
+  --site-accent: #3b82f6;
+  --site-link-underline: rgba(228, 228, 231, 0.3);
+
+  --bs-body-bg: var(--site-bg);
+  --bs-body-color: var(--site-text);
+  --bs-secondary-color: var(--site-muted);
+  --bs-border-color: var(--site-border);
+  --bs-tertiary-bg: var(--site-code-bg);
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--site-bg);
+  color: var(--site-text);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.68;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--site-text);
+  text-decoration: underline;
+  text-decoration-color: var(--site-link-underline);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--site-accent);
+  text-decoration-color: var(--site-accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--site-accent);
+  outline-offset: 2px;
+}
+
+/* One narrow reading column, with the same room around it as the original. */
+
+.site-container {
+  max-width: 43rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+}
+
+/* Small, quiet site identity. */
+
+.site-header {
+  margin-bottom: 2.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.site-nav {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.site-nav a {
+  color: var(--site-muted);
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--site-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--site-text);
+}
+
+/* Compact monospace headings and serif narrative text. */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  color: var(--site-text);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h1 {
+  margin-bottom: 1.25rem;
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+}
+
+h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+h4,
+h5,
+h6 {
   margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
 }
 
-.article-body h4 {
-  margin-top: 1.25rem;
+p {
+  margin-top: 0;
+  margin-bottom: 1.35rem;
 }
 
-.article-body blockquote {
+main > h1:first-child,
+.article h1 {
+  margin-top: 0;
+}
+
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 1.35rem;
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.45rem;
+}
+
+li::marker {
+  color: var(--site-muted);
+}
+
+.page-description {
+  color: var(--site-muted);
+}
+
+.post-list {
+  margin-top: 1.5rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.post-list li {
   margin-bottom: 1rem;
-  padding-left: 1rem;
-  border-left: 0.25rem solid var(--bs-border-color);
-  color: var(--bs-secondary-color);
 }
 
-.article-body blockquote > :last-child {
+.post-list time {
+  color: var(--site-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.post-description {
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+  color: var(--site-muted);
+  font-size: 0.95rem;
+}
+
+.article-header {
+  margin-bottom: 2rem;
+}
+
+.article-meta {
+  margin-bottom: 0;
+  color: var(--site-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.article-description {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  color: var(--site-muted);
+  font-size: 1.05rem;
+  font-style: italic;
+}
+
+.article-footer {
+  margin-top: 2.5rem;
   margin-bottom: 0;
 }
 
-.article-body :not(pre) > code {
-  padding: 0.15em 0.35em;
-  border: 1px solid var(--bs-border-color);
-  border-radius: var(--bs-border-radius-sm);
-  background-color: var(--bs-tertiary-bg);
-  color: var(--bs-body-color);
-  font-size: 0.875em;
+/* Headings sit flush left; narrative content is indented, as in the original. */
+
+main :where(p, ul, ol, dl, blockquote, pre, table, figure) {
+  margin-inline-start: 2rem;
 }
 
-.article-body pre {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border: 1px solid var(--bs-border-color);
-  border-radius: var(--bs-border-radius);
-  background-color: var(--bs-tertiary-bg);
+main :where(h1, h2, h3, h4, h5, h6) {
+  margin-inline-start: 0;
+}
+
+main :where(li, blockquote, dd, th, td) :where(p, ul, ol, dl, blockquote, pre, table, figure) {
+  margin-inline-start: 0;
+}
+
+main .article-header :where(p),
+main .article-footer {
+  margin-inline-start: 0;
+}
+
+/* Markdown elements that do not receive Bootstrap classes automatically. */
+
+blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid var(--site-border);
+  color: var(--site-muted);
+  font-style: italic;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+}
+
+code {
+  padding: 0.15em 0.35em;
+  border: 1px solid var(--site-border);
+  border-radius: 3px;
+  background-color: var(--site-code-bg);
+  color: var(--site-text);
+  font-size: 0.88em;
+}
+
+pre {
+  margin-bottom: 2rem;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid var(--site-border);
+  border-radius: 3px;
+  background-color: var(--site-code-bg);
+  font-size: 0.88rem;
+  line-height: 1.45;
   overflow-x: auto;
 }
 
-.article-body pre.astro-code {
-  background-color: var(--bs-tertiary-bg) !important;
+pre.astro-code {
+  background-color: var(--site-code-bg) !important;
 }
 
-.article-body pre code {
+pre code {
   padding: 0;
   border: 0;
   background: transparent;
   color: inherit;
+  font-size: inherit;
 }
 
-.article-body table {
+table {
   display: block;
   width: max-content;
-  max-width: 100%;
-  margin-bottom: 1rem;
+  max-width: calc(100% - 2rem);
+  margin-bottom: 2rem;
   overflow-x: auto;
+  border-top: 1.5px solid var(--site-text);
+  border-bottom: 1.5px solid var(--site-text);
   border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  font-variant-ligatures: none;
 }
 
-.article-body th,
-.article-body td {
-  padding: 0.5rem;
-  border-bottom: 1px solid var(--bs-border-color);
+th,
+td {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--site-border);
   text-align: left;
 }
 
-.article-body thead th {
-  border-bottom-width: 2px;
+th {
+  border-bottom: 1.5px solid var(--site-text);
+  font-size: 0.8rem;
   font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
-.article-body img {
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+img {
   max-width: 100%;
   height: auto;
 }
 
-.article-body figcaption {
-  margin-top: 0.5rem;
-  color: var(--bs-secondary-color);
-  font-size: 0.875rem;
+figure {
+  margin: 2rem 0;
 }
 
-.article-body hr {
-  margin: 2rem 0;
-  border-color: var(--bs-border-color);
-  opacity: 1;
+figcaption {
+  margin-top: 0.5rem;
+  color: var(--site-muted);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+hr {
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--site-border);
 }
 
 /* Shiki emits both themes in the markup; follow Bootstrap's color mode. */
@@ -104,6 +374,28 @@
   text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
-[data-bs-theme="dark"] .article-body pre.astro-code {
-  background-color: var(--bs-tertiary-bg) !important;
+[data-bs-theme="dark"] pre.astro-code {
+  background-color: var(--site-code-bg) !important;
+}
+
+@media (max-width: 767px) {
+  html {
+    font-size: 15px;
+  }
+
+  .site-container {
+    padding: 1.5rem 1.25rem 4rem;
+  }
+
+  .site-header {
+    margin-bottom: 2rem;
+  }
+
+  main :where(p, ul, ol, dl, blockquote, pre, table, figure) {
+    margin-inline-start: 1.25rem;
+  }
+
+  table {
+    max-width: calc(100% - 1.25rem);
+  }
 }

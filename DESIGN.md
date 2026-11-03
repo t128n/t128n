@@ -1,45 +1,46 @@
 # Design Notes
 
-`t128n.dev` is a static personal site and technical journal. It uses stock
-Bootstrap patterns and keeps custom presentation code to a minimum.
+`t128n.dev` is a personal technical journal. The design preserves the original
+site's narrow, text-first character while adding a small Markdown blog.
 
 ## Direction
 
-- Plain and conventional: use Bootstrap's navbar, containers, grid, tables,
-  lists, and link styles directly.
-- Content first: the page is a document, not an application shell.
-- Minimal chrome: no custom headers, floating sidebars, cards, gradients, or
-  decorative illustrations.
-- Editorial presentation: clear headings, readable spacing, and restrained
-  metadata.
+- One narrow reading column with generous outer whitespace.
+- Near-black canvas, muted text, and restrained contrast.
+- Small text-only site identity.
+- Plain underlined links.
+- Compact monospace headings and serif body text.
+- No application-style navigation, cards, or decorative containers.
 
 ## Foundation
 
 - Astro static site generation.
 - Astro content collections for blog articles.
-- Bootstrap 5 CSS and utilities.
-- Bootstrap Icons loaded through the official CSS package.
+- Bootstrap 5 CSS for the reset, utilities, and color-mode plumbing.
+- Bootstrap Icons CSS loaded through the official package.
 - Markdown for articles, with MDX available when needed.
 - Astro's built-in Shiki syntax highlighting.
 
 ## Layout
 
-- A standard Bootstrap navbar holds the site title, Home, Blog, and RSS.
-- Pages use Bootstrap's default container rather than a custom reading width.
-- The homepage uses a two-column grid: introduction and recent posts next to a
-  Connect list.
-- The blog index is a standard Bootstrap table with date and post columns.
-- Article pages use a breadcrumb, a page header, and a wide Bootstrap grid
-  column. Navigation and metadata stay in the document flow.
-- The footer is a centered row of links followed by a short copyright line.
+- A single column, approximately 640px wide on desktop.
+- The site title and Blog link sit in a small text line at the top of the
+  column. There is no full-width navbar.
+- Narrative text is indented relative to headings, preserving the original
+  editorial alignment.
+- The homepage contains the name, introduction, Connect list, and a short
+  Writing list of recent posts.
+- The blog index is a plain list of dated text links.
+- Article pages use the same column and typography, with a compact header and a
+  link back to all posts.
+- There is no site footer.
 
 ## Theme
 
-- Bootstrap's `data-bs-theme` color mode is initialized from the system
-  preference.
-- Light and dark canvases, text, borders, links, and secondary information use
-  Bootstrap's default colors.
-- No custom color palette or design tokens are maintained.
+- The dark theme is the default: `#121214` canvas, `#e4e4e7` text, `#a1a1aa`
+  secondary text, and `#27272a` rules.
+- Bootstrap's `data-bs-theme` support keeps a restrained light theme available.
+- The near-black appearance is the primary visual target.
 
 ## Content
 
@@ -52,18 +53,11 @@ Articles live in `src/content/blog` and use typed frontmatter:
 - `draft` (optional)
 
 Drafts remain visible during development and are excluded from production
-builds. There are no tags, categories, authors, series, or other metadata until
-there is a concrete need for them.
+builds. There are no tags, categories, authors, or series.
 
 ## Custom CSS
 
-`src/styles/site.css` only styles Markdown content that Bootstrap does not
-class automatically:
-
-- Code blocks and inline code.
-- Tables and horizontal overflow.
-- Blockquotes.
-- Images and figures.
-- Shiki's light/dark theme variables.
-
-Everything else should use Bootstrap classes and utilities.
+`src/styles/site.css` recreates the original reading column, typography, and
+Markdown presentation. It also defines the small set of light and dark color
+values used by the site. Bootstrap remains the CSS foundation, but does not
+dictate the page composition.

@@ -26,52 +26,33 @@ const posts = (await getCollection("blog"))
     })}
   />
 
-  <div class="row g-4">
-    <div class="col-lg-8">
-      <h1 class="mb-3">{site.author}</h1>
-      <p class="lead">{site.description}</p>
+  <h1>{site.author}</h1>
+  <p>{site.description}</p>
 
-      {posts.length > 0 && (
-        <>
-          <h2 class="h4 mt-4 mb-3">Recent posts</h2>
-          <div class="list-group list-group-flush">
-            {posts.slice(0, 3).map((post) => (
-              <a class="list-group-item list-group-item-action px-0" href={postUrl(post)}>
-                <div class="d-flex flex-wrap justify-content-between gap-2">
-                  <span class="fw-semibold">{post.data.title}</span>
-                  <time class="small text-body-secondary" datetime={post.data.publishedAt.toISOString()}>
-                    {formatDate(post.data.publishedAt, "medium")}
-                  </time>
-                </div>
-                {post.data.description && (
-                  <div class="small text-body-secondary mt-1">{post.data.description}</div>
-                )}
-              </a>
-            ))}
-          </div>
-          <p class="mt-3 mb-0">
-            <a href="/blog/">All posts →</a>
-          </p>
-        </>
-      )}
-    </div>
+  <h2>Connect</h2>
+  <ul>
+    <li><a href={site.social.bluesky} rel="me">Bluesky</a></li>
+    <li><a href={site.social.github} rel="me">GitHub</a></li>
+    <li><a href={site.social.email}>Email</a></li>
+  </ul>
 
-    <div class="col-lg-4">
-      <h2 class="h4 mb-3">Connect</h2>
-      <ul class="list-unstyled">
-        <li class="mb-2">
-          <i class="bi bi-bluesky me-1" aria-hidden="true"></i>
-          <a href={site.social.bluesky} rel="me">Bluesky</a>
-        </li>
-        <li class="mb-2">
-          <i class="bi bi-github me-1" aria-hidden="true"></i>
-          <a href={site.social.github} rel="me">GitHub</a>
-        </li>
-        <li class="mb-2">
-          <i class="bi bi-envelope me-1" aria-hidden="true"></i>
-          <a href={site.social.email}>Email</a>
-        </li>
+  {posts.length > 0 && (
+    <>
+      <h2>Writing</h2>
+      <ul class="post-list">
+        {posts.slice(0, 3).map((post) => (
+          <li>
+            <time datetime={post.data.publishedAt.toISOString()}>
+              {formatDate(post.data.publishedAt, "medium")}
+            </time>
+            {" — "}
+            <a href={postUrl(post)}>{post.data.title}</a>
+          </li>
+        ))}
       </ul>
-    </div>
-  </div>
+      <p>
+        <a href="/blog/">All posts</a>
+      </p>
+    </>
+  )}
 </Base>
