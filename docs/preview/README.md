@@ -4,3 +4,5 @@ Screenshots of the production build used in the redesign pull request.
 
 - Desktop viewport: 1440 × 1000
 - Mobile viewport: 390 × 844
+
+The blog index shows its empty state because no articles are published.
