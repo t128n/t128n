@@ -1,8 +1,39 @@
 ---
+import { site } from "@/lib/site";
+
+const path = Astro.url.pathname;
+const isHome = path === "/";
+const isBlog = path === "/blog" || path.startsWith("/blog/");
 ---
 
-<header class="site-header">
-  <nav>
-    <a href="/" class="site-title">t128n.dev</a>
-  </nav>
+<header class="border-bottom">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+        <nav class="d-flex flex-wrap align-items-baseline gap-3 py-3" aria-label="Primary">
+          <a class="site-brand fs-5 fw-semibold link-body-emphasis" href="/">{site.title}</a>
+          <ul class="site-nav nav gap-3">
+            <li class="nav-item">
+              <a
+                class:list={["nav-link px-0 py-0", { active: isHome }]}
+                href="/"
+                aria-current={isHome ? "page" : undefined}
+              >
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class:list={["nav-link px-0 py-0", { active: isBlog }]}
+                href="/blog/"
+                aria-current={isBlog ? "page" : undefined}
+              >
+                Blog
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
 </header>

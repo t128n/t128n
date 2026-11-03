@@ -8,7 +8,7 @@ import template from "@/assets/llms.txt?raw";
 const liquid = new Liquid();
 
 export async function GET(_context: APIContext) {
-  const writings = (await getCollection("writing")).filter(isPublished);
+  const posts = (await getCollection("blog")).filter((post) => isPublished(post));
 
   const llms = await liquid.parseAndRender(template, {
     title: site.title,
@@ -17,7 +17,7 @@ export async function GET(_context: APIContext) {
     bluesky: site.social.bluesky,
     github: site.social.github,
     url: site.url,
-    writing_count: writings.length,
+    post_count: posts.length,
   });
 
   return new Response(llms, {

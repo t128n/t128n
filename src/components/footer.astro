@@ -1,0 +1,21 @@
+---
+import { site } from "@/lib/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-top mt-auto">
+  <div class="container py-3">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+        <div class="d-flex flex-wrap justify-content-between gap-2 small text-body-secondary">
+          <span>© {year} {site.author}</span>
+          <a class="link-secondary" href="/rss.xml">
+            <i class="bi bi-rss" aria-hidden="true"></i>
+            RSS
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,3 @@
+# Preserve the former writing index URL.
+/writing /blog/ 301
+/writing/* /blog/ 301

@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import Base from "@/layouts/base.astro";
+import { site } from "@/lib/site";
+import { formatDate, isPublished, postUrl, sortByPublishedAt } from "@/lib/posts";
+
+export const title = site.blog.title;
+export const description = site.blog.description;
+
+const posts = (await getCollection("blog")).filter((post) => isPublished(post)).toSorted(sortByPublishedAt);
+---
+
+<Base title={title} description={description}>
+  <header class="mb-4">
+    <h1 class="fs-2 mb-2">Blog</h1>
+    <p class="text-body-secondary mb-0">{description}</p>
+  </header>
+
+  {posts.length === 0 ? (
+    <p class="text-body-secondary">
+      No posts yet. <a href="/rss.xml">Subscribe via RSS</a> to read them when they appear.
+    </p>
+  ) : (
+    <ul class="list-unstyled mb-0">
+      {posts.map((post) => (
+        <li class="mb-4">
+          <div class="small text-body-secondary mb-1">
+            <time datetime={post.data.publishedAt.toISOString()}>
+              {formatDate(post.data.publishedAt, "medium")}
+            </time>
+          </div>
+          <h2 class="h5 mb-1">
+            <a href={postUrl(post)}>{post.data.title}</a>
+          </h2>
+          {post.data.description && (
+            <p class="text-body-secondary mb-0">{post.data.description}</p>
+          )}
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>

@@ -3,7 +3,11 @@ interface SiteConfig {
   title: string;
   description: string;
   author: string;
-  social: Record<string, string>;
+  social: Record<"bluesky" | "github" | "email", string>;
+  blog: {
+    title: string;
+    description: string;
+  };
 }
 
 export const site = {
@@ -15,5 +19,10 @@ export const site = {
   social: {
     bluesky: "https://bsky.app/profile/t128n.dev",
     github: "https://github.com/t128n",
+    email: "mailto:t128n@ipv4.8shield.net",
+  },
+  blog: {
+    title: "Blog",
+    description: "Occasional notes on software, data, and the systems around them.",
   },
 } as const satisfies SiteConfig;

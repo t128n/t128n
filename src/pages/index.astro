@@ -7,13 +7,10 @@ import { isPublished } from "@/lib/posts";
 export const title = site.title;
 export const description = site.description;
 
-const writings = (await getCollection("writing")).filter(isPublished);
+const posts = (await getCollection("blog")).filter((post) => isPublished(post));
 ---
 
-<Base
-  title={title}
-  description={description}
->
+<Base title={title} description={description}>
   <script
     is:inline
     slot="head"
@@ -27,18 +24,27 @@ const writings = (await getCollection("writing")).filter(isPublished);
     })}
   />
 
-  <main>
-    <h1>{site.author}</h1>
-    <p>{site.description}</p>
-    {writings.length > 0 && (
-      <p>I sometimes <a href="/writing/">write about stuff</a>.</p>
-    )}
+  <h1 class="fs-2 mb-3">{site.author}</h1>
+  <p>{site.description}</p>
+  {posts.length > 0 && (
+    <p>
+      I sometimes <a href="/blog/">write about stuff</a>.
+    </p>
+  )}
 
-    <h2>Connect</h2>
-    <ul>
-      <li><a href={site.social.bluesky}>Bluesky</a></li>
-      <li><a href={site.social.github}>GitHub</a></li>
-      <li><a href="mailto:t128n@ipv4.8shield.net">Email</a></li>
-    </ul>
-  </main>
+  <h2 class="h4 mt-5 mb-3">Connect</h2>
+  <ul class="list-unstyled mb-0">
+    <li class="mb-2">
+      <i class="bi bi-bluesky me-1" aria-hidden="true"></i>
+      <a href={site.social.bluesky} rel="me">Bluesky</a>
+    </li>
+    <li class="mb-2">
+      <i class="bi bi-github me-1" aria-hidden="true"></i>
+      <a href={site.social.github} rel="me">GitHub</a>
+    </li>
+    <li class="mb-2">
+      <i class="bi bi-envelope me-1" aria-hidden="true"></i>
+      <a href={site.social.email}>Email</a>
+    </li>
+  </ul>
 </Base>

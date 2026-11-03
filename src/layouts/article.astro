@@ -1,0 +1,63 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Base from "@/layouts/base.astro";
+import { formatDate, postUrl } from "@/lib/posts";
+import { site } from "@/lib/site";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { title, description, publishedAt, updatedAt } = post.data;
+const canonical = new URL(postUrl(post), Astro.site ?? site.url);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  ...(description ? { description } : {}),
+  url: canonical,
+  mainEntityOfPage: canonical,
+  datePublished: publishedAt.toISOString(),
+  ...(updatedAt ? { dateModified: updatedAt.toISOString() } : {}),
+  author: {
+    "@type": "Person",
+    name: site.author,
+    url: `${site.url}/`,
+  },
+};
+---
+
+<Base
+  title={title}
+  description={description ?? site.description}
+  type="article"
+  publishedTime={publishedAt}
+  modifiedTime={updatedAt}
+>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <article class="prose">
+    <header class="mb-4 pb-3 border-bottom">
+      <h1 class="fs-2 mb-2">{title}</h1>
+      <p class="small text-body-secondary mb-0">
+        Published{" "}
+        <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>
+        {updatedAt && (
+          <>
+            {" · "}Updated{" "}
+            <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time>
+          </>
+        )}
+      </p>
+      {description && <p class="fs-5 text-body-secondary mt-3 mb-0">{description}</p>}
+    </header>
+
+    <slot />
+
+    <footer class="mt-5 pt-3 border-top small">
+      <a href="/blog/">← All posts</a>
+    </footer>
+  </article>
+</Base>
