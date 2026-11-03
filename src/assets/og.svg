@@ -2,43 +2,30 @@
   <defs>
     <style>
       .bg { fill: #fbfbfa; }
-      .hairline { stroke: #e4e4e7; stroke-width: 1.5; }
       .site-title {
-        font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         font-size: 20px;
         font-weight: 600;
-        fill: #18181b;
-        letter-spacing: 0.5px;
-      }
-      .site-badge {
-        font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
-        font-size: 14px;
-        font-weight: 600;
-        fill: #1d4ed8;
+        fill: #212529;
       }
       .title {
-        font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
-        font-size: 46px;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 52px;
         font-weight: 600;
-        fill: #18181b;
+        fill: #212529;
         letter-spacing: -0.5px;
       }
       .desc {
-        font-family: "Charter", "Bitstream Charter", "Iowan Old Style", "Source Serif 4", Georgia, "Times New Roman", serif;
-        font-size: 28px;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 26px;
         font-weight: 400;
-        fill: #52525b;
-        line-height: 1.68;
+        fill: #6c757d;
       }
       .colophon {
-        font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         font-size: 18px;
         font-weight: 400;
-        fill: #71717a;
-      }
-      .accent {
-        fill: #1d4ed8;
-        font-weight: 600;
+        fill: #6c757d;
       }
     </style>
   </defs>

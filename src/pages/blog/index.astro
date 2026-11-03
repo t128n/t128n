@@ -13,29 +13,38 @@ const posts = (await getCollection("blog"))
 ---
 
 <Base title={title} description={description}>
-  <h1>{title}</h1>
-  <p class="page-description">{description}</p>
+  <h1>Blog</h1>
+  <p>{description}</p>
 
   {posts.length === 0 ? (
-    <p class="page-description">No posts yet.</p>
+    <p class="text-body-secondary">No posts yet.</p>
   ) : (
-    <ul class="post-list">
-      {posts.map((post) => (
-        <li>
-          <time datetime={post.data.publishedAt.toISOString()}>
-            {formatDate(post.data.publishedAt, "medium")}
-          </time>
-          {" — "}
-          <a href={postUrl(post)}>{post.data.title}</a>
-          {post.data.description && (
-            <p class="post-description">{post.data.description}</p>
-          )}
-        </li>
-      ))}
-    </ul>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col" class="text-nowrap">Date</th>
+            <th scope="col">Post</th>
+          </tr>
+        </thead>
+        <tbody>
+          {posts.map((post) => (
+            <tr>
+              <td class="text-nowrap text-body-secondary">
+                <time datetime={post.data.publishedAt.toISOString()}>
+                  {formatDate(post.data.publishedAt, "medium")}
+                </time>
+              </td>
+              <td>
+                <a href={postUrl(post)}>{post.data.title}</a>
+                {post.data.description && (
+                  <div class="small text-body-secondary">{post.data.description}</div>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )}
-
-  <p>
-    <a href="/rss.xml">RSS feed</a>
-  </p>
 </Base>

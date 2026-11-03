@@ -9,8 +9,8 @@ touch, and not much else. The previous version leaned into that minimalism with
 a custom type system and a carefully tuned grid. It worked, but it also made
 every future change a design decision.
 
-The new version keeps the restraint. Bootstrap supplies the foundation, while
-the site keeps its narrow column and quiet typography.
+The new version keeps the restraint and uses Bootstrap's stock presentation:
+system typography, familiar blue links, and a conventional container.
 
 ## Why rebuild
 
@@ -49,19 +49,20 @@ boring:
 bun add bootstrap bootstrap-icons
 ```
 
-Bootstrap supplies the reset, spacing utilities, typography foundations, and
-color-mode plumbing. The site adds a small stylesheet for the reading column,
-the monospace headings, and Markdown content such as code and tables.
+Bootstrap supplies system typography, spacing, links, tables, and light/dark
+color modes. The site adds only a small stylesheet for Markdown content such as
+code blocks and tables.
 
 ## What stayed
 
 The homepage still begins with my name and the same introduction. Bluesky,
 GitHub, and email are still the only ways to get in touch. The palette is still
-neutral, the header is still a small line of text, and there is no footer.
+neutral, the navigation is a compact Bootstrap navbar, and the footer is a
+single line of text.
 
-What changed is that writing now has a place on the site. The blog is a short
-list of ordinary links, and articles use the same quiet typography as the rest
-of the page.
+What changed is that writing now has a place on the site. The blog has a
+conventional index and article layout, and the site uses Bootstrap's visual
+language throughout.
 
 ## Writing in Markdown
 

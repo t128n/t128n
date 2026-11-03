@@ -38,28 +38,40 @@ const schema = {
 >
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
 
-  <article class="article">
-    <header class="article-header">
-      <h1>{title}</h1>
-      <p class="article-meta">
-        Published{" "}
-        <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>
-        {updatedAt && (
-          <>
-            {" · "}Updated{" "}
-            <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time>
-          </>
-        )}
-      </p>
-      {description && <p class="article-description">{description}</p>}
-    </header>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/blog/">Blog</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{title}</li>
+    </ol>
+  </nav>
 
-    <div class="article-body">
-      <slot />
+  <div class="row">
+    <div class="col-12 col-lg-8">
+      <article>
+        <header class="pb-3 mb-4 border-bottom">
+          <h1 class="mb-2">{title}</h1>
+          <p class="text-body-secondary mb-0">
+            Published{" "}
+            <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>
+            {updatedAt && (
+              <>
+                {" · "}Updated{" "}
+                <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time>
+              </>
+            )}
+          </p>
+          {description && <p class="lead mt-3 mb-0">{description}</p>}
+        </header>
+
+        <div class="article-body">
+          <slot />
+        </div>
+
+        <footer class="mt-5 pt-3 border-top">
+          <a href="/blog/">← All posts</a>
+        </footer>
+      </article>
     </div>
-
-    <p class="article-footer">
-      <a href="/blog/">← All posts</a>
-    </p>
-  </article>
+  </div>
 </Base>

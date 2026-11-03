@@ -29,7 +29,7 @@ const posts = (await getCollection("blog"))
   <h1>{site.author}</h1>
   <p>{site.description}</p>
 
-  <h2>Connect</h2>
+  <h2 class="mt-4">Connect</h2>
   <ul>
     <li><a href={site.social.bluesky} rel="me">Bluesky</a></li>
     <li><a href={site.social.github} rel="me">GitHub</a></li>
@@ -38,15 +38,16 @@ const posts = (await getCollection("blog"))
 
   {posts.length > 0 && (
     <>
-      <h2>Writing</h2>
-      <ul class="post-list">
+      <h2 class="mt-4">Recent posts</h2>
+      <ul class="list-unstyled">
         {posts.slice(0, 3).map((post) => (
-          <li>
-            <time datetime={post.data.publishedAt.toISOString()}>
-              {formatDate(post.data.publishedAt, "medium")}
-            </time>
-            {" — "}
+          <li class="mb-2">
             <a href={postUrl(post)}>{post.data.title}</a>
+            <span class="small text-body-secondary ms-2">
+              <time datetime={post.data.publishedAt.toISOString()}>
+                {formatDate(post.data.publishedAt, "medium")}
+              </time>
+            </span>
           </li>
         ))}
       </ul>
