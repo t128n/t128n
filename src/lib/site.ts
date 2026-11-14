@@ -22,7 +22,7 @@ export const site = {
     email: "mailto:t128n@ipv4.8shield.net",
   },
   blog: {
-    title: "Blog",
+    title: "blog",
     description: "Occasional notes on software, data, and the systems around them.",
   },
 } as const satisfies SiteConfig;

@@ -38,40 +38,38 @@ const schema = {
 >
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
 
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/">Home</a></li>
-      <li class="breadcrumb-item"><a href="/blog/">Blog</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{title}</li>
-    </ol>
+  <nav aria-label="Breadcrumb">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li aria-current="page">{title}</li>
+    </ul>
   </nav>
 
-  <div class="row">
-    <div class="col-12 col-lg-8">
-      <article>
-        <header class="pb-3 mb-4 border-bottom">
-          <h1 class="mb-2">{title}</h1>
-          <p class="text-body-secondary mb-0">
-            Published{" "}
-            <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>
-            {updatedAt && (
-              <>
-                {" · "}Updated{" "}
-                <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time>
-              </>
-            )}
-          </p>
-          {description && <p class="lead mt-3 mb-0">{description}</p>}
-        </header>
+  <article>
+    <hgroup>
+      <h1>{title}</h1>
+      <p>
+        <small>
+          Published{" "}
+          <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>
+          {updatedAt && (
+            <>
+              {" · "}Updated{" "}
+              <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time>
+            </>
+          )}
+        </small>
+      </p>
+      {description && <p>{description}</p>}
+    </hgroup>
 
-        <div class="article-body">
-          <slot />
-        </div>
+    <hr />
 
-        <footer class="mt-5 pt-3 border-top">
-          <a href="/blog/">← All posts</a>
-        </footer>
-      </article>
-    </div>
-  </div>
+    <slot />
+
+    <footer>
+      <a href="/blog/">← All posts</a>
+    </footer>
+  </article>
 </Base>

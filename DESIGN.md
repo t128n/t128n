@@ -1,45 +1,40 @@
 # Design Notes
 
 `t128n.dev` is a small personal website and technical blog built with Astro and
-Bootstrap 5. The presentation follows Bootstrap's standard visual language
-rather than a custom theme.
+`open.css`, a classless terminal UI stylesheet for semantic HTML.
 
 ## Direction
 
-- Conventional Bootstrap navbar, container, typography, links, and spacing.
-- System sans-serif font stack.
-- Normal Bootstrap heading sizes and weights.
-- White background in light mode and Bootstrap's standard dark mode.
-- Familiar blue hyperlinks.
-- Plain document structure with no cards, badges, or decorative graphics.
+- Terminal UI aesthetic: one monospace size, a `1ch` × `1.5rem` cell grid, and
+  1px rules.
+- Semantic HTML without utility or component classes.
+- Dark theme by default, following `prefers-color-scheme: light` automatically.
+- Plain document structure with no decorative graphics.
 
 ## Foundation
 
 - Astro static site generation.
 - Astro content collections for blog articles.
-- Bootstrap 5 CSS and utilities.
-- Bootstrap Icons loaded through the official CSS package.
+- `src/styles/open.css` (`@layer open`) for all base, layout, typography,
+  navigation, table, and pane styling.
 - Markdown for articles, with MDX available when needed.
 - Astro's built-in Shiki syntax highlighting.
 
 ## Layout
 
-- A standard Bootstrap navbar with the site brand, Home, Blog, and RSS.
-- A standard responsive container for page content.
+- `body` acts as the terminal window frame with full-bleed `<header>` and
+  `<footer>` status bars and `<main>` as the workspace between them.
 - The homepage presents the name, introduction, Connect list, and recent posts
-  in a single content region.
-- The blog index uses a standard Bootstrap table with date and post columns.
-- Article pages use a breadcrumb, a document header, and a readable Bootstrap
-  grid column.
-- The footer is a single small copyright line.
+  in `<main>`.
+- The blog index uses a semantic `<table>` with date and post columns.
+- Article pages use a breadcrumb `<nav>` and a `<article>` pane with `<hgroup>`
+  header, content, and a `<footer>` back link.
 
 ## Theme
 
-- Bootstrap's `data-bs-theme` color mode follows the system preference.
-- Light mode uses Bootstrap's white canvas and default text, link, border, and
-  secondary colors.
-- Dark mode uses Bootstrap's standard dark palette.
-- No custom color palette or design tokens are maintained.
+- `open.css` uses CSS `light-dark()` with `color-scheme: dark` as default and
+  `prefers-color-scheme: light` for light mode.
+- Shiki syntax highlighting follows the active color scheme.
 
 ## Content
 
@@ -56,13 +51,7 @@ builds. There are no tags, categories, authors, or series.
 
 ## Custom CSS
 
-`src/styles/site.css` only styles Markdown content that Bootstrap does not class
-automatically:
+`src/styles/site.css` is layered on top of `@layer open` and only handles:
 
-- Code blocks and inline code.
-- Tables and horizontal overflow.
-- Blockquotes.
-- Images and figures.
-- Shiki's light/dark theme variables.
-
-Everything else uses Bootstrap classes and utilities.
+- Accessible `.skip-link` visibility on focus.
+- Shiki dual-theme variable switching to match `open.css`'s color scheme.

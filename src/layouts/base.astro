@@ -1,6 +1,5 @@
 ---
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
+import "@/styles/open.css";
 import "@/styles/site.css";
 
 import Header from "@/components/header.astro";
@@ -14,6 +13,7 @@ interface Props {
   publishedTime?: Date;
   modifiedTime?: Date;
   noindex?: boolean;
+  bare?: boolean;
 }
 
 const {
@@ -23,6 +23,7 @@ const {
   publishedTime,
   modifiedTime,
   noindex = false,
+  bare = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
@@ -39,24 +40,12 @@ const ogImage = new URL(`/og/${ogRoute}.jpg`, Astro.site ?? site.url);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <script is:inline>
-      const colorMode = window.matchMedia("(prefers-color-scheme: dark)");
-      const applyColorMode = () => {
-        document.documentElement.setAttribute(
-          "data-bs-theme",
-          colorMode.matches ? "dark" : "light",
-        );
-      };
-
-      applyColorMode();
-      colorMode.addEventListener("change", applyColorMode);
-    </script>
     <title>{title === site.title ? title : `${title} · ${site.title}`}</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#212529" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfbfb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0c0c" media="(prefers-color-scheme: dark)" />
 
     {description && <meta name="description" content={description} />}
     <meta name="author" content={site.author} />
@@ -92,16 +81,12 @@ const ogImage = new URL(`/og/${ogRoute}.jpg`, Astro.site ?? site.url);
 
     <slot name="head" />
   </head>
-  <body class="d-flex flex-column min-vh-100">
-    <a class="visually-hidden-focusable position-absolute top-0 start-0 z-3 p-2 bg-body" href="#main-content">
-      Skip to content
-    </a>
-    <Header />
-    <main id="main-content" tabindex="-1" class="flex-grow-1">
-      <div class="container py-4">
-        <slot />
-      </div>
+  <body class:list={[{ bare }]}>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    {!bare && <Header />}
+    <main id="main-content" tabindex="-1">
+      <slot />
     </main>
-    <Footer />
+    {!bare && <Footer />}
   </body>
 </html>
