@@ -24,7 +24,8 @@
     <main>
       <h1>open.css</h1>
       <p>
-        Classless terminal UI for semantic HTML. Every component on this page is a plain HTML element with no
+        Classless terminal UI for semantic HTML. Every component on this page is a plain HTML
+        element with no
         <code>class</code> attributes. Press <kbd>Tab</kbd> to walk the focus ring.
       </p>
 
@@ -37,15 +38,16 @@
         <h4>Heading four</h4>
         <h5>Heading five</h5>
         <p>
-          One face, one size. Hierarchy is carried by <strong>weight</strong>, <em>slant</em>, case and colour, so
-          every glyph sits in the same cell. Links look like <a href="#type">this</a>, inline code like
-          <code>render()</code>, keys like <kbd>Ctrl</kbd> <kbd>K</kbd>, program output like <samp>exit 0</samp> and
-          variables like <var>width</var>.
+          One face, one size. Hierarchy is carried by <strong>weight</strong>, <em>slant</em>, case
+          and colour, so every glyph sits in the same cell. Links look like
+          <a href="#type">this</a>, inline code like <code>render()</code>, keys like
+          <kbd>Ctrl</kbd> <kbd>K</kbd>, program output like <samp>exit 0</samp> and variables like
+          <var>width</var>.
         </p>
         <p>
-          Edits read as a diff: <del>border-radius: 8px</del> <ins>border-radius: 0</ins>. Search hits are
-          <mark>marked</mark>, <abbr title="Terminal User Interface">TUI</abbr> is an abbreviation, and
-          <small>small print stays the same size, only quieter</small>.
+          Edits read as a diff: <del>border-radius: 8px</del> <ins>border-radius: 0</ins>. Search
+          hits are <mark>marked</mark>, <abbr title="Terminal User Interface">TUI</abbr> is an
+          abbreviation, and <small>small print stays the same size, only quieter</small>.
         </p>
         <hr />
         <p>A horizontal rule sits centred in a line of its own.</p>
@@ -82,9 +84,10 @@
       <section id="panes">
         <h2>Panes and grid</h2>
         <p>
-          <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code> and <code>&lt;aside&gt;</code> are bordered panes. A
-          heading as the first child becomes the pane title on the top border. <code>data-grid</code> subdivides any
-          container; <code>data-span</code> lets a child cover several columns.
+          <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code> and
+          <code>&lt;aside&gt;</code> are bordered panes. A heading as the first child becomes the
+          pane title on the top border. <code>data-grid</code> subdivides any container;
+          <code>data-span</code> lets a child cover several columns.
         </p>
         <div data-grid="2">
           <article>
@@ -124,7 +127,10 @@
               <span data-status="ok">● connected</span>
               <span>build #4821</span>
             </header>
-            <p>Nested <code>&lt;header&gt;</code> and <code>&lt;footer&gt;</code> lay out as quiet one-line rows.</p>
+            <p>
+              Nested <code>&lt;header&gt;</code> and <code>&lt;footer&gt;</code> lay out as quiet
+              one-line rows.
+            </p>
             <footer>
               <span>3 files changed</span>
               <span><ins>128</ins> <del>41</del></span>
@@ -143,7 +149,9 @@
               <dt>Model</dt>
               <dd>local/llm-large</dd>
               <dt>Context</dt>
-              <dd><meter min="0" max="100" low="60" high="85" optimum="20" value="42">42%</meter> 42%</dd>
+              <dd>
+                <meter min="0" max="100" low="60" high="85" optimum="20" value="42">42%</meter> 42%
+              </dd>
             </dl>
           </fieldset>
           <fieldset>
@@ -179,7 +187,12 @@
               <label for="off">Disabled</label>
               <input id="off" name="off" type="text" value="not available" disabled />
               <label for="notes">Notes</label>
-              <textarea id="notes" name="notes" rows="3" placeholder="Multi-line, resizes vertically"></textarea>
+              <textarea
+                id="notes"
+                name="notes"
+                rows="3"
+                placeholder="Multi-line, resizes vertically"
+              ></textarea>
             </fieldset>
 
             <fieldset>
@@ -198,7 +211,9 @@
               </select>
               <label><input type="radio" name="mode" value="insert" checked /> Insert</label>
               <label><input type="radio" name="mode" value="normal" /> Normal</label>
-              <label><input type="radio" name="mode" value="visual" disabled /> Visual (disabled)</label>
+              <label
+                ><input type="radio" name="mode" value="visual" disabled /> Visual (disabled)</label
+              >
               <hr />
               <label><input type="checkbox" name="wrap" checked /> Wrap lines</label>
               <label><input type="checkbox" name="mouse" /> Mouse support</label>
@@ -323,13 +338,19 @@
           <h2>Modal and theme</h2>
           <p>A <code>&lt;dialog&gt;</code> floats above a veil with a hard, cell-offset shadow.</p>
           <menu>
-            <li><button type="button" onclick="document.getElementById('confirm').showModal()">Open dialog</button></li>
+            <li>
+              <button type="button" onclick="document.getElementById('confirm').showModal()">
+                Open dialog
+              </button>
+            </li>
           </menu>
           <p>Force a scheme with <code>data-theme</code> on any element:</p>
           <menu>
             <li><button type="button" data-set-theme="" aria-pressed="true">Auto</button></li>
             <li><button type="button" data-set-theme="dark" aria-pressed="false">Dark</button></li>
-            <li><button type="button" data-set-theme="light" aria-pressed="false">Light</button></li>
+            <li>
+              <button type="button" data-set-theme="light" aria-pressed="false">Light</button>
+            </li>
           </menu>
           <p>Prompt: <span data-cursor>opencode run</span></p>
         </section>
@@ -356,14 +377,14 @@
       // Demo only: open.css itself needs no JavaScript.
       document.querySelectorAll("[data-set-theme]").forEach((button) => {
         button.addEventListener("click", () => {
-          const theme = button.dataset.setTheme
-          if (theme) document.documentElement.dataset.theme = theme
-          else delete document.documentElement.dataset.theme
+          const theme = button.dataset.setTheme;
+          if (theme) document.documentElement.dataset.theme = theme;
+          else delete document.documentElement.dataset.theme;
           document
             .querySelectorAll("[data-set-theme]")
-            .forEach((other) => other.setAttribute("aria-pressed", String(other === button)))
-        })
-      })
+            .forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
+        });
+      });
     </script>
   </body>
 </html>

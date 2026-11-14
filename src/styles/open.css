@@ -44,8 +44,8 @@
 
     /* --- Type --- */
     --open-font:
-      "OpenTUI Mono", "Iosevka", "Iosevka Term", "IBM Plex Mono", "JetBrains Mono", ui-monospace, "SF Mono",
-      "Cascadia Mono", Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace;
+      "OpenTUI Mono", "Iosevka", "Iosevka Term", "IBM Plex Mono", "JetBrains Mono", ui-monospace,
+      "SF Mono", "Cascadia Mono", Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace;
     --open-weight: 400;
     --open-weight-bold: 700;
 
@@ -138,8 +138,33 @@
 
   /* Flow rhythm: every block is followed by exactly one blank line. */
   :where(
-    p, ul, ol, dl, menu, pre, table, blockquote, figure, form, fieldset, details, section, article, aside, address,
-    h1, h2, h3, h4, h5, h6, textarea, select, progress, meter, output
+    p,
+    ul,
+    ol,
+    dl,
+    menu,
+    pre,
+    table,
+    blockquote,
+    figure,
+    form,
+    fieldset,
+    details,
+    section,
+    article,
+    aside,
+    address,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    textarea,
+    select,
+    progress,
+    meter,
+    output
   ) {
     margin-block: 0 var(--open-cell-h);
     margin-inline: 0;
@@ -568,11 +593,15 @@
 
   /* --- Active pane: the innermost pane holding focus lights its border. --- */
 
-  :is(section, article, aside, fieldset):focus-within:not(:has(:is(section, article, aside, fieldset):focus-within)) {
+  :is(section, article, aside, fieldset):focus-within:not(
+      :has(:is(section, article, aside, fieldset):focus-within)
+    ) {
     border-color: var(--open-focus);
   }
 
-  :is(section, article, aside):focus-within:not(:has(:is(section, article, aside, fieldset):focus-within))
+  :is(section, article, aside):focus-within:not(
+      :has(:is(section, article, aside, fieldset):focus-within)
+    )
     > :is(h1, h2, h3, h4, h5, h6):first-child,
   fieldset:focus-within:not(:has(fieldset:focus-within)) > legend {
     color: var(--open-focus);
@@ -758,8 +787,15 @@
 
   :where(
     input:not(
-      [type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="submit"],
-      [type="button"], [type="reset"], [type="image"]
+      [type="checkbox"],
+      [type="radio"],
+      [type="range"],
+      [type="color"],
+      [type="file"],
+      [type="submit"],
+      [type="button"],
+      [type="reset"],
+      [type="image"]
     ),
     select,
     textarea
@@ -1027,7 +1063,16 @@
     cursor: not-allowed;
   }
 
-  :where(input, textarea):read-only:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="submit"], [type="button"], [type="reset"]) {
+  :where(input, textarea):read-only:not(
+      [type="checkbox"],
+      [type="radio"],
+      [type="range"],
+      [type="color"],
+      [type="file"],
+      [type="submit"],
+      [type="button"],
+      [type="reset"]
+    ) {
     background: none;
     color: var(--open-text-muted);
   }
@@ -1184,7 +1229,14 @@
     outline-offset: 0;
   }
 
-  :is(a, button, summary, [role="button"], input:is([type="checkbox"], [type="radio"], [type="submit"], [type="button"], [type="reset"]), [tabindex]:not(dialog, [tabindex="-1"])):focus-visible {
+  :is(
+    a,
+    button,
+    summary,
+    [role="button"],
+    input:is([type="checkbox"], [type="radio"], [type="submit"], [type="button"], [type="reset"]),
+    [tabindex]:not(dialog, [tabindex="-1"])
+  ):focus-visible {
     outline: none;
     background: var(--open-text-strong);
     color: var(--open-bg);
@@ -1257,14 +1309,30 @@
   }
 
   @keyframes open-spin {
-    0% { content: "⠋ "; }
-    12.5% { content: "⠙ "; }
-    25% { content: "⠹ "; }
-    37.5% { content: "⠸ "; }
-    50% { content: "⠼ "; }
-    62.5% { content: "⠴ "; }
-    75% { content: "⠦ "; }
-    87.5% { content: "⠧ "; }
+    0% {
+      content: "⠋ ";
+    }
+    12.5% {
+      content: "⠙ ";
+    }
+    25% {
+      content: "⠹ ";
+    }
+    37.5% {
+      content: "⠸ ";
+    }
+    50% {
+      content: "⠼ ";
+    }
+    62.5% {
+      content: "⠴ ";
+    }
+    75% {
+      content: "⠦ ";
+    }
+    87.5% {
+      content: "⠧ ";
+    }
   }
 
   /* ====================================================================
