@@ -1,0 +1,154 @@
+---
+import Base from "@/layouts/base.astro";
+import { GROUPS, toSvg } from "@/lib/glyphs";
+
+const initial = "t128n";
+---
+
+<Base
+  title="glyphs"
+  description="Pixel glyphs from the t128n wordmark. Type text, copy or download it as SVG."
+  noindex
+>
+  <h1>glyphs</h1>
+  <p>
+    the t128n wordmark as a typeface. type something, then copy or download it as svg. click a glyph
+    below to add it.
+  </p>
+
+  <form id="glyph-form" autocomplete="off">
+    <label for="glyph-text">text</label>
+    <input
+      id="glyph-text"
+      name="text"
+      type="text"
+      value={initial}
+      spellcheck="false"
+      autocapitalize="off"
+      maxlength="120"
+    />
+
+    <p>
+      <label for="glyph-color">color</label>
+      <input id="glyph-color" name="color" type="color" value="#ffffff" />
+      <label for="glyph-size">px per cell</label>
+      <input id="glyph-size" name="size" type="number" min="1" max="64" value="16" />
+      <label><input id="glyph-shadow" name="shadow" type="checkbox" checked /> shadow</label>
+    </p>
+  </form>
+
+  <section aria-labelledby="preview-title">
+    <h2 id="preview-title">preview</h2>
+    <div id="glyph-preview" class="glyph-preview" set:html={toSvg(initial)} />
+    <p id="glyph-warning" class="glyph-warning" role="status" hidden></p>
+    <p class="glyph-actions">
+      <button type="button" id="glyph-copy">copy svg</button>
+      <button type="button" id="glyph-download">download svg</button>
+      <output id="glyph-status" aria-live="polite"></output>
+    </p>
+  </section>
+
+  {
+    GROUPS.map((group) => (
+      <section aria-labelledby={`group-${group.label}`}>
+        <h2 id={`group-${group.label}`}>{group.label}</h2>
+        <ul class="glyph-table">
+          {[...group.chars].map((char) => (
+            <li>
+              <button type="button" class="glyph-key" data-char={char} aria-label={`insert ${char}`}>
+                <span set:html={toSvg(char, { margin: 0 })} />
+                <small>{char}</small>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <script>
+    import { layout, toSvg } from "@/lib/glyphs";
+
+    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const text = $<HTMLInputElement>("glyph-text");
+    const color = $<HTMLInputElement>("glyph-color");
+    const size = $<HTMLInputElement>("glyph-size");
+    const shadow = $<HTMLInputElement>("glyph-shadow");
+    const preview = $("glyph-preview");
+    const warning = $("glyph-warning");
+    const status = $("glyph-status");
+
+    // Start from the page's text color so the preview is readable in either theme.
+    const computed = getComputedStyle(document.body).color.match(/\d+/g);
+    if (computed) {
+      color.value =
+        "#" +
+        computed
+          .slice(0, 3)
+          .map((n) => Number(n).toString(16).padStart(2, "0"))
+          .join("");
+    }
+
+    const options = (cell?: number) => ({
+      shadow: shadow.checked,
+      color: color.value,
+      cell,
+    });
+    const cellSize = () => Math.min(64, Math.max(1, Math.round(Number(size.value)) || 16));
+    const exportSvg = () => toSvg(text.value, options(cellSize()));
+
+    function render() {
+      preview.innerHTML = toSvg(text.value, options());
+      const { missing } = layout(text.value);
+      const unique = [...new Set(missing)];
+      warning.hidden = unique.length === 0;
+      warning.textContent = unique.length ? `no glyph yet for ${unique.join(" ")}` : "";
+    }
+
+    function say(message: string) {
+      status.textContent = message;
+      window.setTimeout(() => {
+        if (status.textContent === message) status.textContent = "";
+      }, 2000);
+    }
+
+    for (const el of [text, color, size, shadow]) el.addEventListener("input", render);
+
+    document.querySelectorAll<HTMLButtonElement>(".glyph-key").forEach((key) =>
+      key.addEventListener("click", () => {
+        const start = text.selectionStart ?? text.value.length;
+        const end = text.selectionEnd ?? start;
+        const char = key.dataset.char ?? "";
+        text.setRangeText(char, start, end, "end");
+        text.focus();
+        render();
+      }),
+    );
+
+    $("glyph-copy").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(exportSvg());
+        say("copied");
+      } catch {
+        say("copy failed");
+      }
+    });
+
+    $("glyph-download").addEventListener("click", () => {
+      const name =
+        text.value
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "") || "glyphs";
+      const url = URL.createObjectURL(new Blob([exportSvg()], { type: "image/svg+xml" }));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${name}.svg`;
+      a.click();
+      URL.revokeObjectURL(url);
+      say("downloaded");
+    });
+
+    render();
+  </script>
+</Base>

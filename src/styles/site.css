@@ -161,3 +161,52 @@ body.bare ul.bare-links {
   color: var(--open-text-strong);
   text-decoration: none;
 }
+
+/* Glyphs page (unlisted) */
+.glyph-preview {
+  overflow-x: auto;
+  padding-block: var(--open-cell-h);
+  color: var(--open-text-strong);
+}
+
+.glyph-preview svg {
+  display: block;
+  inline-size: auto;
+  max-inline-size: none;
+  block-size: calc(var(--open-cell-h) * 3);
+}
+
+.glyph-warning {
+  color: var(--open-warning);
+}
+
+.glyph-table {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--open-cell-h) calc(var(--open-cell-w) * 2);
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.glyph-key {
+  display: grid;
+  justify-items: center;
+  gap: calc(var(--open-cell-h) / 2);
+  min-inline-size: calc(var(--open-cell-w) * 8);
+  color: var(--open-text-strong);
+}
+
+.glyph-key::before,
+.glyph-key::after {
+  content: none;
+}
+
+.glyph-key svg {
+  display: block;
+  inline-size: auto;
+  block-size: var(--open-cell-h);
+}
+
+.glyph-key small {
+  color: var(--open-text-muted);
+}

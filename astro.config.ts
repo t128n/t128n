@@ -8,7 +8,7 @@ export default defineConfig({
   site: "https://t128n.dev",
   integrations: [
     sitemap({
-      filter: (page) => !page.endsWith("/404/"),
+      filter: (page) => !page.endsWith("/404/") && !page.endsWith("/glyphs/"),
     }),
     mdx(),
   ],
